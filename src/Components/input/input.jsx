@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { Input } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent";
 
 const AntdInput = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
+
+  const inputRef = useRef();
 
   const onChange = event => {
     console.log(event.target.value);
@@ -17,12 +19,19 @@ const AntdInput = props => {
   };
 
   const onPressEnter = event => {
-    console.log(event.target.value);
+    console.log(
+      "parent&children",
+      inputRef.current.input.offsetParent.childNodes[0].offsetParent
+        .offsetParent.children
+    );
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
       eventId: attributes.id + "onPressEnter",
       eventName: "onPressEnter",
-      eventData: JSON.stringify(event.target.value)
+      eventData: "" // JSON.stringify(
+        //inputRef.current.input.offsetParent.childNodes[0].offsetParent
+          //.offsetParent.children
+      //)
     });
   };
 
@@ -53,6 +62,7 @@ const AntdInput = props => {
       {...prefix_suffix}
       onChange={event => onChange(event)}
       onPressEnter={event => onPressEnter(event)}
+      ref={inputRef}
     />
   );
 };

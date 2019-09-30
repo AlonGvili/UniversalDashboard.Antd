@@ -100,8 +100,13 @@ const AntdCarousel = lazy(() =>
 const AntdInput = lazy(() =>
   import(/* webpackChunkName: "AntdInput" */ "./input/input.jsx")
 );
+const AntdInputTextArea = lazy(() =>
+  import(/* webpackChunkName: "AntdInputTextArea" */ "./input/textArea")
+);
+const AntdInputPassword = lazy(() =>
+  import(/* webpackChunkName: "AntdInputPassword" */ "./input/password")
+);
 
-// UniversalDashboard.register("ud-helpdesk-knob", Knob);
 UniversalDashboard.register("ud-antd-row", AntdRow);
 UniversalDashboard.register("ud-antd-col", AntdColumn);
 UniversalDashboard.register("ud-antd-button", AntdButton);
@@ -130,3 +135,5 @@ UniversalDashboard.register("ud-antd-list-item", AntdListItem);
 UniversalDashboard.register("ud-antd-statistic", AntdStatistic);
 UniversalDashboard.register("ud-antd-carousel", AntdCarousel);
 UniversalDashboard.register("ud-antd-input", AntdInput);
+UniversalDashboard.register("ud-antd-input-textarea", AntdInputTextArea);
+UniversalDashboard.register("ud-antd-input-password", AntdInputPassword);

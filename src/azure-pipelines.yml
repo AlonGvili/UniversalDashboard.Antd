@@ -31,7 +31,7 @@ steps:
 - task: GitHubRelease@1
   displayName: 'GitHub release (create)'
   inputs:
-    gitHubConnection: 'AlonGvili'
+    gitHubConnection: 'github connection 1'
     tagSource: userSpecifiedTag
     tag: 'v.1.0.$(Build.BuildId)'
     isPreRelease: false

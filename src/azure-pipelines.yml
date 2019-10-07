@@ -1,0 +1,40 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: PowerShell@2
+  displayName: Building The Module
+  inputs:
+    filePath: '.\src\build.ps1'
+    pwsh: true
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '.\output\UniversalDashboard.Antd' 
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/UniversalDashboard.Antd.zip' 
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'UniversalDashboard.Antd'
+    targetPath: $(Build.ArtifactStagingDirectory)
+
+- task: GitHubRelease@1
+  displayName: 'GitHub release (create)'
+  inputs:
+    gitHubConnection: 'github.com_AlonGvili'
+    tagSource: userSpecifiedTag
+    tag: 'v.1.0.$(Build.BuildId)'
+    isPreRelease: false
+    changeLogType: issueBased
+    title: UniversalDashboard.Antd
+

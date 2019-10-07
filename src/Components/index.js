@@ -106,6 +106,15 @@ const AntdInputTextArea = lazy(() =>
 const AntdInputPassword = lazy(() =>
   import(/* webpackChunkName: "AntdInputPassword" */ "./input/password")
 );
+const UDAntdIcon = lazy(() =>
+  import(/* webpackChunkName: "AntdIcon" */ "./icon/icon")
+);
+const AntdRadio = lazy(() =>
+  import(/* webpackChunkName: "AntdRadio" */ "./radio/radio")
+);
+const AntdRadioGroup = lazy(() =>
+  import(/* webpackChunkName: "AntdRadioGroup" */ "./radio/radio-group")
+);
 
 UniversalDashboard.register("ud-antd-row", AntdRow);
 UniversalDashboard.register("ud-antd-col", AntdColumn);
@@ -137,3 +146,6 @@ UniversalDashboard.register("ud-antd-carousel", AntdCarousel);
 UniversalDashboard.register("ud-antd-input", AntdInput);
 UniversalDashboard.register("ud-antd-input-textarea", AntdInputTextArea);
 UniversalDashboard.register("ud-antd-input-password", AntdInputPassword);
+UniversalDashboard.register("ud-antd-icon", UDAntdIcon);
+UniversalDashboard.register("ud-antd-radio", AntdRadio);
+UniversalDashboard.register("ud-antd-radio-group", AntdRadioGroup);

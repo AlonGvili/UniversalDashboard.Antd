@@ -68,6 +68,9 @@ $manifestParameters = @{
         "New-UDAntdInput"
         "New-UDAntdInputTextArea"
         "New-UDAntdInputPassword"
+        "New-UDAntdIcon"
+        "New-UDAntdRadio"
+        "New-UDAntdRadioGroup"
     )
 }
 

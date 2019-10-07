@@ -15,7 +15,7 @@ Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Re
 
 New-Item -Path $OutputPath -ItemType Directory
 
-& cyclonedx-bom -o antd.bom.xml
+# & cyclonedx-bom -o antd.bom.xml
 npm install
 npm run build
 

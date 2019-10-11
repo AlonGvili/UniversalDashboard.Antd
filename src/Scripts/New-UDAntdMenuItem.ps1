@@ -14,8 +14,8 @@ function New-UDAntdMenuItem {
         [switch]$Disabled,
         [Parameter()]
         [scriptblock]$Content,
-        [Parameter()]
-        [scriptblock]$OnClick,
+        [Parameter(Mandatory)]
+        [object]$OnClick,
         [Parameter()]
         [hashtable]$Style
     )
@@ -44,8 +44,9 @@ function New-UDAntdMenuItem {
             disabled = $Disabled.IsPresent
             title = $Title
             key = $key
+            icon = $Icon
             style = $Style
-            content = $Content.Invoke()
+            # content = $Content.Invoke()
         }
 
     }

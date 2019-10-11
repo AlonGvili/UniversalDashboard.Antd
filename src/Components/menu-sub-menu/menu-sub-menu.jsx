@@ -6,15 +6,15 @@ const AntdSubMenu = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
 
-  const onTitleClick = event => {
-    console.log("event: ", event);
-    UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: attributes.id + "onTitleClick",
-      eventName: "onTileClick",
-      eventData: event.key
-    });
-  };
+  // const onTitleClick = event => {
+  //   console.log("event: ", event);
+  //   UniversalDashboard.publish("element-event", {
+  //     type: "clientEvent",
+  //     eventId: attributes.id + "onTitleClick",
+  //     eventName: "onTileClick",
+  //     eventData: event.key
+  //   });
+  // };
 
   return (
     <Menu.SubMenu
@@ -28,7 +28,7 @@ const AntdSubMenu = props => {
           )}
         </span>
       }
-      onTitleClick={onTitleClick}
+      // onTitleClick={onTitleClick}
     >
       {content.map(item =>
         item.type ? UniversalDashboard.renderComponent(item) : item

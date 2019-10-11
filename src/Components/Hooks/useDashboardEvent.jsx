@@ -17,7 +17,7 @@ export default function useDashboardEvent(elementId, initialState) {
 
   useEffect(() => {
     // console.log('UniversalDashboard Object: ', UniversalDashboard)
-    console.log("ud event hook: ", state);
+    // console.log("ud event hook: ", state);
     const pubSubToken = UniversalDashboard.subscribe(elementId, events);
     return () => UniversalDashboard.unsubscribe(pubSubToken);
   }, [elementId, initialState]);
@@ -27,16 +27,10 @@ export default function useDashboardEvent(elementId, initialState) {
       switch (event.type) {
         // Set-UDElement
         case SET_STATE:
-           setState(state => {
-             return {
-               ...state,
-               attributes: {...state.attributes, ...event.state.attributes}
-             };
-           });
-          // setState({
-          //   attributes: {...state.attributes, ...event.state.attributes},
-          //   content: {...state.content, ...event.state.content}
-          // });
+          setState({
+            attributes: { ...state.attributes, ...event.state.attributes },
+            content: { ...state.content, ...event.state.content }
+          });
           break;
         // Get-UDElement
         case REQUEST_STATE:

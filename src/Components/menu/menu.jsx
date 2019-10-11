@@ -7,7 +7,8 @@ const AntdMenu = props => {
   const { content, attributes } = state;
   const [current, setCurrent] = useState(null)
 
-  const onClick = event => {
+  const onSelect = event => {
+    console.log(event)
     setCurrent(event.key);
   };
 
@@ -16,7 +17,7 @@ const AntdMenu = props => {
       {...attributes}
       id={attributes.id}
       selectedKeys={[current]}
-      onClick={onClick}
+      onSelect={onSelect}
     >
       {content.map(item => {
         return item.type ? UniversalDashboard.renderComponent(item) : item;

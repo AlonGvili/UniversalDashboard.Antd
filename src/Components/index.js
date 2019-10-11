@@ -1,4 +1,9 @@
 import { lazy } from "react";
+import AntdMenu from "./menu/menu.jsx"
+import AntdMenuItem from "./menu-item/menu-item.jsx"
+import AntdSubMenu from  "./menu-sub-menu/menu-sub-menu.jsx"
+import AntdMenuItemGroup from "./menu-item-group/menu-item-group.jsx"
+import AntdMenuDivider from './menu-divider/menu-divider.jsx'
 
 const AntdRow = lazy(() =>
   import(/* webpackChunkName: "AntdRow" */ "./Grid/row.jsx")
@@ -47,27 +52,7 @@ const AntdBadge = lazy(() =>
 const AntdDropDown = lazy(() =>
   import(/* webpackChunkName: "AntdDropDown" */ "./dropdown/dropdown.jsx")
 );
-const AntdMenu = lazy(() =>
-  import(/* webpackChunkName: "AntdMenu" */ "./menu/menu.jsx")
-);
-const AntdMenuItem = lazy(() =>
-  import(/* webpackChunkName: "AntdMenuItem" */ "./menu-item/menu-item.jsx")
-);
-const AntdSubMenu = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdSubMenu" */ "./menu-sub-menu/menu-sub-menu.jsx"
-  )
-);
-const AntdMenuItemGroup = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdMenuItemGroup" */ "./menu-item-group/menu-item-group.jsx"
-  )
-);
-const AntdMenuDivider = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdMenuDivider" */ "./menu-divider/menu-divider.jsx"
-  )
-);
+
 const AntdPopover = lazy(() =>
   import(/* webpackChunkName: "AntdPopover" */ "./popover/popover.jsx")
 );

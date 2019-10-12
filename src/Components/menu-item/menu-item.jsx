@@ -12,12 +12,12 @@ const AntdMenuItem = props => {
       type: "clientEvent",
       eventId: attributes.id + "onClick",
       eventName: "onClick",
-      eventData: event.key
+      eventData: event.item.toString()
     });
   };
 
   return (
-    <Menu.Item onClick={onClick} {...attributes}>
+    <Menu.Item {...attributes} onClick={onClick}>
       {content.map(item =>
         item.type ? UniversalDashboard.renderComponent(item) : item
       )}

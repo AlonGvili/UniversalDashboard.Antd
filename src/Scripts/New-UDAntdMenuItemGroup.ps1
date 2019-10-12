@@ -9,7 +9,9 @@ function New-UDAntdMenuItemGroup {
         [Parameter()]
         [string]$Key,
         [Parameter()]
-        [scriptblock]$Content
+        [scriptblock]$Content,
+        [Parameter()]
+        [Hashtable]$Style
     )
 
     End {
@@ -24,7 +26,7 @@ function New-UDAntdMenuItemGroup {
             className = $ClassName
             title = $Title
             key = $key
-            # icon = $Icon
+            style = $Style
             content = $Content.Invoke()
         }
 

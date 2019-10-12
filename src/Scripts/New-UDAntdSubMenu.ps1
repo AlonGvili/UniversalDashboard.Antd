@@ -5,6 +5,8 @@ function New-UDAntdSubMenu {
         [Parameter()]
         [string]$ClassName,
         [Parameter()]
+        [string]$Key = $Id,
+        [Parameter()]
         [scriptblock]$Title,
         [Parameter()]
         [switch]$Disabled,
@@ -36,7 +38,7 @@ function New-UDAntdSubMenu {
             id = $Id
             className = $ClassName
             title = $Title.Invoke()
-            key = $Id
+            key = $Key
             disabled = $Disabled.IsPresent
             content = $Content.Invoke()
             popupOffset = $PopupOffset

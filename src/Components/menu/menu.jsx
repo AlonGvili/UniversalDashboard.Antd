@@ -16,6 +16,7 @@ const AntdMenu = props => {
     <Menu
       {...attributes}
       id={attributes.id}
+      defaultOpenKeys={[attributes.defaultOpenKeys]}
       selectedKeys={[current]}
       onSelect={onSelect}
     >

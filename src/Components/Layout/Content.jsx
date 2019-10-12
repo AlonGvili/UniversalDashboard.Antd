@@ -7,10 +7,9 @@ const AntdContent = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
 
+  console.log('content', content)
   return (
-    <Content {...attributes}>
-      {UniversalDashboard.renderComponent(content)}
-    </Content>
+    <Content {...attributes} children={UniversalDashboard.renderComponent(content)} />
   );
 };
 export default AntdContent;

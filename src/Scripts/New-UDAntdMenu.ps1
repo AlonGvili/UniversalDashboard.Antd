@@ -10,8 +10,8 @@ function New-UDAntdMenu {
         [Parameter()]
         [ValidateSet("hover","click")]
         [string]$TriggerSubMenuAction,
-        # [Parameter()]
-        # [switch]$Collapsed,
+        [Parameter()]
+        [string[]]$DefaultOpenKeys,
         [Parameter()]
         [scriptblock]$Content,
         [Parameter()]
@@ -28,6 +28,7 @@ function New-UDAntdMenu {
             className = $ClassName
             mode = $Mode
             triggerSubMenuAction = $TriggerSubMenuAction
+            defaultOpenKeys      = $DefaultOpenKeys
             # inlineCollapsed = $Collapsed.IsPresent
             # key = $Key
             content = $Content.Invoke()

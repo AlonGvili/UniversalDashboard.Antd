@@ -5,7 +5,7 @@ import useDashboardEvent from "../Hooks/useDashboardEvent";
 const AntdRadioGroup = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
-  const [value, setValue] = useState(attributes.defaultValue);
+  const [value, setValue] = useState(attributes.value);
 
   const onChange = event => {
     setValue(event.target.value);

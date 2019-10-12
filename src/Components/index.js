@@ -1,105 +1,37 @@
-import { lazy } from "react";
 import AntdMenu from "./menu/menu.jsx"
 import AntdMenuItem from "./menu-item/menu-item.jsx"
-import AntdSubMenu from  "./menu-sub-menu/menu-sub-menu.jsx"
+import AntdSubMenu from "./menu-sub-menu/menu-sub-menu.jsx"
 import AntdMenuItemGroup from "./menu-item-group/menu-item-group.jsx"
 import AntdMenuDivider from './menu-divider/menu-divider.jsx'
-
-const AntdRow = lazy(() =>
-  import(/* webpackChunkName: "AntdRow" */ "./Grid/row.jsx")
-);
-const AntdColumn = lazy(() =>
-  import(/* webpackChunkName: "AntdColumn" */ "./Grid/column.jsx")
-);
-const AntdButton = lazy(() =>
-  import(/* webpackChunkName: "AntdButton" */ "./button/button.jsx")
-);
-const AntdButtonGroup = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdButtonGroup" */ "./button-group/button-group.jsx"
-  )
-);
-const AntdSwitch = lazy(() =>
-  import(/* webpackChunkName: "AntdSwitch" */ "./switch/switch.jsx")
-);
-const AntdTimeLine = lazy(() =>
-  import(/* webpackChunkName: "AntdTimeLine" */ "./timeline/timeline.jsx")
-);
-const AntdTimeLineItem = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdTimeLineItem" */ "./timeline/timelineItem.jsx"
-  )
-);
-const AntdDrawer = lazy(() =>
-  import(/* webpackChunkName: "AntdDrawer" */ "./drawer/drawer.jsx")
-);
-const AntdCard = lazy(() =>
-  import(/* webpackChunkName: "AntdCard" */ "./card/card.jsx")
-);
-const AntdDescriptionList = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdDescriptionList" */ "./description/description.jsx"
-  )
-);
-const AntdDescriptionListItem = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdDescriptionListItem" */ "./description-item/description-item.jsx"
-  )
-);
-const AntdBadge = lazy(() =>
-  import(/* webpackChunkName: "AntdBadge" */ "./badge/badge.jsx")
-);
-const AntdDropDown = lazy(() =>
-  import(/* webpackChunkName: "AntdDropDown" */ "./dropdown/dropdown.jsx")
-);
-
-const AntdPopover = lazy(() =>
-  import(/* webpackChunkName: "AntdPopover" */ "./popover/popover.jsx")
-);
-const AntdLayout = lazy(() =>
-  import(/* webpackChunkName: "AntdLayout" */ "./Layout/Layout.jsx")
-);
-const AntdHeader = lazy(() =>
-  import(/* webpackChunkName: "AntdHeader" */ "./Layout/Header.jsx")
-);
-const AntdContent = lazy(() =>
-  import(/* webpackChunkName: "AntdContent" */ "./Layout/Content.jsx")
-);
-const AntdAutoComplete = lazy(() =>
-  import(
-    /* webpackChunkName: "AntdAutoComplete" */ "./autocomplete/autocomplete.jsx"
-  )
-);
-const AntdList = lazy(() =>
-  import(/* webpackChunkName: "AntdList" */ "./list/list.jsx")
-);
-const AntdListItem = lazy(() =>
-  import(/* webpackChunkName: "AntdListItem" */ "./listItem/listItem.jsx")
-);
-const AntdStatistic = lazy(() =>
-  import(/* webpackChunkName: "AntdStatistic" */ "./statistic/statistic.jsx")
-);
-const AntdCarousel = lazy(() =>
-  import(/* webpackChunkName: "AntdCarousel" */ "./carousel/carousel.jsx")
-);
-const AntdInput = lazy(() =>
-  import(/* webpackChunkName: "AntdInput" */ "./input/input.jsx")
-);
-const AntdInputTextArea = lazy(() =>
-  import(/* webpackChunkName: "AntdInputTextArea" */ "./input/textArea")
-);
-const AntdInputPassword = lazy(() =>
-  import(/* webpackChunkName: "AntdInputPassword" */ "./input/password")
-);
-const UDAntdIcon = lazy(() =>
-  import(/* webpackChunkName: "AntdIcon" */ "./icon/icon")
-);
-const AntdRadio = lazy(() =>
-  import(/* webpackChunkName: "AntdRadio" */ "./radio/radio")
-);
-const AntdRadioGroup = lazy(() =>
-  import(/* webpackChunkName: "AntdRadioGroup" */ "./radio/radio-group")
-);
+import AntdRow from "./Grid/row.jsx"
+import AntdColumn from "./Grid/column.jsx"
+import AntdButton from "./button/button.jsx"
+import AntdButtonGroup from "./button-group/button-group.jsx"
+import AntdSwitch from "./switch/switch.jsx"
+import AntdTimeLine from "./timeline/timeline.jsx"
+import AntdTimeLineItem from "./timeline/timelineItem.jsx"
+import AntdDrawer from "./drawer/drawer.jsx"
+import AntdCard from "./card/card.jsx"
+import AntdDescriptionList from "./description/description.jsx"
+import AntdDescriptionListItem from  "./description-item/description-item.jsx"
+import AntdBadge from "./badge/badge.jsx"
+import AntdDropDown from "./dropdown/dropdown.jsx"
+import AntdPopover from "./popover/popover.jsx"
+import AntdLayout from "./Layout/Layout.jsx"
+import AntdHeader from "./Layout/Header.jsx"
+import AntdContent from "./Layout/Content.jsx"
+import AntdAutoComplete from  "./autocomplete/autocomplete.jsx"
+import AntdList from "./list/list.jsx"
+import AntdListItem from "./listItem/listItem.jsx"
+import AntdStatistic from "./statistic/statistic.jsx"
+import AntdCarousel from "./carousel/carousel.jsx"
+import AntdInput from "./input/input.jsx"
+import AntdInputTextArea from "./input/textArea"
+import AntdInputPassword from "./input/password"
+import UDAntdIcon from "./icon/icon"
+import AntdRadio from "./radio/radio"
+import AntdRadioButton from "./radio/radio-button"
+import AntdRadioGroup from "./radio/radio-group"
 // const AntdCollapsed = lazy(() =>
 //   import(/* webpackChunkName: "AntdCollapsed" */ "./Utils/collapse")
 // ); - Still in development
@@ -114,7 +46,7 @@ UniversalDashboard.register("ud-antd-timeline-item", AntdTimeLineItem);
 UniversalDashboard.register("ud-antd-drawer", AntdDrawer);
 UniversalDashboard.register("ud-antd-card", AntdCard);
 UniversalDashboard.register("ud-antd-descriptionlist", AntdDescriptionList);
-UniversalDashboard.register("ud-antd-descriptionlist-item",AntdDescriptionListItem);
+UniversalDashboard.register("ud-antd-descriptionlist-item", AntdDescriptionListItem);
 UniversalDashboard.register("ud-antd-badge", AntdBadge);
 UniversalDashboard.register("ud-antd-dropdown", AntdDropDown);
 UniversalDashboard.register("ud-antd-menu", AntdMenu);
@@ -136,5 +68,6 @@ UniversalDashboard.register("ud-antd-input-textarea", AntdInputTextArea);
 UniversalDashboard.register("ud-antd-input-password", AntdInputPassword);
 UniversalDashboard.register("ud-antd-icon", UDAntdIcon);
 UniversalDashboard.register("ud-antd-radio", AntdRadio);
+UniversalDashboard.register("ud-antd-radio-button", AntdRadioButton);
 UniversalDashboard.register("ud-antd-radio-group", AntdRadioGroup);
 // UniversalDashboard.register("ud-antd-collapsed", AntdCollapsed); - Still in development

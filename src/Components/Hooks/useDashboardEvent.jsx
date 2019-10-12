@@ -27,9 +27,11 @@ export default function useDashboardEvent(elementId, initialState) {
       switch (event.type) {
         // Set-UDElement
         case SET_STATE:
-          setState({
-            attributes: { ...state.attributes, ...event.state.attributes },
-            content: { ...state.content, ...event.state.content }
+          setState(state => {
+            return {
+              attributes: { ...state.attributes, ...event.state.attributes },
+              content: Array.isArray(event.state.content) ? event.state.content : Array.from(event.state.content)
+            }
           });
           break;
         // Get-UDElement

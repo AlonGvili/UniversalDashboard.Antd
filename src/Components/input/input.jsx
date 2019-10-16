@@ -9,30 +9,20 @@ const AntdInput = props => {
   const inputRef = useRef();
 
   const onChange = event => {
-    console.log(event.target.value);
+    attributes.hasOnChangeCallback ?
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
       eventId: attributes.id + "onChange",
       eventName: "onChange",
       eventData: JSON.stringify(event.target.value)
-    });
+    }) : null
   };
 
   const onPressEnter = event => {
-    console.log(
-      "parent&children",
-      inputRef.current.input.offsetParent.childNodes[0].offsetParent
-        .offsetParent.children
-    );
-    UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: attributes.id + "onPressEnter",
-      eventName: "onPressEnter",
-      eventData: "" // JSON.stringify(
-        //inputRef.current.input.offsetParent.childNodes[0].offsetParent
-          //.offsetParent.children
-      //)
-    });
+    event.preventDefault()
+    UniversalDashboard.post(`/api/internal/component/element/${attributes.id }`, event.target.value , result => {
+      result.error ? console.log('result.error', result.error) : null
+    })
   };
 
   const prefix_suffix = {
@@ -60,8 +50,8 @@ const AntdInput = props => {
       {...attributes}
       {...addons}
       {...prefix_suffix}
-      onChange={event => onChange(event)}
-      onPressEnter={event => onPressEnter(event)}
+      onChange={onChange}
+      onPressEnter={onPressEnter}
       ref={inputRef}
     />
   );

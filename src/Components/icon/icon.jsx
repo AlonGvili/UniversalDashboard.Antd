@@ -1,13 +1,25 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 import AntIcon from '@ant-design/icons-react'
+import useDashboardEvent from "../Hooks/useDashboardEvent";
 
 const UDAntdIcon = props => {
-  const { icon, ...others } = props;
+  const [state, reload] = useDashboardEvent(props.id, props);
+  const { content, attributes } = state;
   const [myIcon, setMyIcon] = useState();
 
   import("@ant-design\\icons\\lib\\index.es.js").then(module => {
-    setMyIcon(module[icon]);
+    setMyIcon(module[attributes.icon]);
   });
+
+  const onClick = event => {
+    attributes.hasCallback ?
+    UniversalDashboard.publish("element-event", {
+      type: "clientEvent",
+      eventId: attributes.id + "onClick",
+      eventName: "onClick",
+      eventData: ''
+    }) : null
+  };
 
   const fontSize = {
     "xs": "0.75em",
@@ -23,8 +35,8 @@ const UDAntdIcon = props => {
     "9x": "9em",
     "10x": "10em"
   };
-  
-  return <AntIcon type={myIcon} style={{fontSize: fontSize[others.size], fill: others.color, ...others.style}}/>
+
+  return <AntIcon {...attributes} type={myIcon} style={{ fontSize: fontSize[attributes.size], fill: attributes.isTwoTone ? null : attributes.color, ...attributes.style}} onClick={onClick}/>
 };
 
 export default UDAntdIcon;

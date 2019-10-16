@@ -13,6 +13,8 @@ function New-UDAntdMenu {
         [Parameter()]
         [string[]]$DefaultOpenKeys,
         [Parameter()]
+        [string]$DefaultSelectedKeys,
+        [Parameter()]
         [scriptblock]$Content,
         [Parameter()]
         [hashtable]$Style
@@ -29,6 +31,7 @@ function New-UDAntdMenu {
             mode = $Mode
             triggerSubMenuAction = $TriggerSubMenuAction
             defaultOpenKeys      = $DefaultOpenKeys
+            defaultSelectedKeys  = $DefaultSelectedKeys
             # inlineCollapsed = $Collapsed.IsPresent
             # key = $Key
             content = $Content.Invoke()

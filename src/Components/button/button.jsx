@@ -17,11 +17,11 @@ const AntdButton = props => {
 
   return (
     <Button
+    {...attributes}
       htmlType="button"
       type={attributes.buttonType}
       onClick={onClick}
       children={attributes.label}
-      {...attributes}
     />
   );
 }

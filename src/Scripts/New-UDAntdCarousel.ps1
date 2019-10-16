@@ -52,9 +52,9 @@ function New-UDAntdCarousel {
         [Parameter()]
         [switch]$AdaptiveHeight,
         [Parameter()]
-        [int]$SlidesToShow,
+        [int]$SlidesToShow = 1,
         [Parameter()]
-        [int]$SlidesToScroll,
+        [int]$SlidesToScroll = 1,
         [Parameter()]
         [int]$Speed = 500,
         [Parameter()]

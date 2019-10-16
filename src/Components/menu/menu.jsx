@@ -5,7 +5,7 @@ import useDashboardEvent from "../Hooks/useDashboardEvent";
 const AntdMenu = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
-  const [current, setCurrent] = useState(null)
+  const [current, setCurrent] = useState(attributes.defaultSelectedKeys ? attributes.defaultSelectedKeys : null)
 
   const onSelect = event => {
     console.log(event)

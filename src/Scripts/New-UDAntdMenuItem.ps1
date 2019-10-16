@@ -15,6 +15,8 @@ function New-UDAntdMenuItem {
         [Parameter(Mandatory)]
         [object]$OnClick,
         [Parameter()]
+        [int]$InlineIndent,
+        [Parameter()]
         [hashtable]$Style
     )
 
@@ -42,6 +44,7 @@ function New-UDAntdMenuItem {
             disabled = $Disabled.IsPresent
             title = $Title
             key = $key
+            inlineIndent = $InlineIndent
             style = $Style
             content = $Content.Invoke()
         }

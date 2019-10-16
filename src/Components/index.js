@@ -32,6 +32,7 @@ import UDAntdIcon from "./icon/icon"
 import AntdRadio from "./radio/radio"
 import AntdRadioButton from "./radio/radio-button"
 import AntdRadioGroup from "./radio/radio-group"
+import AntdCopyToClipboard from "./copy-to-clipboard/copy-to-clipboard"
 // const AntdCollapsed = lazy(() =>
 //   import(/* webpackChunkName: "AntdCollapsed" */ "./Utils/collapse")
 // ); - Still in development
@@ -70,4 +71,5 @@ UniversalDashboard.register("ud-antd-icon", UDAntdIcon);
 UniversalDashboard.register("ud-antd-radio", AntdRadio);
 UniversalDashboard.register("ud-antd-radio-button", AntdRadioButton);
 UniversalDashboard.register("ud-antd-radio-group", AntdRadioGroup);
+UniversalDashboard.register("ud-antd-copy-button", AntdCopyToClipboard);
 // UniversalDashboard.register("ud-antd-collapsed", AntdCollapsed); - Still in development

@@ -17,7 +17,7 @@ const AntdButton = props => {
 
   return (
     <Button
-    {...attributes}
+      {...attributes}
       htmlType="button"
       type={attributes.buttonType}
       onClick={onClick}

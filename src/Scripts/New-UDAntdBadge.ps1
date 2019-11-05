@@ -16,56 +16,58 @@
     General notes
 #>
 function New-UDAntdBadge {
+    [CmdletBinding(DefaultParameterSetName = 'Count')]
     param(
+
+        [Parameter(ParameterSetName = 'Dot')]
+        [ValidateSet('success', 'processing', 'default', 'error', 'warning')]
+        [string]$Status,
+
+        [Parameter(ParameterSetName = 'Dot')]
+        [string]$Text,
+      
+        [Parameter(ParameterSetName = 'Count')]
+        [int]$OverflowCount = 9999,
+
+        [Parameter(ParameterSetName = 'Count')]
+        [int]$Count,
+      
+        [Parameter(ParameterSetName = 'Count')]
+        [hashtable]$Style,
+      
+        [Parameter(ParameterSetName = 'Count')]
+        [switch]$ShowZero,
+      
+        [Parameter(ParameterSetName = 'Dot')]
+        [switch]$Dot,
+      
+        [Parameter(ParameterSetName = 'Dot')]
+        [string]$Color,
+      
+        [Parameter(ParameterSetName = 'Dot')]
+        [ValidateSet('pink', 'red', 'yellow', 'orange', 'cyan', 'green', 'blue', 'purple', 'geekblue', 'magenta', 'volcano', 'gold', 'lime')]
+        [string]$PresetColor,  
+        
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
-        [ValidateSet('success', 'processing', 'default ', 'error', 'warning')]
-        [string]$Status,
+        [string]$ClassName,       
         [Parameter()]
         [string]$Title,
         [Parameter()]
-        [string]$Text,
-        [Parameter()]
-        [int]$OverflowCount,
-        [Parameter()]
         [int[]]$OffSet,
         [Parameter()]
-        [scriptblock]$Count,
-        [Parameter()]
-        [object]$Content,
-        [Parameter()]
-        [switch]$ShowZero,
-        [Parameter()]
-        [switch]$Dot,
-        [Parameter(ParameterSetName = 'Color')]
-        [string]$Color,
-        [Parameter(ParameterSetName = 'PresetColors')]
-        [ValidateSet('pink', 'red', 'yellow', 'orange', 'cyan', 'green', 'blue', 'purple', 'geekblue', 'magenta', 'volcano', 'gold', 'lime')]
-        [string]$PresetColor,
-        [Parameter()]
-        [hashtable]$Style,
-        [Parameter()]
-        [int]$RefreshInterval = 5000,
-        [Parameter()]
-        [switch]$AutoRefresh,
-        [Parameter()]
-        [switch]$IsEndpoint
-
+        [object]$Content
     )
 
     End {
 
-            if ($null -ne $Count -and $IsEndpoint) {
-                if ($Count -is [scriptblock]) {
-                    $Endpoint = New-UDEndpoint -Endpoint $Count -Id $Id 
-                }
-                elseif ($Count -isnot [UniversalDashboard.Models.Endpoint]) {
-                    throw "Count must be a script block or UDEndpoint"
-                }
-            }
+        if ($PSBoundParameters.ContainsKey('Color')) {
+            $SelectedColor = $Color
+        }
+        else {
+            $SelectedColor = $PresetColor
+        }
             
         @{
             assetId       = $AssetId 
@@ -77,17 +79,13 @@ function New-UDAntdBadge {
             showZero      = $ShowZero.IsPresent
             dot           = $Dot.IsPresent
             overflowCount = $OverflowCount
-            count         = $Count.Invoke()
+            count         = $Count
             status        = $Status
-            color         = $PresetColor
+            color         = $SelectedColor
             style         = $Style
             title         = $Title
-            text          = $Text
-            autoRefresh = $AutoRefresh.IsPresent
-            isEndpoint = $IsEndpoint.IsPresent
-            refreshInterval = $RefreshInterval
-            content = $Content
+            text          = $Text   
+            content       = $Content
         }
-
     }
 }

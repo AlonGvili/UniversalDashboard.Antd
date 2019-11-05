@@ -24,9 +24,8 @@ const AntdDrawer = props => {
       <Drawer
         {...attributes}
         onClose={onClose}
-      >
-        {UniversalDashboard.renderComponent(content)}
-      </Drawer>
+        children={UniversalDashboard.renderComponent(content)}
+      />
       <ReactInterval
         callback={reload}
         timeout={props.refreshInterval}

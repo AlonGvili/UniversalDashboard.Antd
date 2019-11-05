@@ -101,10 +101,8 @@ function New-UDAntdAutoComplete {
             placeholder              = $placeholder
             value                    = $value
             onBlur                   = $onBlur
-            # onChange                 = $onChange
             onFocus                  = $onFocus
             onSearch                 = $onSearch
-            # onSelect                 = $onSelect
             defaultOpen              = $defaultOpen.IsPresent
             open                     = $open.IsPresent
             onDropdownVisibleChange  = $onDropdownVisibleChange

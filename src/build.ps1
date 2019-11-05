@@ -73,6 +73,7 @@ $manifestParameters = @{
         "New-UDAntdRadioButton"
         "New-UDAntdRadioGroup"
         "New-UDAntdCopyToClipboard"
+        "New-UDAntdAvatar"
     )
 }
 

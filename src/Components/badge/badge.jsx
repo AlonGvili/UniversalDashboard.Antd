@@ -8,15 +8,25 @@ const AntdBadge = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
 
+  const countProps = {
+    count: attributes.count,
+    showZero: attributes.showZero,
+    overflowCount: attributes.overflowCount,
+    style: attributes.style
+  }
+
+  const dotProps = {
+    color: attributes.color,
+    text: attributes.text,
+    status: attributes.status,
+    dot: attributes.dot
+  }
+
+  const propsToUse = attributes.count ? { ...countProps } : { ...dotProps }
   return (
-    <Badge {...attributes} count={attributes.count}>
-      {UniversalDashboard.renderComponent(content)}
-      <ReactInterval
-        callback={reload}
-        timeout={attributes.refreshInterval}
-        enabled={attributes.autoRefresh}
-      />
-    </Badge>
+    <Badge
+      {...propsToUse}
+      children={UniversalDashboard.renderComponent(content)} />
   );
 };
 

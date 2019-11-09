@@ -1,5 +1,7 @@
 ﻿
 function New-UDAntdAutoComplete {
+    [CmdletBinding()]
+    [OutputType('UDAntd.AutoComplete')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -7,6 +9,12 @@ function New-UDAntdAutoComplete {
         [string]$ClassName,
         [Parameter()]
         [hashtable]$Style,
+        [Parameter()]
+        [hashtable]$InputStyle,
+        [Parameter()]
+        [hashtable]$DropDownStyle,
+        [Parameter()]
+        [hashtable]$DropDownMenuStyle,
         [Parameter()]
         [switch]$allowClear,
         [Parameter()]
@@ -22,7 +30,7 @@ function New-UDAntdAutoComplete {
         [Parameter()]
         [switch]$disabled,
         [Parameter()]
-        [switch]$filterOption,
+        [string[]]$filterOption,
         [Parameter()]
         [string]$optionLabelProp,
         [Parameter()]
@@ -64,6 +72,8 @@ function New-UDAntdAutoComplete {
             }
         }
 
+        # $Filters = $DataSourceContent[0].psobject.Properties.name 
+
         if ($null -ne $onSelect) {
             if ($onSelect -is [scriptblock]) {
                 $OnSelectEndpoint = New-UDEndpoint -Endpoint $onSelect  -Id ( $Id + "OnSelect")
@@ -82,21 +92,25 @@ function New-UDAntdAutoComplete {
             }
         }
 
-        @{
+        $UDAntdAutoComplete = @{
             assetId                  = $AssetId
             isPlugin                 = $true
             type                     = "ud-antd-autocomplete"
             id                       = $Id
             className                = $ClassName
             style                    = $Style
+            inputStyle               = $InputStyle
+            dropDownStyle            = $DropDownStyle
+            dropdownMenuStyle        = $DropDownMenuStyle
             allowClear               = $allowClear.IsPresent
             autoFocus                = $autoFocus.IsPresent
             backfill                 = $backfill.IsPresent
-            content                     = $DataSourceContent
+            content                  = $DataSourceContent | ConvertTo-Json
             defaultActiveFirstOption = $defaultActiveFirstOption.IsPresent
             defaultValue             = $defaultValue
             disabled                 = $disabled.IsPresent
-            filterOption             = $filterOption.IsPresent
+            # filterOption             = $filterOption
+            filters                  = $filterOption
             optionLabelProp          = $optionLabelProp
             placeholder              = $placeholder
             value                    = $value
@@ -107,5 +121,8 @@ function New-UDAntdAutoComplete {
             open                     = $open.IsPresent
             onDropdownVisibleChange  = $onDropdownVisibleChange
         }
+        $UDAntdAutoComplete.PSTypeNames.Insert(0, 'UDAntd.AutoComplete')
+        $UDAntdAutoComplete
+
     }
 }

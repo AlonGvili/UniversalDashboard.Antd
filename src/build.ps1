@@ -60,7 +60,7 @@ $manifestParameters = @{
         "New-UDAntdLayout"
         "New-UDAntdHeader"
         "New-UDAntdContent"
-        # "New-UDAntdAutoComplete"
+        "New-UDAntdAutoComplete"
         "New-UDAntdList"
         "New-UDAntdListItem"
         "New-UDAntdStatistic"

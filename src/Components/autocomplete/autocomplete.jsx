@@ -9,28 +9,61 @@ const AntdAutoComplete = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
   const [dataSource, setDataSource] = useState(JSON.parse(content));
-  const [matches, setMatches] = useState(dataSource);
+  const [matches, setMatches] = useState([]);
 
   const renderOption = value => {
+    console.log(
+      "value[attributes.optionLabelProp]",
+      value[attributes.optionLabelProp]
+    );
     return (
       <AutoComplete.Option
-        key={value.Name}
-        text={value.Name}
-        value={value.Name}
+        key={value}
+        // text={value.Name}
+        value={
+          value[attributes.optionLabelProp] !== null
+            ? value[attributes.optionLabelProp].toString()
+            : "test"
+        }
         style={{ marginBottom: 16 }}
       >
-        {value.Name}
+        {value[attributes.optionLabelProp]}
       </AutoComplete.Option>
     );
   };
 
+// const filters = attributes.filters
+
   const onSearch = value => {
-    let match = matchSorter(dataSource, value, {
-      keys: getPath(...dataSource)
-    });
-    console.log("match: ", match);
-    match.length > 0 ? setMatches(match) : setMatches([]);
-  };
+    const regex = new RegExp(value, "gi")
+    if(value){
+      attributes.filters.forEach(flt => {
+      dataSource.filter(item => {
+          console.log('item: ', item)
+          console.log('filter: ', flt)
+          console.log("item[flt]: ", item[flt]);
+          const valueAsString = item[flt] !== null ? item[flt].toString() : null
+          valueAsString !== null &&
+          valueAsString !== "" &&
+          // !matches.includes(item[attributes.optionLabelProp]) &&
+          valueAsString.match(regex)
+          setMatches(matches.concat(renderOption(item)))
+          // return renderOption(item)
+        });
+        // console.log("results: ", results);
+      });
+    }
+    else{
+      setMatches([])
+    }
+  }
+  // const onSearch = value => {
+  //   let match = matchSorter(dataSource, value, {
+  //     keys: getPath(...dataSource)
+  //   });
+  //   console.log("match: ", match);
+  //   match.length > 0 ? setMatches(match) : setMatches([]);
+  // };
 
   const onSelect = (value, option) => {
     UniversalDashboard.publish("element-event", {
@@ -39,27 +72,26 @@ const AntdAutoComplete = props => {
       eventName: "onSelect",
       eventData: JSON.stringify(option)
     });
-    console.log("autocomplete onSelect value: ", value);
-    console.log("autocomplete onSelect option: ", option);
   };
 
   return (
     <AutoComplete
       size="large"
       style={{ width: "100%" }}
-      dataSource={matches.map(renderOption)}
+      dataSource={
+        matches
+      }
       optionLabelProp="value"
-      // filterOption={true}
       showSearch={false}
       onSelect={onSelect}
       onSearch={onSearch}
-      optionFilterProp="children"
+      // optionFilterProp="children"
       notFoundContent={matches ? null : <Empty />}
-      dropdownStyle={{ width: "100%" }}
-      dropdownMenuStyle={{ padding: 16 }}
+      dropdownStyle={{ ...attributes.dropDownStyle }}
+      dropdownMenuStyle={{ ...attributes.dropdownMenuStyle }}
       dropdownMatchSelectWidth
     >
-      <Input style={{ width: "100%", height: 64, backgroundColor: "#fff" }} />
+      <Input style={{ ...attributes.inputStyle, width: "100%" }} />
     </AutoComplete>
   );
 };

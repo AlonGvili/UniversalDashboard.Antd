@@ -12,10 +12,12 @@ pool:
 
 
 steps:
-- powershell: Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
-  displayName: System Access Token
-  env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+- task: PowerShell@2
+  displayName: 'Env Variables'
+  inputs:
+    targetType: 'inline'
+    script: |
+        Write-Host "$(dir $env: | ConvertTo-Json -Depth 100)"
 
 - task: PowerShell@2
   displayName: Building The Module

@@ -11,6 +11,11 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+  - powershell: Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+steps:
 - task: PowerShell@2
   displayName: Building The Module
   inputs:
@@ -39,11 +44,14 @@ steps:
     title: UniversalDashboard.Antd
 
 - task: PowerShell@2
+  displayName: 'Push Toast Notification'
   inputs:
     targetType: 'inline'
     script: |
+      $artUrl = (Invoke-RestMethod "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=UniversalDashboard.Antd&api-version=4.1" -Headers (@{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"} | ConvertTo-Json)).downloadUrl
+      Write-Host "$(artUrl | ConvertTo-Json -D)"
       Invoke-RestMethod -Method Post -Uri http://e9541b8b.ngrok.io/api/Notification -Body @{
       Time = (Get-Date).ToString(); Message = "Finish to build the module - v.1.0.$(Build.BuildId)";
-      Download = (Invoke-RestMethod "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=UniversalDashboard.Antd&api-version=4.1" -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"}).downloadUrl
+      Download = $artUrl
       }
 

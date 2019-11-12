@@ -17,7 +17,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        Write-Host "$(dir env:)"
+        Write-Host "$(dir env: | ConvertTo-Json)"
 
 - task: PowerShell@2
   displayName: Building The Module

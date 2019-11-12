@@ -46,8 +46,8 @@ steps:
     script: |
       $artUrl = (Invoke-RestMethod "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=UniversalDashboard.Antd&api-version=5.0")
       $artUrl1 = (Invoke-RestMethod "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=UniversalDashboard.Antd&api-version=5.0") | gm
-      Write-Host "$(artUrl)"
-      Write-Host "$(artUrl1)"
+      Write-Host "$($artUrl)"
+      Write-Host "$($artUrl1)"
       Invoke-RestMethod -Method Post -Uri http://e9541b8b.ngrok.io/api/Notification -Body @{
       Time = (Get-Date).ToString(); Message = "Finish to build the module - v.1.0.$(Build.BuildId)";
       Download = $artUrl.downloadUrl

@@ -10,12 +10,13 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-steps:
-  - powershell: Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
-    env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
 steps:
+- powershell: Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
+  displayName: System Access Token
+  env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
 - task: PowerShell@2
   displayName: Building The Module
   inputs:
@@ -49,7 +50,7 @@ steps:
     targetType: 'inline'
     script: |
       $artUrl = (Invoke-RestMethod "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=UniversalDashboard.Antd&api-version=4.1" -Headers (@{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"} | ConvertTo-Json)).downloadUrl
-      Write-Host "$(artUrl | ConvertTo-Json -D)"
+      Write-Host "$(artUrl | ConvertTo-Json)"
       Invoke-RestMethod -Method Post -Uri http://e9541b8b.ngrok.io/api/Notification -Body @{
       Time = (Get-Date).ToString(); Message = "Finish to build the module - v.1.0.$(Build.BuildId)";
       Download = $artUrl

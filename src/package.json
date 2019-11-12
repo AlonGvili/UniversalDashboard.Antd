@@ -29,10 +29,10 @@
         "use-clipboard-copy": "^0.1.1"
     },
     "devDependencies": {
-        "@babel/core": "^7.7.0",
+        "@babel/core": "^7.7.2",
         "@babel/plugin-proposal-class-properties": "^7.7.0",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-        "@babel/preset-env": "^7.7.0",
+        "@babel/preset-env": "^7.7.1",
         "@babel/preset-react": "^7.7.0",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
@@ -48,7 +48,7 @@
         "less": "^3.10.3",
         "less-loader": "^5.0.0",
         "parcel-bundler": "^1.12.4",
-        "prettier": "^1.18.2",
+        "prettier": "^1.19.1",
         "react-hooks": "^1.0.1",
         "style-loader": "^1.0.0",
         "terser-webpack-plugin": "^2.2.1",

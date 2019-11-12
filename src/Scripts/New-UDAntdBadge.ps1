@@ -15,7 +15,7 @@ function New-UDAntdBadge {
         [int]$OverflowCount = 9999,
 
         [Parameter(ParameterSetName = 'Count')]
-        [int]$Count,
+        [object]$Count,
       
         [Parameter(ParameterSetName = 'Count')]
         [hashtable]$Style,
@@ -41,7 +41,8 @@ function New-UDAntdBadge {
         [string]$Title,
         [Parameter()]
         [int[]]$OffSet,
-        [Parameter()]
+        [Parameter(ParameterSetName = 'Count')]
+        [Parameter(ParameterSetName = 'Dot')]
         [object]$Content
     )
 

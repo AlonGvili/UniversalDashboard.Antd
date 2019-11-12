@@ -31,7 +31,7 @@ module.exports = env => {
             sourceMap: true,
             mangle: true,
             compress: {
-              drop_console:false
+              drop_console: false
             }
           }
         })
@@ -55,6 +55,10 @@ module.exports = env => {
             {
               loader: "less-loader",
               options: {
+                modifyVars: {
+                  "primary-color": "#e91e63",
+                  "link-color": "#607d8b",
+                },
                 javascriptEnabled: true
               }
             }

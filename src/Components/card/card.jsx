@@ -57,7 +57,15 @@ const renderCardContent = props => {
 
   switch (parameterSet) {
     case "Default":
-      cardContent = UniversalDashboard.renderComponent(props.content);
+      cardContent = Array.isArray(props.content)
+        ? props.content.map(item =>
+            item.type
+              ? UniversalDashboard.renderComponent(item)
+              : item
+          )
+        : props.content.type
+        ? UniversalDashboard.renderComponent(props.content)
+        : props.content;
       break;
     case "Meta":
       cardContent = (

@@ -1,5 +1,5 @@
-import React from "react";
-import ReactInterval from "react-interval";
+import React, { Fragment } from "react";
+// import ReactInterval from "react-interval";
 import { Badge } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
 
@@ -9,11 +9,15 @@ const AntdBadge = props => {
   const { content, attributes } = state;
 
   const countProps = {
-    count: attributes.count,
+    count: (
+        attributes.count && attributes.count.type
+          ? <span>{UniversalDashboard.renderComponent(attributes.count)}</span>
+          : attributes.count
+    ),
     showZero: attributes.showZero,
     overflowCount: attributes.overflowCount,
     style: attributes.style
-  }
+  };
 
   const dotProps = {
     color: attributes.color,
@@ -26,7 +30,12 @@ const AntdBadge = props => {
   return (
     <Badge
       {...propsToUse}
-      children={UniversalDashboard.renderComponent(content)} />
+      children={
+        content && content.type
+          ? UniversalDashboard.renderComponent(content)
+          : content
+      }
+    />
   );
 };
 

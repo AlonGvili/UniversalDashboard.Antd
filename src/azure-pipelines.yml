@@ -44,5 +44,6 @@ steps:
     script: |
       Invoke-RestMethod -Method Post -Uri http://e9541b8b.ngrok.io/api/Notification -Body @{
       Time = (Get-Date).ToString(); Message = "Finish to build the module - v.1.0.$(Build.BuildId)";
-      Download = "$(Build.ArtifactStagingDirectory)/UniversalDashboard.Antd.zip"
+      Download = "https://dev.azure.com/alon-gvili/UniversalDashboard.Antd/_apis/build/builds/{$(Build.BuildId)}/artifacts?artifactName={UniversalDashboard.Antd}&api-version=4.1"
+"
       }

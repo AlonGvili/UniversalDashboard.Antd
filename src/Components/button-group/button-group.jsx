@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-
+import '../../styles/index.less'
 const AntdButtonGroup = props => {
   const { content, ...attributes } = props;
 

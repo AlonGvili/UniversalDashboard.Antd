@@ -21,6 +21,7 @@ npm run build
 
 Copy-Item $BuildFolder\public $OutputPath\jsfiles -Recurse -Force
 Copy-Item $BuildFolder\Scripts $OutputPath\Scripts -Recurse -Force
+Copy-Item $BuildFolder\less.js $OutputPath\jsfiles 
 Copy-Item $BuildFolder\UniversalDashboard.Antd.psm1 $OutputPath
 
 Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Recurse
@@ -74,8 +75,8 @@ $manifestParameters = @{
         "New-UDAntdRadioGroup"
         "New-UDAntdCopyToClipboard"
         "New-UDAntdAvatar"
+        "New-UDAntdSlider"
     )
 }
 
 New-ModuleManifest @manifestParameters
-Invoke-RestMethod -Method Post -Uri http://e9541b8b.ngrok.io/api/Notification -Body @{Time = (Get-Date).ToString(); Message = $Env:COMPUTERNAME }

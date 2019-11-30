@@ -1,99 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Input, AutoComplete, Empty } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
-import { getPath, getValue } from "../Utils/utils.js";
+import { useDashboardEvent } from "../Hooks/index";
+import AntdInput from '../input/input'
+import matchSorter from 'match-sorter'
+import ReactInterval from 'react-interval'
 
-const AntdAutoComplete = props => {
-  // const { Option } = AutoComplete
-
+const UDAntdAutoComplete = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
-  const [dataSource, setDataSource] = useState(JSON.parse(content));
-  const [matches, setMatches] = useState([]);
-
-  const renderOption = value => {
-    console.log(
-      "value[attributes.optionLabelProp]",
-      value[attributes.optionLabelProp]
-    );
-    return (
-      <AutoComplete.Option
-        key={value}
-        // text={value.Name}
-        value={
-          value[attributes.optionLabelProp] !== null
-            ? value[attributes.optionLabelProp].toString()
-            : "test"
-        }
-        style={{ marginBottom: 16 }}
-      >
-        {value[attributes.optionLabelProp]}
-      </AutoComplete.Option>
-    );
-  };
-
-// const filters = attributes.filters
-
-  const onSearch = value => {
-    const regex = new RegExp(value, "gi")
-    if(value){
-      attributes.filters.forEach(flt => {
-      dataSource.filter(item => {
-          console.log('item: ', item)
-          console.log('filter: ', flt)
-          console.log("item[flt]: ", item[flt]);
-          const valueAsString = item[flt] !== null ? item[flt].toString() : null
-          valueAsString !== null &&
-          valueAsString !== "" &&
-          // !matches.includes(item[attributes.optionLabelProp]) &&
-          valueAsString.match(regex)
-          setMatches(matches.concat(renderOption(item)))
-          // return renderOption(item)
-        });
-        // console.log("results: ", results);
-      });
-    }
-    else{
-      setMatches([])
-    }
-  }
-  // const onSearch = value => {
-  //   let match = matchSorter(dataSource, value, {
-  //     keys: getPath(...dataSource)
-  //   });
-  //   console.log("match: ", match);
-  //   match.length > 0 ? setMatches(match) : setMatches([]);
-  // };
+  const { id, className, placeholder, inputStyle, customInput, dropDownStyle, dropdownMenuStyle, style, autoRefresh, refreshInterval, ...restOfProps } = attributes
+  const [dataSource, setDataSource] = useState([]);
 
   const onSelect = (value, option) => {
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
-      eventId: attributes.id + "OnSelect",
+      eventId: id + "OnSelect",
       eventName: "onSelect",
-      eventData: JSON.stringify(option)
+      eventData: JSON.stringify({ value, option })
     });
   };
 
-  return (
-    <AutoComplete
-      size="large"
-      style={{ width: "100%" }}
-      dataSource={
-        matches
-      }
-      optionLabelProp="value"
-      showSearch={false}
-      onSelect={onSelect}
-      onSearch={onSearch}
-      // optionFilterProp="children"
-      notFoundContent={matches ? null : <Empty />}
-      dropdownStyle={{ ...attributes.dropDownStyle }}
-      dropdownMenuStyle={{ ...attributes.dropdownMenuStyle }}
-      dropdownMatchSelectWidth
-    >
-      <Input style={{ ...attributes.inputStyle, width: "100%" }} />
-    </AutoComplete>
-  );
+  // filter the options base on the input text and return new array of the results.
+  const onChange = value => setDataSource(filterOptions(value))
+
+  // basic filter function using matchSorter module, this need more work.
+  const filterOptions = inputValue => {
+    return inputValue
+      ? matchSorter(content, inputValue, { keys: ['text', 'value'] })
+      : content
+  }
+
+  const autoCompleteProps = {
+    id: id,
+    className: `ud-antd-autocomplete ${className}`,
+    onSelect: onSelect,
+    onChange: onChange,
+    dataSource: dataSource,
+    placeholder: placeholder,
+    notFoundContent: <Empty description="No results found base on your input text." />
+  }
+
+  const autoCompleteStyles = {
+    dropdownMenuStyle: { fontSize: 24, padding: 12, margin: 6, ...dropdownMenuStyle },
+    dropdownStyle: { ...dropDownStyle },
+    style: { ...style, width: "100%" },
+    dropdownMatchSelectWidth: true,
+  }
+
+  const input = customInput
+    ? <Input
+      {...customInput}
+      addonBefore={customInput.addBefore && UniversalDashboard.renderComponent(customInput.addBefore)}
+      addonAfter={customInput.addonAfter && UniversalDashboard.renderComponent(customInput.addonAfter)}
+      suffix={UniversalDashboard.renderComponent(customInput.suffix)}
+      prefix={UniversalDashboard.renderComponent(customInput.prefix)}
+      style={{
+        backgroundColor: '#fff',
+        ...customInput.style
+      }}
+      />
+    : <Input style={{
+      width: "100%",
+      minHeight: 64,
+      fontSize: 24,
+      backgroundColor: '#fff',
+      color: '#333',
+      borderColor: '#f6f6f6',
+      ...inputStyle
+    }} />
+
+  return <Fragment>
+    <AutoComplete {...autoCompleteProps} {...autoCompleteStyles} children={input} />
+    <ReactInterval callback={reload} timeout={refreshInterval} enabled={autoRefresh} />
+  </Fragment>
 };
 
-export default AntdAutoComplete;
+export default UDAntdAutoComplete

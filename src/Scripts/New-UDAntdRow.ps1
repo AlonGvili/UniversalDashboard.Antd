@@ -34,14 +34,16 @@ function New-UDAntdRow {
         [ValidateSet("start","end","center","space-around","space-between")]
         [string]$Justify,
         [Parameter()]
-        [switch]$Flex
+        [switch]$Flex,
+        [Parameter()]
+        [switch]$IsEndpoint
     )
 
     End {
 
-        # if($IsEndpoint){
-        #     $ValueFromEndpoint = New-UDEndpoint -Id $id -Endpoint $UserValue
-        # }
+        if($IsEndpoint.IsPresent){
+            $RowEndpoint = New-UDEndpoint -Id $id -Endpoint $Content 
+        }
 
         @{
             assetId = $AssetId 

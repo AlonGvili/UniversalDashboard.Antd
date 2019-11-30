@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent";
+import '../../styles/index.less'
 
 const AntdButton = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

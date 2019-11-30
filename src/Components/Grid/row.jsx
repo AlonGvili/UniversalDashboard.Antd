@@ -1,19 +1,19 @@
-import React from "react";
-import { Row } from "antd";
+import React, { Suspense } from "react";
+import { Row, Skeleton, Spin } from "antd";
+import ReactInterval from 'react-interval'
+import useDashboardEvent from "../Hooks/useDashboardEvent";
 
 const AntdRow = props => {
-  const { content, gutter, align, justify, flex, style } = props;
+  const [state, reload] = useDashboardEvent(props.id, props);
+  const { content, attributes } = state;
 
   return (
-    <Row
-      gutter={gutter}
-      align={align}
-      justify={justify}
-      flex={flex}
-      style={{ ...style }}
-    >
-      {UniversalDashboard.renderComponent(content)}
-    </Row>
+    <Suspense fallback={<Skeleton loading avatar={false} paragraph={{rows: 6}} title active />}>
+        <Row {...attributes}>
+          {UniversalDashboard.renderComponent(content)}
+        </Row>
+      <ReactInterval callback={reload} enabled={attributes.autoRefresh} timeout={attributes.refreshInterval} />
+    </Suspense>
   );
 };
 

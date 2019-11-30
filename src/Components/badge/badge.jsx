@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 // import ReactInterval from "react-interval";
 import { Badge } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
-
+import '../../styles/index.less'
 
 const AntdBadge = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

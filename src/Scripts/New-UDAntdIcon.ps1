@@ -746,6 +746,8 @@ function New-UDAntdIcon {
         [Parameter()]
         [switch]$IsTwoTone,
         [Parameter()]
+        [switch]$Spin,
+        [Parameter()]
         [hashtable]$Style,
         [Parameter()]
         [object]$OnClick,
@@ -764,6 +766,15 @@ function New-UDAntdIcon {
             }
         }
 
+        $IconGroupName = if($Icon -match 'Fill'){
+            'fill'
+        }
+        elseif($Icon -match 'Outline'){
+            'outline'
+        }else{
+            'twotone'
+        }
+
         @{
             assetId        = $AssetId 
             isPlugin       = $true 
@@ -773,10 +784,12 @@ function New-UDAntdIcon {
             size           = $Size
             color          = $Color
             isTwoTone      = $IsTwoTone.IsPresent
+            spin           = $Spin.IsPresent
             primaryColor   = $PrimaryColor
             secondaryColor = $SecondaryColor
             style          = $Style
-            hasCallback = $null -ne $OnClick
+            hasCallback    = $null -ne $OnClick
+            iconGroupName = $IconGroupName
         }
 
     }

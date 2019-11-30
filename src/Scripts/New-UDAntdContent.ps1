@@ -11,11 +11,15 @@ function New-UDAntdContent {
     )
 
     End {
-
-        if ($null -eq  $Content ) {
-            throw "Content must NOT be empty."
+        if ($null -eq  $Content) {
+            if ($Content -is [scriptblock]) {
+                $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id
+            }
+            elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
+                throw "Content must be a script block or UDEndpoint"
+            }
         }
-            
+    
         $AntdContent = @{
             assetId   = $AssetId 
             isPlugin  = $true 

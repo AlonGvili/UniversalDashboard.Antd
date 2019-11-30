@@ -1,16 +1,6 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": [
-            ">0.5%",
-            "not dead"
-          ]
-        }
-      }
-    ],
+    "@babel/preset-env",
     "@babel/preset-react"
   ],
   "plugins": [
@@ -22,8 +12,7 @@
         "libraryName": "antd",
         "libraryDirectory": "es",
         "style": "css"
-      },
-      "ant"
+      },"ant"
     ]
   ]
 }

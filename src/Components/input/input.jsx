@@ -5,54 +5,56 @@ import useDashboardEvent from "../Hooks/useDashboardEvent";
 const AntdInput = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
   const { content, attributes } = state;
-
+  const { addonAfter, addonBefore, suffix, prefix, type, ...restOfProps } = attributes
   const inputRef = useRef();
 
   const onChange = event => {
-    attributes.hasOnChangeCallback ?
-    UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: attributes.id + "onChange",
-      eventName: "onChange",
-      eventData: JSON.stringify(event.target.value)
-    }) : null
+    restOfProps.hasOnChangeCallback ?
+      UniversalDashboard.publish("element-event", {
+        type: "clientEvent",
+        eventId: restOfProps.id + "onChange",
+        eventName: "onChange",
+        eventData: JSON.stringify(event.target.value)
+      }) : null
   };
 
   const onPressEnter = event => {
-    event.preventDefault()
-    UniversalDashboard.post(`/api/internal/component/element/${attributes.id }`, event.target.value , result => {
-      result.error ? console.log('result.error', result.error) : null
-    })
+    restOfProps.hasOnPressEnterCallback ?
+      (event.preventDefault(),
+        UniversalDashboard.post(`/api/internal/component/element/${restOfProps.id}`, event.target.value, result => {
+          result.error ? console.log('result.error', result.error) : null
+        })) : null
   };
 
   const prefix_suffix = {
-    prefix: UniversalDashboard.renderComponent(attributes.prefix),
-    suffix: UniversalDashboard.renderComponent(attributes.suffix)
+    prefix: UniversalDashboard.renderComponent(prefix),
+    suffix: UniversalDashboard.renderComponent(suffix)
   };
 
   const addons = {
     addonBefore:
-      attributes.addonBefore !== null
-        ? attributes.addonBefore.type
-          ? UniversalDashboard.renderComponent(attributes.addonBefore)
-          : attributes.addonBefore
+      addonBefore !== null
+        ? addonBefore.type
+          ? UniversalDashboard.renderComponent(addonBefore)
+          : addonBefore
         : null,
     addonAfter:
-      attributes.addonAfter !== null
-        ? attributes.addonAfter.type
-          ? UniversalDashboard.renderComponent(attributes.addonAfter)
-          : attributes.addonAfter
+      addonAfter !== null
+        ? addonAfter.type
+          ? UniversalDashboard.renderComponent(addonAfter)
+          : addonAfter
         : null
   };
 
   return (
     <Input
-      {...attributes}
+      {...restOfProps}
       {...addons}
       {...prefix_suffix}
+      type="text"
+      // ref={inputRef}
       onChange={onChange}
       onPressEnter={onPressEnter}
-      ref={inputRef}
     />
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Menu } from "antd";
 import useDashboardEvent from '../Hooks/useDashboardEvent'
+import '../../styles/index.less'
 
 const AntdMenuItem = props => {
 

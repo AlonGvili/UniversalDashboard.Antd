@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Card } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
 import ReactInterval from "react-interval";
+import '../../styles/index.less'
 
 const renderTabContent = (tabKey, tabs) => {
   const tabContent = tabs.find(item => item.key === tabKey);

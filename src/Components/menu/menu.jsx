@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import { Menu } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent";
+import '../../styles/index.less'
 
 const AntdMenu = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
@@ -8,7 +9,6 @@ const AntdMenu = props => {
   const [current, setCurrent] = useState(attributes.defaultSelectedKeys ? attributes.defaultSelectedKeys : null)
 
   const onSelect = event => {
-    console.log(event)
     setCurrent(event.key);
   };
 

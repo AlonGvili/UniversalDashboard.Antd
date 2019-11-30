@@ -61,6 +61,7 @@ function New-UDAntdInput {
             size = $Size
             hasCallback = $null -ne $OnPressEnter
             hasOnChangeCallback = $null -ne $onChange
+            hasOnPressEnterCallback = $null -ne $OnPressEnter
             prefix = $Prefix
             suffix = $Suffix
             addonBefore = $AddonBefore

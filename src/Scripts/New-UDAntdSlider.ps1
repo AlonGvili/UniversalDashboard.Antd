@@ -6,8 +6,6 @@ function New-UDAntdSlider {
         [string]$Id = (New-Guid).ToString(),
         [Parameter(HelpMessage="A class name for the control use this to style the control using UDTheme.")]
         [string]$ClassName,
-        [Parameter(HelpMessage="Set the OnChange scriptblock to be udendpoint and regidter as endpoint.")]
-        [switch]$IsEndpoint,
         [Parameter(HelpMessage="If true, the slider will not be interactable")]
         [switch]$Disabled,
         [Parameter(HelpMessage="Whether the thumb can drag over tick only")]
@@ -48,25 +46,18 @@ function New-UDAntdSlider {
         [Parameter(HelpMessage = "For styling the handle circle.")]
         [hashtable]$HandleStyle,
         [Parameter(HelpMessage = "For styling the dot circle only visible if dots switch is used.")]
-        [hashtable]$DotStyle,
-        [Parameter(HelpMessage = "When to re run the endpoint using New-UDEndpointSchedule command")]
-        [PSTypeName("UniversalDashboard.Models.EndpointSchedule")]$Schedule
+        [hashtable]$DotStyle
     )
 
     End {
 
         if ($null -ne $OnChange) {
-            if($IsEndpoint.IsPresent){
-                if ($OnChange -is [scriptblock] -and $null -ne $Schedule) {
-                    $OnChangeEndpoint = New-UDEndpoint -Endpoint $OnChange -Id ($Id + "onChange") -Schedule $Schedule
-                }
-                elseif ($OnChange -is [scriptblock] -and $null -eq $Schedule){
+                if ($OnChange -is [scriptblock]) {
                     $OnChangeEndpoint = New-UDEndpoint -Endpoint $OnChange -Id ($Id + "onChange") 
                 }
                 elseif ($OnChange -isnot [UniversalDashboard.Models.Endpoint]) {
                     throw "OnChange must be a script block or UDEndpoint"
-                }
-            }
+                }   
         }
 
         $UDAntdSlider = @{

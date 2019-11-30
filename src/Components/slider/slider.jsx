@@ -6,7 +6,7 @@ const UDAntdSlider = props => {
     const [state, reload] = useDashboardEvent(props.id, props);
     const { attributes } = state;
 
-    const { className, assetId, isPlugin, type, beforeIcon, afterIcon, handleStyle, dotStyle, railStyle, trackStyle, range, step, marks, ...restOfProps } = attributes
+    const { className, assetId, isPlugin, type, beforeIcon, afterIcon, handleStyle, dotStyle, railStyle, trackStyle, range, step, marks, defaultValue, dots, vertical, tooltipVisible, tooltipPlacement, ...restOfProps } = attributes
 
     const onChange = value => {
         console.log('Slider Value: ', value)
@@ -52,25 +52,30 @@ const UDAntdSlider = props => {
         },
     }
 
-    console.log('Marks: ', marks)
-
     const setSliderMarks = () => {
-    marks ? Object.entries(marks).forEach(([key, value]) => {
-            Object.defineProperty(marks,[key],{value: value.type ? UniversalDashboard.renderComponent(value) : value})
+        marks ? Object.entries(marks).forEach(([key, value]) => {
+            Object.defineProperty(marks, [key], { value: value.type ? UniversalDashboard.renderComponent(value) : value })
         }) : {}
-    return marks || {}
+        return marks || {}
     }
+
+    const sliderDefaultValue = {
+        defaultValue: defaultValue && range ? defaultValue :
+        defaultValue && !range ? defaultValue[0] :
+        !defaultValue && range ? [0,0] : 0
+    }
+
     const customSlider = beforeIcon || afterIcon
-            ? <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                width: '100%'
-            }}>
-                {UniversalDashboard.renderComponent(beforeIcon)}
-                <Slider className={`ud-antd-slider ${className}`} onChange={onChange} marks={setSliderMarks()} style={{width: 'inherit',marginLeft: 16, marginRight: 16}} range={range} step={step} {...sliderStyles} />
-                {UniversalDashboard.renderComponent(afterIcon)}
-            </div>
-            : <Slider className={`ud-antd-slider ${className}`} onChange={onChange} marks={setSliderMarks()} range={range} step={step} {...sliderStyles} />
+        ? <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            width: '100%'
+        }}>
+            {UniversalDashboard.renderComponent(beforeIcon)}
+            <Slider className={`ud-antd-slider ${className}`} onChange={onChange} {...sliderDefaultValue} vertical={vertical} dots={dots} marks={setSliderMarks()} style={{ width: 'inherit', marginLeft: 16, marginRight: 16 }} tooltipVisible={tooltipVisible} tooltipPlacement={tooltipPlacement} range={range} step={step} {...sliderStyles} {...restOfProps}/>
+            {UniversalDashboard.renderComponent(afterIcon)}
+        </div>
+        : <Slider className={`ud-antd-slider ${className}`} onChange={onChange} {...sliderDefaultValue} vertical={vertical} dots={dots} marks={setSliderMarks()} range={range} step={step} tooltipPlacement={tooltipPlacement} tooltipVisible={tooltipVisible} {...sliderStyles} />
 
     return <Suspense fallback={<Skeleton loading avatar={false} title={false} paragraph={{ rows: 1 }} />}>
         {customSlider}

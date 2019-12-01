@@ -20,18 +20,16 @@ const AntdPopover = props => {
       )
   )
 
-  return (
-    <Popover
+  return <Popover
       {...attributes}
       title={title}
       content={popContent}
       autoAdjustOverflow={true}
     >
       {attributes.children.map(item =>
-        !item.type ? item : UniversalDashboard.renderComponent(item)
+        item.type && UniversalDashboard.renderComponent(item) || item
       )}
     </Popover>
-  );
 };
 
 export default AntdPopover;

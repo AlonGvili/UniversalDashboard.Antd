@@ -43,7 +43,7 @@ const UDAntdIcon = ({id,...props}) => {
   };
 
   return <Suspense fallback={null}>
-      <AntIcon {...attributes} type={myIcon || QuestionCircleOutline} style={{ fontSize: fontSize[attributes.size], fill: attributes.isTwoTone ? null : attributes.color, ...attributes.style }} onClick={onClick} />
+      <AntIcon {...attributes} className="anticon" type={myIcon || QuestionCircleOutline} style={{ fontSize: fontSize[attributes.size], fill: attributes.isTwoTone ? null : attributes.color, ...attributes.style }} onClick={onClick} />
   </Suspense>
 }
 

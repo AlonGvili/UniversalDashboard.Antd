@@ -18,9 +18,9 @@ const AntdMenuItem = props => {
   };
 
   return (
-    <Menu.Item {...attributes} inlineIndent={48} onClick={onClick} >
+    <Menu.Item {...attributes} onClick={onClick} >
       {content.map(item =>
-        item.type ? UniversalDashboard.renderComponent(item) : item
+        item.type ? UniversalDashboard.renderComponent(item) : <span>{item}</span>
       )}
     </Menu.Item>
   );

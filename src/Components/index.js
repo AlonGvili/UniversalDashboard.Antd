@@ -39,6 +39,7 @@ const UDAntdCopyToClipboard = lazy(() => import( /* webpackChunkName: 'UDAntdCop
 const UDAntdAvatar = lazy(() => import( /* webpackChunkName: 'UDAntdAvatar' */ './avatar/avatar'))
 const UDAntdSlider = lazy(() => import( /* webpackChunkName: 'UDAntdSlider' */ './slider/slider'))
 const UDAntdNotification = lazy(() => import( /* webpackChunkName: 'UUDAntdNotification' */ './notification/notification'))
+const UDAntdSider = lazy(() => import( /* webpackChunkName: 'UUDAntdSider' */ './Layout/Sider'))
 
 UniversalDashboard.register("ud-antd-row", UDAntdRow);
 UniversalDashboard.register("ud-antd-col", UDAntdColumn);
@@ -78,3 +79,4 @@ UniversalDashboard.register("ud-antd-copy-button", UDAntdCopyToClipboard);
 UniversalDashboard.register("ud-antd-avatar", UDAntdAvatar);
 UniversalDashboard.register("ud-antd-slider", UDAntdSlider);
 UniversalDashboard.register("ud-antd-notification", UDAntdNotification);
+UniversalDashboard.register("ud-antd-sider", UDAntdSider);

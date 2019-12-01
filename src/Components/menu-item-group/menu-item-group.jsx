@@ -7,9 +7,9 @@ const AntdMenuItemGroup = props => {
   const { content, attributes } = state;
 
   return (
-    <Menu.ItemGroup {...attributes}>
+    <Menu.ItemGroup {...attributes} >
       {content.map(item =>
-        item.type ? UniversalDashboard.renderComponent(item) : item
+        item.type ? UniversalDashboard.renderComponent(item) : <span>{item}</span>
       )}
     </Menu.ItemGroup>
   );

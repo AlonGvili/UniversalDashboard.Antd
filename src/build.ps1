@@ -76,6 +76,7 @@ $manifestParameters = @{
         "New-UDAntdCopyToClipboard"
         "New-UDAntdAvatar"
         "New-UDAntdSlider"
+        "New-UDAntdNotification"
     )
 }
 

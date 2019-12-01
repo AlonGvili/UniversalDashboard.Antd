@@ -38,6 +38,7 @@ const UDAntdRadioGroup = lazy(() => import( /* webpackChunkName: 'UDAntdRadioGro
 const UDAntdCopyToClipboard = lazy(() => import( /* webpackChunkName: 'UDAntdCopyToClipboard' */ './copy-to-clipboard/copy-to-clipboard'))
 const UDAntdAvatar = lazy(() => import( /* webpackChunkName: 'UDAntdAvatar' */ './avatar/avatar'))
 const UDAntdSlider = lazy(() => import( /* webpackChunkName: 'UDAntdSlider' */ './slider/slider'))
+const UDAntdNotification = lazy(() => import( /* webpackChunkName: 'UUDAntdNotification' */ './notification/notification'))
 
 UniversalDashboard.register("ud-antd-row", UDAntdRow);
 UniversalDashboard.register("ud-antd-col", UDAntdColumn);
@@ -76,3 +77,4 @@ UniversalDashboard.register("ud-antd-radio-group", UDAntdRadioGroup);
 UniversalDashboard.register("ud-antd-copy-button", UDAntdCopyToClipboard);
 UniversalDashboard.register("ud-antd-avatar", UDAntdAvatar);
 UniversalDashboard.register("ud-antd-slider", UDAntdSlider);
+UniversalDashboard.register("ud-antd-notification", UDAntdNotification);

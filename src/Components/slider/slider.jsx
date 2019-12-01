@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense } from "react";
 import { Slider, Skeleton } from 'antd'
 import useDashboardEvent from "../Hooks/useDashboardEvent";
 
@@ -6,7 +6,7 @@ const UDAntdSlider = props => {
     const [state, reload] = useDashboardEvent(props.id, props);
     const { attributes } = state;
 
-    const { className, assetId, isPlugin, type, beforeIcon, afterIcon, handleStyle, dotStyle, railStyle, trackStyle, range, step, marks, defaultValue, dots, vertical, tooltipVisible, tooltipPlacement, ...restOfProps } = attributes
+    const { className, assetId, isPlugin, type, beforeIcon, afterIcon, handleStyle, dotStyle, railStyle, trackStyle, activeDotStyle, range, step, marks, defaultValue, dots, vertical, tooltipVisible, tooltipPlacement, allowCross, pushable, ...restOfProps } = attributes
 
     const onChange = value => {
         console.log('Slider Value: ', value)
@@ -50,6 +50,9 @@ const UDAntdSlider = props => {
             borderRadius: 2,
             transition: 'background-color .3s'
         },
+        activeDotStyle: activeDotStyle ? { ...activeDotStyle } : {
+            borderColor: '#8cc8ff',
+        },
     }
 
     const setSliderMarks = () => {
@@ -75,7 +78,7 @@ const UDAntdSlider = props => {
             <Slider className={`ud-antd-slider ${className}`} onChange={onChange} {...sliderDefaultValue} vertical={vertical} dots={dots} marks={setSliderMarks()} style={{ width: 'inherit', marginLeft: 16, marginRight: 16 }} tooltipVisible={tooltipVisible} tooltipPlacement={tooltipPlacement} range={range} step={step} {...sliderStyles} {...restOfProps}/>
             {UniversalDashboard.renderComponent(afterIcon)}
         </div>
-        : <Slider className={`ud-antd-slider ${className}`} onChange={onChange} {...sliderDefaultValue} vertical={vertical} dots={dots} marks={setSliderMarks()} range={range} step={step} tooltipPlacement={tooltipPlacement} tooltipVisible={tooltipVisible} {...sliderStyles} />
+        : <Slider className={`ud-antd-slider ${className}`} onChange={onChange} {...sliderDefaultValue} vertical={vertical} dots={dots} marks={setSliderMarks()} pushable={pushable} allowCross={allowCross} range={range} step={step} tooltipPlacement={tooltipPlacement} tooltipVisible={tooltipVisible} {...sliderStyles} />
 
     return <Suspense fallback={<Skeleton loading avatar={false} title={false} paragraph={{ rows: 1 }} />}>
         {customSlider}

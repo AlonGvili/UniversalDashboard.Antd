@@ -77,6 +77,7 @@ $manifestParameters = @{
         "New-UDAntdAvatar"
         "New-UDAntdSlider"
         "New-UDAntdNotification"
+        "New-UDAntdMessage"
         "New-UDAntdSider"
     )
 }

@@ -4,42 +4,54 @@ import { Statistic } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent";
 
 const AntdStatistic = props => {
+  return <Statistic {...props}/>
+}
+
+const AntdStatisticCountdown = props => {
+  return <Statistic.Countdown {...props}/>
+}
+
+const UDAntdStatistic = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+  const { attributes } = state;
+  const { title, suffix, prefix, format, value, parameterSetName, valueStyle, precision, groupSeparator, decimalSeparator, autoRefresh, refreshInterval, style, className } = attributes
 
-  const setPrefix = () =>
-    prefix.map(item =>
-      item.type ? UniversalDashboard.renderComponent(item) : item
-    );
+  const onFinish = value => {
+    attributes.hasCallback ?
+      UniversalDashboard.publish("element-event", {
+        type: "clientEvent",
+        eventId: attributes.id + "onFinish",
+        eventName: "onFinish",
+        eventData: Array.isArray(value) ? value.toString() : value
+      }) : null
+  };
 
-  const setSuffix = () =>
-    suffix.map(item =>
-      item.type ? UniversalDashboard.renderComponent(item) : item
-    );
+ const statisticMainProps = {
+   title: title && title.type && UniversalDashboard.renderComponent(title) || title,
+   prefix: prefix && prefix.type && UniversalDashboard.renderComponent(prefix) || prefix,
+   suffix: suffix && suffix.type && UniversalDashboard.renderComponent(suffix) || suffix,
+  value: value[0]
+ }
 
-  const setTitle = () =>
-    title.map(item =>
-      item.type ? UniversalDashboard.renderComponent(item) : item
-    );
-
+ const statisticStyles = {
+   style: {...style},
+   valueStyle: {...valueStyle}
+ }
 
   return (
     <Fragment>
-      <Statistic
-        id={attributes.id}
-        title={setTitle}
-        value={attributes.value}
-        prefix={setPrefix}
-        suffix={setSuffix}
-        {...attributes}
-      />
+      {
+        parameterSetName == 'Countdown'
+        ?  <AntdStatisticCountdown {...statisticMainProps} onFinish={onFinish} format={format} {...statisticStyles}/>
+        : <AntdStatistic {...statisticMainProps} {...statisticStyles} groupSeparator={groupSeparator} decimalSeparator={decimalSeparator} precision={precision}/>
+      }
       <ReactInterval
         callback={reload}
-        enabled={attributes.autoRefresh}
-        timeout={attributes.refreshInterval}
+        enabled={autoRefresh}
+        timeout={refreshInterval}
       />
     </Fragment>
   );
 };
 
-export default AntdStatistic;
+export default UDAntdStatistic;

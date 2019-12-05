@@ -39,13 +39,5 @@ steps:
     changeLogType: issueBased
     title: UniversalDashboard.Antd
 
-- task: PowerShell@2
-  displayName: 'Push Toast Notification'
-  inputs:
-    targetType: 'inline'
-    script: |
-      Invoke-RestMethod -Method Post -Uri http://916f9e7a.ngrok.io/api/Notification -Body @{
-      Time = (Get-Date).ToString(); Message = "Finish to build the module - v.1.0.$(Build.BuildId)"}
-
 
 

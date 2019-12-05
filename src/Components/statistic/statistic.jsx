@@ -42,8 +42,8 @@ const UDAntdStatistic = props => {
     <Fragment>
       {
         parameterSetName == 'Countdown'
-        ?  <AntdStatisticCountdown {...statisticMainProps} onFinish={onFinish} format={format} {...statisticStyles}/>
-        : <AntdStatistic {...statisticMainProps} {...statisticStyles} groupSeparator={groupSeparator} decimalSeparator={decimalSeparator} precision={precision}/>
+        ?  <AntdStatisticCountdown className={`ud-antd-statistic ${className}`} {...statisticMainProps} onFinish={onFinish} format={format} {...statisticStyles}/>
+          : <AntdStatistic className={`ud-antd-statistic ${className}`} {...statisticMainProps} {...statisticStyles} groupSeparator={groupSeparator} decimalSeparator={decimalSeparator} precision={precision}/>
       }
       <ReactInterval
         callback={reload}

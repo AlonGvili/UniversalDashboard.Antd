@@ -15,7 +15,9 @@ function New-UDAntdComment {
         [Parameter(HelpMessage = "Use content for adding nested comments as children of the Comment.")]
         [scriptblock]$Content,
         [Parameter(HelpMessage = "The main content of the comment.")]
-        [object]$Message,
+        [scriptblock]$Message,
+        [Parameter(HelpMessage = "The date time to display.")]
+        [string]$DateTime,
         [Parameter(HelpMessage = "Set comment css style.")]
         [hashtable]$Style
     )
@@ -35,19 +37,29 @@ function New-UDAntdComment {
             $CommentContent = @()
         }
 
+        if ($null -ne $Message) {
+            $CommentMessage = $Message.Invoke() 
+        }
+        else{
+            $Message = {''}
+            $CommentMessage = $Message.Invoke() 
+        }
+
         $UDAntdComment = @{
             assetId   = $AssetId 
             isPlugin  = $true 
             type      = "ud-antd-comment"
             id        = $Id
+            key       = (New-Guid).ToString()
             content   = $CommentContent
-            message   = $Message
+            message   = $CommentMessage
             className = $ClassName
             avatar    = $Avatar
             style     = $Style
             # hasCallback = $null -ne $OnClose
             author    = $Author
             actions   = $Actions
+            datetime = $DateTime
         }
         $UDAntdComment.PSTypeNames.Insert(0, 'UDAntd.Comment')
         $UDAntdComment

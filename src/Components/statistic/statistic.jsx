@@ -13,8 +13,8 @@ const AntdStatisticCountdown = props => {
 
 const UDAntdStatistic = props => {
   const [state, reload] = useDashboardEvent(props.id, props);
-  const { attributes } = state;
-  const { title, suffix, prefix, format, value, parameterSetName, valueStyle, precision, groupSeparator, decimalSeparator, autoRefresh, refreshInterval, style, className } = attributes
+  const { content, attributes } = state;
+  const { title, suffix, prefix, format, parameterSetName, valueStyle, precision, groupSeparator, decimalSeparator, autoRefresh, refreshInterval, style, className } = attributes
 
   const onFinish = value => {
     attributes.hasCallback ?
@@ -30,7 +30,7 @@ const UDAntdStatistic = props => {
    title: title && title.type && UniversalDashboard.renderComponent(title) || title,
    prefix: prefix && prefix.type && UniversalDashboard.renderComponent(prefix) || prefix,
    suffix: suffix && suffix.type && UniversalDashboard.renderComponent(suffix) || suffix,
-  value: value[0]
+  value: content[0]
  }
 
  const statisticStyles = {

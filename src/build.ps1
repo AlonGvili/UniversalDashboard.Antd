@@ -80,6 +80,8 @@ $manifestParameters = @{
         "New-UDAntdMessage"
         "New-UDAntdSider"
         "New-UDAntdComment"
+        "New-UDAntdSteps"
+        "New-UDAntdStep"
     )
 }
 

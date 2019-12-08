@@ -14,11 +14,11 @@ function New-UDAntdStatistic {
         [object]$Title,
         [Parameter(HelpMessage = "prefix node of value")]
         [object]$Prefix,
-        [Parameter(HelpMessage="Is the value scriptblock is register as ud endpoint")]
+        [Parameter(HelpMessage = "Is the value scriptblock is register as ud endpoint")]
         [switch]$IsEndpoint,
-        [Parameter(HelpMessage="Do autorefresh the value scriptblock.")]
+        [Parameter(HelpMessage = "Do autorefresh the value scriptblock.")]
         [switch]$AutoRefresh,
-        [Parameter(HelpMessage="When in ms to rerun the value scriptblock.")]
+        [Parameter(HelpMessage = "When in ms to rerun the value scriptblock.")]
         [int]$RefreshInterval = 5000,
         [Parameter(HelpMessage = "precision of input value", ParameterSetName = "Statistic")]
         [int]$Precision,
@@ -26,7 +26,7 @@ function New-UDAntdStatistic {
         [string]$GroupSeparator,
         [Parameter(HelpMessage = "decimal separator", ParameterSetName = "Statistic")]
         [string]$DecimalSeparator,
-        [Parameter(HelpMessage="Set the component main css style.")]
+        [Parameter(HelpMessage = "Set the component main css style.")]
         [hashtable]$Style,
         [Parameter(HelpMessage = "Set value css style")]
         [hashtable]$ValueStyle,
@@ -74,7 +74,7 @@ function New-UDAntdStatistic {
             prefix           = $Prefix
             suffix           = $Suffix
             title            = $Title
-            value            = $Value.Invoke()
+            content          = $Value.Invoke()
             valueStyle       = $ValueStyle
             format           = $Format
             hasCallback      = $null -ne $OnFinish

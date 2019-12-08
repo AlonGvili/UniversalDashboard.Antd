@@ -42,6 +42,8 @@ const UDAntdNotification = lazy(() => import( /* webpackChunkName: 'UDAntdNotifi
 const UDAntdMessage = lazy(() => import( /* webpackChunkName: 'UDAntdMessage' */ './message/message'))
 const UDAntdSider = lazy(() => import( /* webpackChunkName: 'UDAntdSider' */ './Layout/Sider'))
 const UDAntdComment = lazy(() => import( /* webpackChunkName: 'UDAntdComment' */ './comment/comment'))
+const UDAntdSteps = lazy(() => import( /* webpackChunkName: 'UDAntdSteps' */ './steps/steps'))
+const UDAntdStep = lazy(() => import( /* webpackChunkName: 'UDAntdStep' */ './steps/step'))
 
 UniversalDashboard.register("ud-antd-row", UDAntdRow);
 UniversalDashboard.register("ud-antd-col", UDAntdColumn);
@@ -84,3 +86,5 @@ UniversalDashboard.register("ud-antd-notification", UDAntdNotification);
 UniversalDashboard.register("ud-antd-message", UDAntdMessage);
 UniversalDashboard.register("ud-antd-sider", UDAntdSider);
 UniversalDashboard.register("ud-antd-comment", UDAntdComment);
+UniversalDashboard.register("ud-antd-steps", UDAntdSteps);
+UniversalDashboard.register("ud-antd-step", UDAntdStep);

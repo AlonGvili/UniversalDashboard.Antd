@@ -57,7 +57,7 @@ export default function useDashboardEvent(elementId, initialState) {
       // Remove-UDElement
       case REMOVE_ELEMENT:
         setState(state => {
-          let newStateContent = state.content;
+          let newStateContent = state.content
           newStateContent.splice(-1, 1);
           return {
             ...state,

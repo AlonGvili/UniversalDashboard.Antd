@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Steps, Button, Icon } from 'antd'
+import {  } from 'antd/es/style'
 import useDashboardEvent from "../Hooks/useDashboardEvent";
+
+const CustomStep = props => {
+    const onClick = () => {
+        UniversalDashboard.publish("element-event", {
+        type: "stepInfo",
+        step: props
+        })
+    }
+    return <Steps.Step  {...props} title={props.status === "error" && props.errorMessage || props.title} icon={
+        props.status === "process" && <Icon type="loading" style={{ color: '#fff', backgroundColor: '#1890ff', padding: 8, borderRadius: '50%', fontSize: 16 }} />
+    } subTitle={`are you active: ${ props.active && 'Yea' || 'Nope'}`} onClick={onClick} />
+}
 
 export default function UDAntdSteps(props) {
     const [state, reload] = useDashboardEvent(props.id, props);
     const { content, attributes } = state;
     const [currentStep, setCurrentStep] = useState(0)
+    const [hasError, setHasError] = useState(false)
     const [stepContent, setStepContent] = useState(content[currentStep].content)
     const { id, variant, hasCallback, icons, ...restOfProps } = attributes
 
@@ -13,31 +27,31 @@ export default function UDAntdSteps(props) {
         setStepContent(content[currentStep].content)
     }, [currentStep])
 
-    const getSteps = () => {
-        let steps = content.map((step, index) => {
-            return <Steps.Step {...step} status={index === currentStep && "process"} icon={index === currentStep && <Icon type="loading" style={{color: '#fff', backgroundColor: '#1890ff', padding: 8, borderRadius: '50%', fontSize: 16}}/>} subTitle={index === currentStep && 'process...'}/>
-        })
-        return steps
+    const next = () => {
+        setCurrentStep(currentStep + 1)
     }
 
-    const next = () => {
-        setCurrentStep(currentStep => currentStep + 1)
+    const setError = () => {
+        setHasError(err => !err)
     }
 
     const previous = () => {
-        setCurrentStep(currentStep => currentStep - 1)
+        setCurrentStep(currentStep - 1)
     }
 
-
-
-    return <div style={{width: '100%'}}>
+    return <div style={{ width: '100%' }}>
         <Steps
             {...restOfProps}
             id={id}
+            status={hasError && "error" || "process"}
             current={currentStep}
             type={variant}
         >
-            {getSteps()}
+            {
+                content.map((step, index) => {
+                    return <CustomStep {...step} />
+                })
+            }
         </Steps>
         <div className="steps-content" style={{
             marginTop: 16,
@@ -49,8 +63,9 @@ export default function UDAntdSteps(props) {
             paddingTop: 80
         }}>{UniversalDashboard.renderComponent(stepContent)}</div>
         <div className="steps-actions" style={{ marginTop: 24 }}>
-            <Button type="primary" onClick={() => next()} children="Next" disabled={currentStep === content.length - 1} />
-            <Button type="primary" onClick={() => previous()} children="Previous" disabled={currentStep <= 0} hidden={currentStep <= 0}/>
+            <Button type="primary" onClick={() => next()} children="Next" disabled={currentStep === content.length - 1} style={{marginRight: 8}}/>
+            <Button type="primary" onClick={() => setError()} children="SetError" disabled={currentStep !== 1} style={{marginRight: 8}}/>
+            <Button type="primary" onClick={() => previous()} children="Previous" disabled={currentStep <= 0} hidden={currentStep <= 0} style={{marginRight: 8}}/>
         </div>
     </div>
 }

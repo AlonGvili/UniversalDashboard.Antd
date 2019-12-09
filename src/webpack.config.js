@@ -1,37 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
 var TerserPlugin = require('terser-webpack-plugin');
-const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 
 var BUILD_DIR = path.resolve(__dirname, 'public');
 var SRC_DIR = path.resolve(__dirname);
 var APP_DIR = path.resolve(__dirname, 'src/app');
-
-const options = {
-	antDir: path.join(__dirname, './node_modules/antd'),
-	stylesDir: path.join(__dirname, './styles'),
-	varFile: path.join(__dirname, './styles/variables.less'),
-	mainLessFile: path.join(__dirname, './styles/index.less'),
-	themeVariables: [
-		'@primary-color',
-		'@layout-header-background',
-		'@bg-color',
-		'@component-background',
-		'@btn-primary-bg',
-		'@menu-bg',
-		'@btn-default-bg',
-		'@btn-default-color',
-		'@card-background',
-		'@card-actions-background',
-		'@card-head-background',
-		'@menu-item-active-bg'
-	],
-	indexFileName: 'index.html',
-	generateOnce: false,
-	lessUrl: 'less.js',
-	publicPath: '/'
-};
-const themePlugin = new AntDesignThemePlugin(options);
 
 module.exports = {
 	mode: 'production',
@@ -55,7 +28,7 @@ module.exports = {
 			minChunks: 1,
 			maxAsyncRequests: 5,
 			maxInitialRequests: 3,
-			automaticNameDelimiter: '~',
+			automaticNameDelimiter: '-',
 			automaticNameMaxLength: 30,
 			name: true,
 			cacheGroups: {
@@ -75,10 +48,13 @@ module.exports = {
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
+				cache: true,
+				extractComments: true,
 				terserOptions: {
 					sourceMap: true,
+					keep_classnames: true,
 					compress: {
-						drop_console: false
+						drop_console: false,
 					}
 				}
 			})
@@ -104,7 +80,6 @@ module.exports = {
 			},
 		]
 	},
-	plugins: [themePlugin],
 	externals: {
 		UniversalDashboard: 'UniversalDashboard',
 		react: 'react',

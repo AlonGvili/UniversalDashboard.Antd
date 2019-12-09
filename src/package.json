@@ -20,6 +20,7 @@
         "aphrodite": "^2.4.0",
         "match-sorter": "^4.0.2",
         "moment": "^2.24.0",
+        "rc-footer": "^0.6.2",
         "rc-queue-anim": "^1.8.3",
         "rc-tween-one": "^2.6.5",
         "react": "^16.12.0",

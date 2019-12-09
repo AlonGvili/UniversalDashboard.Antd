@@ -29,6 +29,8 @@ function New-UDAntdStep {
         [int]$RefreshInterval = 5000,
         [Parameter(HelpMessage = "content above tail.")]
         [string]$TailContent,
+        [Parameter(HelpMessage = "Custom error message on step error.")]
+        [string]$ErrorMessage,
         [Parameter(HelpMessage = "set icon of step item.")]
         [object]$Icon,
         [Parameter(HelpMessage = "Set css style on the main container.")]
@@ -66,6 +68,7 @@ function New-UDAntdStep {
             description     = $Description
             tailContent     = $TailContent
             disabled        = $Disabled.IsPresent
+            errorMessage = $ErrorMessage
             # autorefresh     = $AutoRefresh.IsPresent
             # refreshInterval = $RefreshInterval
         }

@@ -1,5 +1,4 @@
 import { lazy } from 'react'
-import '../styles/index.less'
 
 const UDAntdMenu = lazy(() => import( /* webpackChunkName: 'UDAntdMenu' */ "./menu/menu.jsx"))
 const UDAntdMenuItem = lazy(() => import( /* webpackChunkName: 'UDAntdMenuItem' */ "./menu-item/menu-item.jsx"))
@@ -44,6 +43,7 @@ const UDAntdSider = lazy(() => import( /* webpackChunkName: 'UDAntdSider' */ './
 const UDAntdComment = lazy(() => import( /* webpackChunkName: 'UDAntdComment' */ './comment/comment'))
 const UDAntdSteps = lazy(() => import( /* webpackChunkName: 'UDAntdSteps' */ './steps/steps'))
 const UDAntdStep = lazy(() => import( /* webpackChunkName: 'UDAntdStep' */ './steps/step'))
+const UDAntdFooter = lazy(() => import( /* webpackChunkName: 'UDAntdFooter' */ './footer/footer'))
 
 UniversalDashboard.register("ud-antd-row", UDAntdRow);
 UniversalDashboard.register("ud-antd-col", UDAntdColumn);
@@ -88,3 +88,4 @@ UniversalDashboard.register("ud-antd-sider", UDAntdSider);
 UniversalDashboard.register("ud-antd-comment", UDAntdComment);
 UniversalDashboard.register("ud-antd-steps", UDAntdSteps);
 UniversalDashboard.register("ud-antd-step", UDAntdStep);
+UniversalDashboard.register("ud-antd-footer", UDAntdFooter);

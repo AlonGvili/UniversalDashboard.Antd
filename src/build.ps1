@@ -82,6 +82,9 @@ $manifestParameters = @{
         "New-UDAntdComment"
         "New-UDAntdSteps"
         "New-UDAntdStep"
+        "New-UDAntdFooter"
+        "New-UDAntdFooterColumn"
+        "New-UDAntdFooterColumnItem"
     )
 }
 

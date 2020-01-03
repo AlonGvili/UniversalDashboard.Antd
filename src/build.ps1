@@ -1,3 +1,7 @@
+Param(
+    [Parameter()]
+    [switch]$Minimal
+)
 $BuildFolder = $PSScriptRoot
 
 $powerShellGet = Import-Module PowerShellGet  -PassThru -ErrorAction Ignore
@@ -16,7 +20,11 @@ Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Re
 New-Item -Path $OutputPath -ItemType Directory
 
 # & cyclonedx-bom -o antd.bom.xml
-npm install
+if(!$Minimal){
+    npm install
+    npm run auditfix
+}
+
 npm run build
 
 Copy-Item $BuildFolder\public $OutputPath\jsfiles -Recurse -Force
@@ -26,7 +34,7 @@ Copy-Item $BuildFolder\UniversalDashboard.Antd.psm1 $OutputPath
 
 Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Recurse
 
-$Version = "1.0.0"
+$Version = "0.50.0"
 
 $manifestParameters = @{
     Path              = "$OutputPath\UniversalDashboard.Antd.psd1"
@@ -85,6 +93,11 @@ $manifestParameters = @{
         "New-UDAntdFooter"
         "New-UDAntdFooterColumn"
         "New-UDAntdFooterColumnItem"
+        "New-UDAntdTable"
+        "New-UDAntdTableColumn"
+        "New-UDAntdForm"
+        "New-UDAntdFormItem"
+        "Show-UDAntdThemeButton"
     )
 }
 

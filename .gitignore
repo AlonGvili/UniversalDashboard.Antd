@@ -29,3 +29,5 @@ bin-release/
 /src/Components/resets
 /src/Components/Monitors
 /src/Components/General/autocomplete.jsx.old
+/src/Components/comment/api.jsx
+/src/Scripts/Remove-UDAntdComment.ps1

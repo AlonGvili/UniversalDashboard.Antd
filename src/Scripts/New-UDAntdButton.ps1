@@ -59,6 +59,7 @@ function New-UDAntdButton {
             loading = $Loading.IsPresent
             shape = $Shape
             size = $Size
+            hasCallback = $null -ne $OnClick
             buttonType = $ButtonType
             block = $FullWidth.IsPresent
             label = $Label

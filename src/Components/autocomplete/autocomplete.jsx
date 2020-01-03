@@ -1,7 +1,8 @@
 import React, { useState, Fragment } from "react";
-import { Input, AutoComplete, Empty } from "antd";
+import { InputProps as Input } from "antd/es/";
+import AutoComplete from "antd/es/auto-complete";
+import Empty from "antd/es/empty";
 import { useDashboardEvent } from "../Hooks/index";
-import AntdInput from '../input/input'
 import matchSorter from 'match-sorter'
 import ReactInterval from 'react-interval'
 
@@ -47,27 +48,42 @@ const UDAntdAutoComplete = props => {
     dropdownMatchSelectWidth: true,
   }
 
-  const input = customInput
-    ? <Input
+  const input = customInput ? (
+    <Input
       {...customInput}
-      addonBefore={customInput.addBefore && UniversalDashboard.renderComponent(customInput.addBefore)}
-      addonAfter={customInput.addonAfter && UniversalDashboard.renderComponent(customInput.addonAfter)}
-      suffix={UniversalDashboard.renderComponent(customInput.suffix)}
-      prefix={UniversalDashboard.renderComponent(customInput.prefix)}
+      addonBefore={
+        customInput.addBefore &&
+        UniversalDashboard.renderComponent(customInput.addBefore)
+      }
+      addonAfter={
+        customInput.addonAfter &&
+        UniversalDashboard.renderComponent(customInput.addonAfter)
+      }
+      suffix={
+        customInput.suffix &&
+        UniversalDashboard.renderComponent(customInput.suffix)
+      }
+      prefix={customInput.prefix && UniversalDashboard.renderComponent(
+        customInput.prefix
+      )}
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: "#fff",
         ...customInput.style
       }}
-      />
-    : <Input style={{
-      width: "100%",
-      minHeight: 64,
-      fontSize: 24,
-      backgroundColor: '#fff',
-      color: '#333',
-      borderColor: '#f6f6f6',
-      ...inputStyle
-    }} />
+    />
+  ) : (
+    <Input
+      style={{
+        width: "100%",
+        minHeight: 64,
+        fontSize: 24,
+        backgroundColor: "#fff",
+        color: "#333",
+        borderColor: "#f6f6f6",
+        ...inputStyle
+      }}
+    />
+  );
 
   return <Fragment>
     <AutoComplete {...autoCompleteProps} {...autoCompleteStyles} children={input} />

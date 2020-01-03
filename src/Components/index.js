@@ -1,4 +1,5 @@
-import { lazy } from 'react'
+import React,{ lazy } from 'react'
+import 'antd/lib/style/index.less';
 
 const UDAntdMenu = lazy(() => import( /* webpackChunkName: 'UDAntdMenu' */ "./menu/menu.jsx"))
 const UDAntdMenuItem = lazy(() => import( /* webpackChunkName: 'UDAntdMenuItem' */ "./menu-item/menu-item.jsx"))
@@ -44,6 +45,9 @@ const UDAntdComment = lazy(() => import( /* webpackChunkName: 'UDAntdComment' */
 const UDAntdSteps = lazy(() => import( /* webpackChunkName: 'UDAntdSteps' */ './steps/steps'))
 const UDAntdStep = lazy(() => import( /* webpackChunkName: 'UDAntdStep' */ './steps/step'))
 const UDAntdFooter = lazy(() => import( /* webpackChunkName: 'UDAntdFooter' */ './footer/footer'))
+const UDAntdTable = lazy(() => import( /* webpackChunkName: 'UDAntdTable' */ './table/table'))
+const UDAntdForm = lazy(() => import( /* webpackChunkName: 'UDAntdForm' */ './form/form'))
+const UDAntdThemeButton = lazy(() => import( /* webpackChunkName: 'UDAntdThemeButton' */ './theme/theme'))
 
 UniversalDashboard.register("ud-antd-row", UDAntdRow);
 UniversalDashboard.register("ud-antd-col", UDAntdColumn);
@@ -89,3 +93,7 @@ UniversalDashboard.register("ud-antd-comment", UDAntdComment);
 UniversalDashboard.register("ud-antd-steps", UDAntdSteps);
 UniversalDashboard.register("ud-antd-step", UDAntdStep);
 UniversalDashboard.register("ud-antd-footer", UDAntdFooter);
+UniversalDashboard.register("ud-antd-table", UDAntdTable);
+UniversalDashboard.register("ud-antd-form", UDAntdForm);
+UniversalDashboard.register("ud-antd-theme-button", UDAntdThemeButton);
+

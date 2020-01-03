@@ -1,28 +1,25 @@
 import React from "react";
 import { Button } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
-import '../../styles/index.less'
+import 'antd/es/button/style/index.less'
 
 const AntdButton = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
 
   const onClick = () => {
-    UniversalDashboard.publish("element-event", {
+    props.hasCallback ? UniversalDashboard.publish("element-event", {
       type: "clientEvent",
-      eventId: attributes.id + "onClick",
+      eventId: props.id + "onClick",
       eventName: "onClick",
       eventData: ""
-    });
+    }) : null
   };
 
   return (
     <Button
-      {...attributes}
-      htmlType="button"
-      type={attributes.buttonType}
+      {...props}
+      htmlType={props.htmlType}
+      type={props.buttonType}
       onClick={onClick}
-      children={attributes.label}
+      children={props.label}
     />
   );
 }

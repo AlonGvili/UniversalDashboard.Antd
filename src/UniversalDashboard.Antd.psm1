@@ -34,7 +34,7 @@ foreach ($item in $Css) {
     [UniversalDashboard.Services.AssetService]::Instance.RegisterAsset($item.FullName) | Out-Null
 }
 
-# Register all the source map files so we can make debugging easier.
+# Register all the less files so we can make debugging easier.
 foreach ($item in $Less) {
     [UniversalDashboard.Services.AssetService]::Instance.RegisterAsset($item.FullName) | Out-Null
 }

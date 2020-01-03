@@ -85,7 +85,7 @@ export default function useDashboardEvent(elementId, initialState) {
     }
   };
 
-  const reload = useCallback(() => {
+  const reload = () => {
     UniversalDashboard.get(
       `/api/internal/component/element/${elementId}`,
       data =>
@@ -96,7 +96,7 @@ export default function useDashboardEvent(elementId, initialState) {
           };
         })
     );
-  }, [elementId]);
+  };
 
   return [state, reload, setState];
 }

@@ -1,7 +1,6 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Layout, Skeleton, Spin } from "antd";
+import React, { Suspense } from "react";
+import { Layout, Spin } from "antd";
 import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
-import '../../styles/index.less'
 
 const AntdContent = props => {
   const [state, reload] = useDashboardEvent(props.id, props)

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Steps, Button, Icon } from 'antd'
-import {  } from 'antd/es/style'
 import useDashboardEvent from "../Hooks/useDashboardEvent";
 
 const CustomStep = props => {

@@ -1,50 +1,69 @@
-import React, { useEffect,useState, Suspense } from "react";
-import AntIcon from '@ant-design/icons-react'
-import {QuestionCircleOutline} from '@ant-design/icons'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import React, { useEffect, useState } from "react";
+import QuestionCircleOutline from "@ant-design/icons";
+import AntdIcon from "@ant-design/icons-react";
+import { getSecondaryColor } from "@ant-design/icons-react/lib/utils";
+import { Icon } from "antd";
 
-const UDAntdIcon = ({id,...props}) => {
-  const [state, reload] = useDashboardEvent(id, props);
-  const { content, attributes } = state;
-  const [myIcon, setIcon] = useState(null)
-
+const useAntdIcon = (groupName, iconName) => {
+  const [returnIcon, setReturnIcon] = useState(QuestionCircleOutline);
   useEffect(() => {
-    const getIcon = () => {
-      import(`@ant-design/icons/lib/${attributes.iconGroupName}/${attributes.icon}.js`).then(({ default: icon }) => {
-        setIcon(icon)
-      })
+    if (null == iconName) {
+      return;
     }
-    myIcon == null ? getIcon() : null
-  })
+    import(`@ant-design/icons/lib/${groupName}/${iconName}.js`).then(
+      ({ default: icon }) => {
+        setReturnIcon(icon);
+      }
+    );
+  }, [groupName, iconName]);
+
+  return returnIcon;
+};
+
+const UDAntdIcon = ({ id, iconGroupName, icon: name, isTwoTone, ...props }) => {
+  let ReturnIcon = useAntdIcon(iconGroupName, name);
+
+  let g = () => Icon.getTwoToneColor();
+
+  Icon.setTwoToneColor(localStorage.getItem("custom-antd-primary-color"));
 
   const onClick = event => {
-    attributes.hasCallback ?
-      UniversalDashboard.publish("element-event", {
-        type: "clientEvent",
-        eventId: attributes.id + "onClick",
-        eventName: "onClick",
-        eventData: JSON.stringify(attributes)
-      }) : null
+    props.hasCallback
+      ? UniversalDashboard.publish("element-event", {
+          type: "clientEvent",
+          eventId: id + "onClick",
+          eventName: "onClick",
+          eventData: JSON.stringify(props)
+        })
+      : null;
   };
 
   const fontSize = {
-    "xs": "0.75em",
-    "sm": "0.875em",
-    "lg": "1.33em",
-    "2x": "2em",
-    "3x": "3em",
-    "4x": "4em",
-    "5x": "5em",
-    "6x": "6em",
-    "7x": "7em",
-    "8x": "8em",
-    "9x": "9em",
-    "10x": "10em"
+    xs: 12,
+    sm: 14,
+    lg: 16,
+    "2x": 18,
+    "3x": 24,
+    "4x": 32,
+    "5x": 48,
+    "6x": 64
   };
 
-  return <Suspense fallback={null}>
-      <AntIcon {...attributes} className="anticon" type={myIcon || QuestionCircleOutline} style={{ fontSize: fontSize[attributes.size], fill: attributes.isTwoTone ? null : attributes.color, ...attributes.style }} onClick={onClick} />
-  </Suspense>
-}
+  return (
+    <Provider>
+      <AntdIcon
+        className="anticon"
+        type={ReturnIcon}
+        onClick={onClick}
+        style={{
+          fill: "var(--primary-color)",
+          fontSize: fontSize[props.size]
+        }}
+        primaryColor={isTwoTone ? "var(--primary-color)" : null}
+        secondaryColor={isTwoTone ? getSecondaryColor(g()) : null}
+      />
+    </Provider>
+  );
+};
 
 export default UDAntdIcon;

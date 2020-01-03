@@ -735,7 +735,7 @@ function New-UDAntdIcon {
         )]
         [string]$Icon,
         [Parameter ()]
-        [ValidateSet("xs", "sm", "lg", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x")]
+        [ValidateSet("xs", "sm", "lg", "2x", "3x", "4x", "5x", "6x")]
         [string]$Size = "sm",
         [Parameter( ParameterSetName = 'Color')]
         [string]$Color,

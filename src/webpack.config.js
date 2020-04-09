@@ -1,21 +1,8 @@
 var webpack = require("webpack");
 var path = require("path");
 var TerserPlugin = require("terser-webpack-plugin");
-const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
 
-const options = {
-  antDir: path.join(__dirname, "./node_modules/antd"),
-  stylesDir: path.join(__dirname, "./components/styles"),
-  varFile: path.join(__dirname, "./components/styles/variables.less"),
-  mainLessFile: path.join(__dirname, "./components/styles/index.less"),
-  themeVariables: ["@primary-color"],
-  indexFileName: "index.html",
-  generateOnce: false,
-  lessUrl: "less.js",
-  publicPath: ""
-};
-
-const themePlugin = new AntDesignThemePlugin(options);
+var darkTheme = require('@ant-design/dark-theme')
 
 var BUILD_DIR = path.resolve(__dirname, "public");
 var SRC_DIR = path.resolve(__dirname);
@@ -99,7 +86,7 @@ module.exports = {
         test: /\.less$/,
         use: [
           { loader: "css-loader" },
-          { loader: "less-loader", options: { javascriptEnabled: true } }
+          { loader: "less-loader", options: { javascriptEnabled: true, modifyVars: darkTheme } }
         ]
       },
       {
@@ -110,11 +97,13 @@ module.exports = {
     ]
   },
   plugins: [
-    themePlugin
+    
   ],
   externals: {
     UniversalDashboard: "UniversalDashboard",
-    react: "react"
+    react: "react",
+    'react-router-dom': 'reactrouterdom',
+    'theme-ui': 'themeui'
   },
   resolve: {
     extensions: [".js", ".jsx"],

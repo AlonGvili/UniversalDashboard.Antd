@@ -15,7 +15,6 @@ $Css = Get-ChildItem "$PSScriptRoot\jsfiles\*.css"
 $Less = Get-ChildItem "$PSScriptRoot\jsfiles\*.less"
 
 # Register the main script and get the AssetID
-# $AssetId = [UniversalDashboard.Services.AssetService]::Instance.RegisterScript($IndexJs.FullName)
 $AssetId = [UniversalDashboard.Services.AssetService]::Instance.RegisterAsset($IndexJs.FullName)
 [UniversalDashboard.Services.AssetService]::Instance.RegisterFramework("Antd", $AssetId)
 

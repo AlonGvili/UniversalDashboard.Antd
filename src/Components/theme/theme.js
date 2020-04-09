@@ -1,29 +1,34 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
-import DynamicAntdTheme, { getThemeColor } from "dynamic-antd-theme";
+import React from "react";
+import DynamicAntdTheme from "dynamic-antd-theme";
+import ReactIcon from '@ant-design/icons-react';
 
-let ThemeContext = React.createContext({primColor: ''})
+export const ThemeColors = {
+  pColor: '',
+  sColor: ''
+}
+
+const setTwoToneColor = (primaryColor) => {
+  return ReactIcon.setTwoToneColors({
+    primaryColor,
+  });
+}
+
 
 const UDAntdThemeButton = () => {
-  const theme = useContext(ThemeContext)
-  const [primaryColor, setPrimaryColor] = useState(
-    localStorage.getItem("custom-antd-primary-color") || "#1890d5"
-    );
-    const onChange = color => setPrimaryColor(color) 
-    useEffect(() => {
-    theme.primColor = primaryColor
-  }, [primaryColor])
 
-  return <DynamicAntdTheme themeChangeCallback={onChange}/>;
+  const changeColor = colorCode => {
+    setTwoToneColor(colorCode)
+    let colors = ReactIcon.getTwoToneColors();
+    ThemeColors.pColor = colors.primaryColor;
+    ThemeColors.sColor = colors.secondaryColor;
+    console.log("getTwoToneColors", ReactIcon.getTwoToneColors());
+    console.log("ThemeColors", ThemeColors);
+    window.less.modifyVars({
+      "@primary-color": colorCode
+    });
+  };
+
+  return <DynamicAntdTheme themeChangeCallback={color => changeColor(color)} />;
 };
 
-export const Provider = ({children}) => (
-         <ThemeContext.Provider
-           value={{
-             primColor: localStorage.getItem("custom-antd-primary-color")
-           }}
-         >
-           {children}
-         </ThemeContext.Provider>
-       );
-export { ThemeContext };
 export default UDAntdThemeButton;

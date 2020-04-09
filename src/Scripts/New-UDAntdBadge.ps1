@@ -1,66 +1,55 @@
 
 function New-UDAntdBadge {
-    [CmdletBinding(DefaultParameterSetName = 'Count')]
+    [CmdletBinding()]
     [OutputType('UDAntd.Badge')]
     param(
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [ValidateSet('success', 'processing', 'default', 'error', 'warning')]
         [string]$Status,
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [string]$Text,  
-        [Parameter(ParameterSetName = 'Count')]
+        [Parameter()]
         [int]$OverflowCount = 9999,
-        [Parameter(ParameterSetName = 'Count')]
+        [Parameter()]
         [object]$Count,
-        [Parameter(ParameterSetName = 'Count')]
-        [hashtable]$Style,
-        [Parameter(ParameterSetName = 'Count')]
+        [Parameter()]
+        [string]$Variant,
+        [Parameter()]
         [switch]$ShowZero,
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [switch]$Dot,
-        [Parameter(ParameterSetName = 'Dot')]
-        [string]$Color,
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [ValidateSet('pink', 'red', 'yellow', 'orange', 'cyan', 'green', 'blue', 'purple', 'geekblue', 'magenta', 'volcano', 'gold', 'lime')]
         [string]$PresetColor,  
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
         [string]$ClassName,
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [int[]]$OffSet,
-        [Parameter(ParameterSetName = 'Count')]
-        [Parameter(ParameterSetName = 'Dot')]
+        [Parameter()]
         [object]$Content
     )
 
     End {
-
-        if ($PSBoundParameters.ContainsKey('Color')) {
-            $SelectedColor = $Color
-        }
-        else {
-            $SelectedColor = $PresetColor
-        }
             
         $UDAntdBadge = @{
             assetId          = $AssetId 
             isPlugin         = $true 
             type             = "ud-antd-badge"
             id               = $Id
-            className        = $ClassName
-            offset           = $OffSet
-            showZero         = $ShowZero.IsPresent
+            # className        = $ClassName
+            # offset           = $OffSet
+            # showZero         = $ShowZero.IsPresent
             dot              = $Dot.IsPresent
-            overflowCount    = $OverflowCount
-            count            = $Count
-            status           = $Status
-            color            = $SelectedColor
-            style            = $Style
-            title            = $Title
+            # overflowCount    = $OverflowCount
+            # count            = $Count
+            # status           = $Status
+            color            = $PresetColor
+            # variant            = $Variant
+            # title            = $Title
             text             = $Text   
             content          = $Content
-            parameterSetName = $PSCmdlet.ParameterSetName
         }
         $UDAntdBadge.PSTypeNames.Insert(0, 'UDAntd.Badge')
         $UDAntdBadge

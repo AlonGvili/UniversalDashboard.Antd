@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 const SET_STATE = "setState";
 const REQUEST_STATE = "requestState";
@@ -16,8 +16,6 @@ export default function useDashboardEvent(elementId, initialState) {
   });
 
   useEffect(() => {
-    // console.log('UniversalDashboard Object: ', UniversalDashboard)
-    // console.log("ud event hook: ", state);
     const pubSubToken = UniversalDashboard.subscribe(elementId, events);
     return () => UniversalDashboard.unsubscribe(pubSubToken);
   });
@@ -26,13 +24,15 @@ export default function useDashboardEvent(elementId, initialState) {
     switch (event.type) {
       // Set-UDElement
       case SET_STATE:
+        const {content: newContent, ...newAttributes } = event.state
+        
         setState(state => {
           return {
-            attributes: { ...state.attributes, ...event.state.attributes },
-            content: event.state.content
-              ? Array.isArray(event.state.content)
-                ? event.state.content
-                : Array.from(event.state.content)
+            attributes: { ...state.attributes, ...newAttributes },
+            content: newContent
+              ? Array.isArray(newContent)
+                ? newContent
+                : Array.from(newContent)
               : state.content
           };
         });

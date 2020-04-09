@@ -1,99 +1,217 @@
-import React,{ lazy } from 'react'
-import 'antd/lib/style/index.less';
+import React, { lazy } from "react";
 
-const UDAntdMenu = lazy(() => import( /* webpackChunkName: 'UDAntdMenu' */ "./menu/menu.jsx"))
-const UDAntdMenuItem = lazy(() => import( /* webpackChunkName: 'UDAntdMenuItem' */ "./menu-item/menu-item.jsx"))
-const UDAntdSubMenu = lazy(() => import( /* webpackChunkName: 'UDAntdSubMenu' */ "./menu-sub-menu/menu-sub-menu.jsx"))
-const UDAntdMenuItemGroup = lazy(() => import( /* webpackChunkName: 'UDAntdMenuItemGroup' */ "./menu-item-group/menu-item-group.jsx"))
-const UDAntdMenuDivider = lazy(() => import( /* webpackChunkName: 'UDAntdMenuDivider' */ './menu-divider/menu-divider.jsx'))
-const UDAntdRow = lazy(() => import( /* webpackChunkName: 'UDAntdRow' */ './Grid/row'))
-const UDAntdColumn = lazy(() => import( /* webpackChunkName: 'UDAntdColumn' */ './Grid/column.jsx'))
-const UDAntdButton = lazy(() => import( /* webpackChunkName: 'UDAntdButton' */ './button/button.jsx'))
-const UDAntdButtonGroup = lazy(() => import( /* webpackChunkName: 'UDAntdButtonGroup' */ "./button-group/button-group.jsx"))
-const UDAntdSwitch = lazy(() => import( /* webpackChunkName: 'UDAntdSwitch' */  "./switch/switch.jsx"))
-const UDAntdTimeLine = lazy(() => import( /* webpackChunkName: 'UDAntdTimeLine' */ "./timeline/timeline.jsx"))
-const UDAntdTimeLineItem = lazy(() => import( /* webpackChunkName: 'UDAntdTimeLineItem' */ "./timeline/timelineItem.jsx"))
-const UDAntdDrawer = lazy(() => import( /* webpackChunkName: 'UDAntdDrawer' */ "./drawer/drawer.jsx"))
-const UDAntdCard = lazy(() => import( /* webpackChunkName: 'UDAntdCard' */ './card/card'))
-const UDAntdDescriptionList = lazy(() => import( /* webpackChunkName: 'UDAntdDescriptionList' */ "./description/description.jsx"))
-const UDAntdDescriptionListItem = lazy(() => import( /* webpackChunkName: 'UDAntdDescriptionListItem' */ "./description-item/description-item.jsx"))
-const UDAntdBadge = lazy(() => import( /* webpackChunkName: 'UDAntdBadge' */ "./badge/badge.jsx"))
-const UDAntdDropDown = lazy(() => import( /* webpackChunkName: 'UDAntdDropDown' */ "./dropdown/dropdown.jsx"))
-const UDAntdPopover = lazy(() => import( /* webpackChunkName: 'UDAntdPopover' */ "./popover/popover.jsx"))
-const UDAntdLayout = lazy(() => import( /* webpackChunkName: 'UDAntdLayout' */ "./Layout/Layout.jsx"))
-const UDAntdHeader = lazy(() => import( /* webpackChunkName: 'UDAntdHeader' */ './Layout/Header.jsx'))
-const UDAntdContent = lazy(() => import( /* webpackChunkName: 'UDAntdContent' */ './Layout/Content.jsx'))
-const UDAntdAutoComplete = lazy(() => import( /* webpackChunkName: 'UDAntdAutoComplete' */ "./autocomplete/autocomplete.jsx"))
-const UDAntdList = lazy(() => import( /* webpackChunkName: 'UDAntdHeader' */ "./list/list.jsx"))
-const UDAntdListItem = lazy(() => import( /* webpackChunkName: 'UDAntdHeader' */ "./listItem/listItem.jsx"))
-const UDAntdStatistic = lazy(() => import( /* webpackChunkName: 'UDAntdStatistic' */  "./statistic/statistic.jsx"))
-const UDAntdCarousel = lazy(() => import( /* webpackChunkName: 'UDAntdCarousel' */  "./carousel/carousel.jsx"))
-const UDAntdInput = lazy(() => import( /* webpackChunkName: 'UDAntdInput' */ "./input/input.jsx"))
-const UDAntdInputTextArea = lazy(() => import( /* webpackChunkName: 'UDAntdInputTextArea' */ "./input/textArea"))
-const UDAntdInputPassword = lazy(() => import( /* webpackChunkName: 'UDAntdInputPassword' */ "./input/password"))
-const UDAntdIcon = lazy(() => import( /* webpackChunkName: 'UDAntdIcon' */ './icon/icon'))
-const UDAntdRadio = lazy(() => import( /* webpackChunkName: 'UDAntdRadio' */ './radio/radio'))
-const UDAntdRadioButton = lazy(() => import( /* webpackChunkName: 'UDAntdRadioButton' */ './radio/radio-button'))
-const UDAntdRadioGroup = lazy(() => import( /* webpackChunkName: 'UDAntdRadioGroup' */ './radio/radio-group'))
-const UDAntdCopyToClipboard = lazy(() => import( /* webpackChunkName: 'UDAntdCopyToClipboard' */ './copy-to-clipboard/copy-to-clipboard'))
-const UDAntdAvatar = lazy(() => import( /* webpackChunkName: 'UDAntdAvatar' */ './avatar/avatar'))
-const UDAntdSlider = lazy(() => import( /* webpackChunkName: 'UDAntdSlider' */ './slider/slider'))
-const UDAntdNotification = lazy(() => import( /* webpackChunkName: 'UDAntdNotification' */ './notification/notification'))
-const UDAntdMessage = lazy(() => import( /* webpackChunkName: 'UDAntdMessage' */ './message/message'))
-const UDAntdSider = lazy(() => import( /* webpackChunkName: 'UDAntdSider' */ './Layout/Sider'))
-const UDAntdComment = lazy(() => import( /* webpackChunkName: 'UDAntdComment' */ './comment/comment'))
-const UDAntdSteps = lazy(() => import( /* webpackChunkName: 'UDAntdSteps' */ './steps/steps'))
-const UDAntdStep = lazy(() => import( /* webpackChunkName: 'UDAntdStep' */ './steps/step'))
-const UDAntdFooter = lazy(() => import( /* webpackChunkName: 'UDAntdFooter' */ './footer/footer'))
-const UDAntdTable = lazy(() => import( /* webpackChunkName: 'UDAntdTable' */ './table/table'))
-const UDAntdForm = lazy(() => import( /* webpackChunkName: 'UDAntdForm' */ './form/form'))
-const UDAntdThemeButton = lazy(() => import( /* webpackChunkName: 'UDAntdThemeButton' */ './theme/theme'))
+const AntdMenu = lazy(() =>
+  import(/* webpackChunkName: 'AntdMenu' */ "./menu/menu")
+);
+const AntdMenuItem = lazy(() =>
+  import(/* webpackChunkName: 'AntdMenuItem' */ "./menu-item/menu-item")
+);
+const AntdSubMenu = lazy(() =>
+  import(/* webpackChunkName: 'AntdSubMenu' */ "./menu-sub-menu/menu-sub-menu")
+);
+const AntdMenuItemGroup = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdMenuItemGroup' */ "./menu-item-group/menu-item-group"
+  )
+);
+const AntdMenuDivider = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdMenuDivider' */ "./menu-divider/menu-divider"
+  )
+);
+const AntdRow = lazy(() =>
+  import(/* webpackChunkName: 'AntdRow' */ "./Grid/row")
+);
+const AntdColumn = lazy(() =>
+  import(/* webpackChunkName: 'AntdColumn' */ "./Grid/column")
+);
+const AntdButton = lazy(() =>
+  import(/* webpackChunkName: 'AntdButton' */ "./button/button")
+);
+const AntdButtonGroup = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdButtonGroup' */ "./button-group/button-group"
+  )
+);
+const AntdSwitch = lazy(() =>
+  import(/* webpackChunkName: 'AntdSwitch' */ "./switch/switch")
+);
+const AntdTimeLine = lazy(() =>
+  import(/* webpackChunkName: 'AntdTimeLine' */ "./timeline/timeline")
+);
+const AntdTimeLineItem = lazy(() =>
+  import(/* webpackChunkName: 'AntdTimeLineItem' */ "./timeline/timelineItem")
+);
+const AntdDrawer = lazy(() =>
+  import(/* webpackChunkName: 'AntdDrawer' */ "./drawer/drawer")
+);
+const AntdCard = lazy(() =>
+  import(/* webpackChunkName: 'AntdCard' */ "./card/card")
+);
+const AntdDescriptionList = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdDescriptionList' */ "./description/description"
+  )
+);
+const AntdDescListItem = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdDescriptionListItem' */ "./description-item/description-item"
+  )
+);
+const AntdBadge = lazy(() =>
+  import(/* webpackChunkName: 'AntdBadge' */ "./badge/antdBadge")
+);
+const AntdDropDown = lazy(() =>
+  import(/* webpackChunkName: 'AntdDropDown' */ "./dropdown/dropdown")
+);
+const AntdPopover = lazy(() =>
+  import(/* webpackChunkName: 'AntdPopover' */ "./popover/popover")
+);
+const AntdLayout = lazy(() =>
+  import(/* webpackChunkName: 'AntdLayout' */ "./Layout/Layout")
+);
+const AntdHeader = lazy(() =>
+  import(/* webpackChunkName: 'AntdHeader' */ "./Layout/Header")
+);
+const AntdContent = lazy(() =>
+  import(/* webpackChunkName: 'AntdContent' */ "./Layout/Content")
+);
+const AntdAutoComplete = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdAutoComplete' */ "./autocomplete/autocomplete"
+  )
+);
+const AntdList = lazy(() =>
+  import(/* webpackChunkName: 'AntdHeader' */ "./list/list")
+);
+const AntdListItem = lazy(() =>
+  import(/* webpackChunkName: 'AntdHeader' */ "./listItem/listItem")
+);
+const AntdStatistic = lazy(() =>
+  import(/* webpackChunkName: 'AntdStatistic' */ "./statistic/statistic")
+);
+const AntdCarousel = lazy(() =>
+  import(/* webpackChunkName: 'AntdCarousel' */ "./carousel/carousel")
+);
+const AntdInput = lazy(() =>
+  import(/* webpackChunkName: 'AntdInput' */ "./input/input")
+);
+const AntdInputTextArea = lazy(() =>
+  import(/* webpackChunkName: 'AntdInputTextArea' */ "./input/textArea")
+);
+const AntdInputPassword = lazy(() =>
+  import(/* webpackChunkName: 'AntdInputPassword' */ "./input/password")
+);
+const AntdIcon = lazy(() =>
+  import(/* webpackChunkName: 'AntdIcon' */ "./icon/antdIcon")
+);
+const AntdRadio = lazy(() =>
+  import(/* webpackChunkName: 'AntdRadio' */ "./radio/radio")
+);
+const AntdRadioButton = lazy(() =>
+  import(/* webpackChunkName: 'AntdRadioButton' */ "./radio/radio-button")
+);
+const AntdRadioGroup = lazy(() =>
+  import(/* webpackChunkName: 'AntdRadioGroup' */ "./radio/radio-group")
+);
+const AntdCopyToClipboard = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdCopyToClipboard' */ "./copy-to-clipboard/copy-to-clipboard"
+  )
+);
+const AntdAvatar = lazy(() =>
+  import(/* webpackChunkName: 'AntdAvatar' */ "./avatar/avatar")
+);
+const AntdSlider = lazy(() =>
+  import(/* webpackChunkName: 'AntdSlider' */ "./slider/slider")
+);
+const AntdNotification = lazy(() =>
+  import(
+    /* webpackChunkName: 'AntdNotification' */ "./notification/notification"
+  )
+);
+const AntdMessage = lazy(() =>
+  import(/* webpackChunkName: 'AntdMessage' */ "./message/message")
+);
+const AntdSider = lazy(() =>
+  import(/* webpackChunkName: 'AntdSider' */ "./Layout/Sider")
+);
+const AntdComment = lazy(() =>
+  import(/* webpackChunkName: 'AntdComment' */ "./comment/comment")
+);
+const AntdSteps = lazy(() =>
+  import(/* webpackChunkName: 'AntdSteps' */ "./steps/steps")
+);
+const AntdStep = lazy(() =>
+  import(/* webpackChunkName: 'AntdStep' */ "./steps/step")
+);
+const AntdFooter = lazy(() =>
+  import(/* webpackChunkName: 'AntdFooter' */ "./footer/footer")
+);
+const AntdTable = lazy(() =>
+  import(/* webpackChunkName: 'AntdTable' */ "./table/table")
+);
+const AntdForm = lazy(() =>
+  import(/* webpackChunkName: 'AntdForm' */ "./form/antForm")
+);
+const AntdFormItem = lazy(() =>
+  import(/* webpackChunkName: 'AntdFormItem' */ "./form/antFormItem")
+);
+const AntdThemeButton = lazy(() =>
+  import(/* webpackChunkName: 'AntdThemeButton' */ "./theme/theme")
+);
 
-UniversalDashboard.register("ud-antd-row", UDAntdRow);
-UniversalDashboard.register("ud-antd-col", UDAntdColumn);
-UniversalDashboard.register("ud-antd-button", UDAntdButton);
-UniversalDashboard.register("ud-antd-button-group", UDAntdButtonGroup);
-UniversalDashboard.register("ud-antd-switch", UDAntdSwitch);
-UniversalDashboard.register("ud-antd-timeline", UDAntdTimeLine);
-UniversalDashboard.register("ud-antd-timeline-item", UDAntdTimeLineItem);
-UniversalDashboard.register("ud-antd-drawer", UDAntdDrawer);
-UniversalDashboard.register("ud-antd-card", UDAntdCard);
-UniversalDashboard.register("ud-antd-descriptionlist", UDAntdDescriptionList);
-UniversalDashboard.register("ud-antd-descriptionlist-item", UDAntdDescriptionListItem);
-UniversalDashboard.register("ud-antd-badge", UDAntdBadge);
-UniversalDashboard.register("ud-antd-dropdown", UDAntdDropDown);
-UniversalDashboard.register("ud-antd-menu", UDAntdMenu);
-UniversalDashboard.register("ud-antd-menu-item", UDAntdMenuItem);
-UniversalDashboard.register("ud-antd-sub-menu", UDAntdSubMenu);
-UniversalDashboard.register("ud-antd-menu-item-group", UDAntdMenuItemGroup);
-UniversalDashboard.register("ud-antd-menu-divider", UDAntdMenuDivider);
-UniversalDashboard.register("ud-antd-popover", UDAntdPopover);
-UniversalDashboard.register("ud-antd-layout", UDAntdLayout);
-UniversalDashboard.register("ud-antd-header", UDAntdHeader);
-UniversalDashboard.register("ud-antd-content", UDAntdContent);
-UniversalDashboard.register("ud-antd-autocomplete", UDAntdAutoComplete);
-UniversalDashboard.register("ud-antd-list", UDAntdList);
-UniversalDashboard.register("ud-antd-list-item", UDAntdListItem);
-UniversalDashboard.register("ud-antd-statistic", UDAntdStatistic);
-UniversalDashboard.register("ud-antd-carousel", UDAntdCarousel);
-UniversalDashboard.register("ud-antd-input", UDAntdInput);
-UniversalDashboard.register("ud-antd-input-textarea", UDAntdInputTextArea);
-UniversalDashboard.register("ud-antd-input-password", UDAntdInputPassword);
-UniversalDashboard.register("ud-antd-icon", UDAntdIcon);
-UniversalDashboard.register("ud-antd-radio", UDAntdRadio);
-UniversalDashboard.register("ud-antd-radio-button", UDAntdRadioButton);
-UniversalDashboard.register("ud-antd-radio-group", UDAntdRadioGroup);
-UniversalDashboard.register("ud-antd-copy-button", UDAntdCopyToClipboard);
-UniversalDashboard.register("ud-antd-avatar", UDAntdAvatar);
-UniversalDashboard.register("ud-antd-slider", UDAntdSlider);
-UniversalDashboard.register("ud-antd-notification", UDAntdNotification);
-UniversalDashboard.register("ud-antd-message", UDAntdMessage);
-UniversalDashboard.register("ud-antd-sider", UDAntdSider);
-UniversalDashboard.register("ud-antd-comment", UDAntdComment);
-UniversalDashboard.register("ud-antd-steps", UDAntdSteps);
-UniversalDashboard.register("ud-antd-step", UDAntdStep);
-UniversalDashboard.register("ud-antd-footer", UDAntdFooter);
-UniversalDashboard.register("ud-antd-table", UDAntdTable);
-UniversalDashboard.register("ud-antd-form", UDAntdForm);
-UniversalDashboard.register("ud-antd-theme-button", UDAntdThemeButton);
+import AntDesign from "./dashboard";
 
+UniversalDashboard.register("ud-antd-row", AntdRow);
+UniversalDashboard.register("ud-antd-col", AntdColumn);
+UniversalDashboard.register("ud-antd-button", AntdButton);
+UniversalDashboard.register("ud-antd-button-group", AntdButtonGroup);
+UniversalDashboard.register("ud-antd-switch", AntdSwitch);
+UniversalDashboard.register("ud-antd-timeline", AntdTimeLine);
+UniversalDashboard.register("ud-antd-timeline-item", AntdTimeLineItem);
+UniversalDashboard.register("ud-antd-drawer", AntdDrawer);
+UniversalDashboard.register("ud-antd-card", AntdCard);
+UniversalDashboard.register("ud-antd-descriptionlist", AntdDescriptionList);
+UniversalDashboard.register("ud-antd-descriptionlist-item", AntdDescListItem);
+UniversalDashboard.register("ud-antd-badge", AntdBadge);
+UniversalDashboard.register("ud-antd-dropdown", AntdDropDown);
+UniversalDashboard.register("ud-antd-menu", AntdMenu);
+UniversalDashboard.register("ud-antd-menu-item", AntdMenuItem);
+UniversalDashboard.register("ud-antd-sub-menu", AntdSubMenu);
+UniversalDashboard.register("ud-antd-menu-item-group", AntdMenuItemGroup);
+UniversalDashboard.register("ud-antd-menu-divider", AntdMenuDivider);
+UniversalDashboard.register("ud-antd-popover", AntdPopover);
+UniversalDashboard.register("ud-antd-layout", AntdLayout);
+UniversalDashboard.register("ud-antd-header", AntdHeader);
+UniversalDashboard.register("ud-antd-content", AntdContent);
+UniversalDashboard.register("ud-antd-autocomplete", AntdAutoComplete);
+UniversalDashboard.register("ud-antd-list", AntdList);
+UniversalDashboard.register("ud-antd-list-item", AntdListItem);
+UniversalDashboard.register("ud-antd-statistic", AntdStatistic);
+UniversalDashboard.register("ud-antd-carousel", AntdCarousel);
+UniversalDashboard.register("ud-antd-input", AntdInput);
+UniversalDashboard.register("ud-antd-input-textarea", AntdInputTextArea);
+UniversalDashboard.register("ud-antd-input-password", AntdInputPassword);
+UniversalDashboard.register("ud-antd-icon", AntdIcon);
+UniversalDashboard.register("ud-antd-radio", AntdRadio);
+UniversalDashboard.register("ud-antd-radio-button", AntdRadioButton);
+UniversalDashboard.register("ud-antd-radio-group", AntdRadioGroup);
+UniversalDashboard.register("ud-antd-copy-button", AntdCopyToClipboard);
+UniversalDashboard.register("ud-antd-avatar", AntdAvatar);
+UniversalDashboard.register("ud-antd-slider", AntdSlider);
+UniversalDashboard.register("ud-antd-notification", AntdNotification);
+UniversalDashboard.register("ud-antd-message", AntdMessage);
+UniversalDashboard.register("ud-antd-sider", AntdSider);
+UniversalDashboard.register("ud-antd-comment", AntdComment);
+UniversalDashboard.register("ud-antd-steps", AntdSteps);
+UniversalDashboard.register("ud-antd-step", AntdStep);
+UniversalDashboard.register("ud-antd-footer", AntdFooter);
+UniversalDashboard.register("ud-antd-table", AntdTable);
+UniversalDashboard.register("ud-antd-form", AntdForm);
+UniversalDashboard.register("ud-antd-form-item", AntdFormItem);
+UniversalDashboard.register("ud-antd-theme-button", AntdThemeButton);
+
+UniversalDashboard.renderDashboard = ({ dashboard }) => (
+  <AntDesign dashboard={dashboard} />
+);

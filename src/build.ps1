@@ -98,6 +98,7 @@ $manifestParameters = @{
         "New-UDAntdForm"
         "New-UDAntdFormItem"
         "Show-UDAntdThemeButton"
+        "New-UDAntdPage"
     )
 }
 

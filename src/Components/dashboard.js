@@ -1,39 +1,30 @@
-import React, { Suspense } from "react";
-import { Layout, Spin, Space } from "antd";
-import { useLocation, Link, useRouteMatch } from "react-router-dom";
-import PageManager from "./framework/pageManager";
-import { disableUdTheme } from "./resets/reset-style";
+import React from "react"
+import { Layout } from "antd"
+import PageManager from "./framework/pageManager"
+import { disableUdTheme } from "./resets/reset-style"
+import DashboardHeader from "./framework/DashboardHeader"
+import DashboardFooter from "./framework/DashboardFooter"
+import DashboardSideBar from "./framework/DashboardSideBar"
+import { DashboardStateProvider } from "./app-state"
+import appStateReducer, { initialState } from "./appReducer"
 
-const { Content, Sider, Footer, Header } = Layout;
+const { Content } = Layout
 
 export default ({ dashboard }) => {
-  disableUdTheme();
-  const location = useLocation();
-  const match = useRouteMatch();
-  const { pages } = dashboard;
-
-  console.log(pages);
-  console.log("dashboard matches", match);
-  return (
-    <Suspense fallback={<Spin />}>
-      <Layout>
-        <Header>
-          <Space size="large">
-            {pages.map((page) => (
-              <Link to={page.dynamic ? `${page.url}` : `/${page.name}`}>
-                {page.name || location.pathname}
-              </Link>
-            ))}
-          </Space>
-        </Header>
-        <Layout>
-          <Sider>Sider</Sider>
-          <Content>
-            <PageManager pages={pages} />
-          </Content>
-        </Layout>
-        <Footer>Footer</Footer>
-      </Layout>
-    </Suspense>
-  );
-};
+	disableUdTheme()
+	const { pages } = dashboard
+	return (
+		<DashboardStateProvider initialState={{ ...initialState, pages: pages }} reducer={appStateReducer}>
+			<Layout style={{ height: "100vh" }}>
+				<DashboardHeader />
+				<Layout>
+					<DashboardSideBar />
+					<Content>
+						<PageManager />
+					</Content>
+				</Layout>
+				<DashboardFooter />
+			</Layout>
+		</DashboardStateProvider>
+	)
+}

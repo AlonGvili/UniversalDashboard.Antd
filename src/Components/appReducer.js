@@ -1,19 +1,33 @@
-const initialState = { authAttempted: false, auth: null, user: null, theme: { primaryColor: ''}  }
+const initialState = {
+	pages: [],
+	page: {},
+	getPage: name => pages.find(page => page.name === name),
+	routes: [],
+	components: UniversalDashboard.components,
+	renderComponent: UniversalDashboard.renderComponent,
+	registerComponent: UniversalDashboard.register,
+	framework: "Antd",
+	...UniversalDashboard,
+}
 
 const appStateReducer = (state, action) => {
-  switch (action.type) {
-    case "AUTH_CHANGE": {
-      return { ...state, auth: action.auth, authAttempted: true }
-    }
-    case "LOAD_USER": {
-      return { ...state, user: action.user }
-    }
-    case "SET_THEME": {
-      return { ...state, theme: { primaryColor: action.theme } }
-    }
-    default:
-      return state
-  }
+	switch (action.type) {
+		case "LOAD_PAGES": {
+			return { ...state, pages: action.payload }
+		}
+		case "GET_PAGE": {
+			// const page = state.getPage(action.payload)
+			return {
+				...state,
+				page: state.pages.find(page => page.name === action.payload),
+			}
+		}
+		case "LOAD_ROUTES": {
+			return { ...state, routes: action.payload }
+		}
+		default:
+			return state
+	}
 }
 
 export { initialState }

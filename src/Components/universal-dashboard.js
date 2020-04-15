@@ -1,157 +1,146 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react"
 
-export const withComponentFeatures = (component) => {
+export const withComponentFeatures = component => {
+	const getComponentData = id => {
+		return new Promise((resolve, reject) => {
+			UniversalDashboard.get(`/api/internal/component/element/${id}`, data => {
+				if (data.error) reject(data.error.message)
+				else resolve(data)
+			})
+		})
+	}
 
-    const getComponentData = (id) => {
-        return new Promise((resolve, reject) => {
-            UniversalDashboard.get(`/api/internal/component/element/${id}`, (data) => {
-                if (data.error) reject(data.error.message);
-                else resolve(data)
-            });
-        });
-    };
+	const sendComponentState = (requestId, state) => {
+		return new Promise((resolve, reject) => {
+			UniversalDashboard.post(`/api/internal/component/element/sessionState/${requestId}`, state, data => {
+				if (data.error) reject(data.error.message)
+				else resolve(data)
+			})
+		})
+	}
 
-    const sendComponentState = (requestId, state) => {
-        return new Promise((resolve, reject) => {
-            UniversalDashboard.post(`/api/internal/component/element/sessionState/${requestId}`, state, (data) => {
-                if (data.error) reject(data.error.message);
-                else resolve(data)
-            });
-        });
-    }
+	const post = (id, data) => {
+		return new Promise((resolve, reject) => {
+			UniversalDashboard.post(`/api/internal/component/element/${id}`, data, returnData => {
+				resolve(returnData)
+			})
+		})
+	}
 
-    const post = (id, data) => {
-        return new Promise((resolve, reject) => {
-            UniversalDashboard.post(`/api/internal/component/element/${id}`, data, (returnData) => {
-                resolve(returnData)
-            });
-        });
-    }
+	const subscribeToIncomingEvents = (id, callback) => {
+		const incomingEvent = (id, event) => {
+			let type = event.type
+			if (type === "requestState") {
+				type = "getState"
+			}
 
-    const subscribeToIncomingEvents = (id, callback) => {
-        const incomingEvent = (id, event) => {
+			callback(type, event)
+		}
 
-            let type = event.type;
-            if (type === "requestState")
-            {
-                type = "getState"
-            }
+		return UniversalDashboard.subscribe(id, incomingEvent)
+	}
 
-            callback(type, event);
-        }
+	const unsubscribeFromIncomingEvents = token => {
+		UniversalDashboard.unsubscribe(token)
+	}
 
-        return UniversalDashboard.subscribe(id, incomingEvent);
-    }
+	const render = (component, history) => {
+		// set props version
+		if (!component.version) {
+			component.version = "0"
+		}
 
-    const unsubscribeFromIncomingEvents = (token) => {
-        UniversalDashboard.unsubscribe(token)
-    }
+		return UniversalDashboard.renderComponent(component, history)
+	}
 
-    const render = (component, history) => {
-        // set props version
-        if (!component.version)
-        {
-            component.version = "0";    
-        }
-        
-        return UniversalDashboard.renderComponent(component, history);
-    }
+	const highOrderComponent = props => {
+		const [componentState, setComponentState] = useState(props)
+		useEffect(() => {
+			setComponentState(props)
+		}, [props.version])
 
-    const highOrderComponent = (props) => {
-        const [componentState, setComponentState] = useState(props);
-        useEffect(() => {
-            setComponentState(props);
-        }, [props.version])
+		const notifyOfEvent = (eventName, value) => {
+			UniversalDashboard.publish("element-event", {
+				type: "clientEvent",
+				eventId: props.id + eventName,
+				eventName: eventName,
+				eventData: value,
+			})
+		}
 
-        const notifyOfEvent = (eventName, value) => {
-            UniversalDashboard.publish('element-event', {
-                type: "clientEvent",
-                eventId: props.id + eventName,
-                eventName: eventName,
-                eventData: value
-            });
-        }
-    
-        const incomingEvent = (type, event) => {
-            if (type === "setState")
-                setComponentState({
-                    ...componentState,
-                    ...event.state
-                });
-    
-            if (type === "getState")
-                sendComponentState(event.requestId, componentState);
-    
-            if (type === "addElement")
-            {
-                let children = componentState.children;
-                if (children == null)
-                {
-                    children = []
-                }
-    
-                children = children.concat(event.elements);
-    
-                setComponentState({...componentState, children});
-            }
-    
-            if (type === "clearElement")
-            {
-                setComponentState({...componentState, children: []});
-            }
-    
-            if (type === "removeElement")
-            {
-                // This isn't great
-                setComponentState({...componentState, hidden: true});
-            }
-    
-            if (type === "syncElement") 
-            {
-                setComponentState({...componentState, version: Math.random().toString(36).substr(2, 5) })
-            }
-        }
-        
-        useEffect(() => {
-            const token = subscribeToIncomingEvents(props.id, incomingEvent)
-            return () => {
-                unsubscribeFromIncomingEvents(token)
-                // PubSub.publish('element-event', {
-                //     type: "unregisterEvent",
-                //     eventId: this.props.id
-                // });
-            }
-        })
+		const incomingEvent = (type, event) => {
+			if (type === "setState")
+				setComponentState({
+					...componentState,
+					...event.state,
+				})
 
-        const additionalProps = {
-            render,
-            setState: (state) => {
-                let newComponentState = {
-                    ...componentState,
-                    ...state
-                }
-                setComponentState(newComponentState);
-            },
-            publish: UniversalDashboard.publish,
-            notifyOfEvent,
-            post
-        }
+			if (type === "getState") sendComponentState(event.requestId, componentState)
 
-        Object.keys(componentState).forEach(x => {
-            if (componentState[x] != null && componentState[x].endpoint)
-            {
-                additionalProps[x] = (data) => {
-                    return post(componentState[x].name, data)
-                }
-            }
-        })
-        
-        if (componentState.hidden) {
-            return <React.Fragment />
-        }
+			if (type === "addElement") {
+				let children = componentState.children
+				if (children == null) {
+					children = []
+				}
 
-        return component({...componentState, ...additionalProps})
-    }
+				children = children.concat(event.elements)
 
-    return highOrderComponent;
+				setComponentState({ ...componentState, children })
+			}
+
+			if (type === "clearElement") {
+				setComponentState({ ...componentState, children: [] })
+			}
+
+			if (type === "removeElement") {
+				// This isn't great
+				setComponentState({ ...componentState, hidden: true })
+			}
+
+			if (type === "syncElement") {
+				setComponentState({ ...componentState, version: Math.random().toString(36).substr(2, 5) })
+			}
+		}
+
+		useEffect(() => {
+			const token = subscribeToIncomingEvents(props.id, incomingEvent)
+			return () => {
+				unsubscribeFromIncomingEvents(token)
+				// PubSub.publish('element-event', {
+				//     type: "unregisterEvent",
+				//     eventId: this.props.id
+				// });
+			}
+		})
+
+		const additionalProps = {
+			render,
+			setState: state => {
+				let newComponentState = {
+					...componentState,
+					...state,
+				}
+				setComponentState(newComponentState)
+			},
+			publish: UniversalDashboard.publish,
+			notifyOfEvent,
+			post,
+		}
+
+		Object.keys(componentState).forEach(x => {
+			if (componentState[x] != null && componentState[x].endpoint) {
+				additionalProps[x] = data => {
+					return post(componentState[x].name, data)
+				}
+			}
+		})
+
+		if (componentState.hidden) {
+			return <React.Fragment />
+		}
+
+		return component({ ...componentState, ...additionalProps })
+	}
+
+	return highOrderComponent
 }

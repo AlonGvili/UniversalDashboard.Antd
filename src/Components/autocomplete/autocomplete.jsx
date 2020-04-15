@@ -1,7 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { InputProps as Input } from "antd/es/";
-import AutoComplete from "antd/es/auto-complete";
-import Empty from "antd/es/empty";
+import { Input, Empty, AutoComplete } from "antd/es";
 import { useDashboardEvent } from "../Hooks/index";
 import matchSorter from 'match-sorter'
 import ReactInterval from 'react-interval'

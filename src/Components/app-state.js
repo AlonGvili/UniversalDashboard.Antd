@@ -1,12 +1,16 @@
-import React, { createContext, useReducer, useContext } from "react"
+import React, { createContext, useReducer, useContext, Suspense } from "react"
 
 const Context = createContext()
 
-export function AppStateProvider({ reducer, initialState = {}, children }) {
-  const value = useReducer(reducer, initialState)
-  return <Context.Provider value={value} children={children} />
+export function DashboardStateProvider({ reducer = appStateReducer, initialState, children }) {
+	const value = useReducer(reducer, initialState)
+	return (
+		<Context.Provider value={value}>
+			<Suspense fallback={null}>{children}</Suspense>
+		</Context.Provider>
+	)
 }
 
-export function useAppState() {
-  return useContext(Context)
+export function useDashboardState() {
+	return useContext(Context)
 }

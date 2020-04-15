@@ -1,31 +1,36 @@
-import React from "react";
-import Page from "./Page";
-import { Route, Switch, useLocation, Redirect } from "react-router-dom";
+import React from "react"
+import Page from "./Page"
+import { Route, Switch, Redirect } from "react-router-dom"
+import { useDashboardState } from "../app-state"
 
-export default ({ pages = [] }) => {
-  const getHomePage = () => pages.find((page) => page.defaultHomePage);
+export default () => {
+	const [{ pages }, dispatch] = useDashboardState()
 
-  const Pages = () => {
-    const home = getHomePage();
-    let dashboardPages = pages.map((page) => (
-      <Route
-        exact={!page.dynamic}
-        path={page.dynamic ? page.url : `/${page.name}`}
-      >
-        <Page key={page.id} {...page} />
-      </Route>
-    ));
-    dashboardPages.push(
-      <Route exact path="/">
-        <Redirect to={home.dynamic ? home.url : `/${home.name}`} />
-      </Route>
-    );
-    return dashboardPages;
-  };
+	if (pages.length < 1) return
 
-  return (
-    <Switch>
-      <Pages />
-    </Switch>
-  );
-};
+	const getHomePage = () => {
+		const home = pages.find(page => page.defaultHomePage || page.name === "Home")
+		if (!home) return pages[0]
+		else return home
+	}
+
+	let home = getHomePage()
+
+	const dashboardPages = pages.map(page => (
+		<Route
+			location={{
+				pathname: page.dynamic ? page.url : `/${page.name}`,
+				state: { pageTitle: page.title },
+			}}
+			exact={!page.dynamic}
+			path={page.dynamic ? page.url : `/${page.name}`}
+		>
+			<Page key={page.id} {...page} />
+		</Route>
+	))
+
+	dashboardPages.push(<Redirect exact from="/" to={home.dynamic ? home.url : `/${home.name}`} />)
+	dashboardPages.push(<Redirect from="/" to="/404" />)
+
+	return <Switch>{dashboardPages}</Switch>
+}

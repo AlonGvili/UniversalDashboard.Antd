@@ -20,7 +20,7 @@ Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Re
 New-Item -Path $OutputPath -ItemType Directory
 
 # & cyclonedx-bom -o antd.bom.xml
-if(!$Minimal){
+if (!$Minimal) {
     npm install
     npm run auditfix
 }
@@ -99,6 +99,9 @@ $manifestParameters = @{
         "New-UDAntdFormItem"
         "Show-UDAntdThemeButton"
         "New-UDAntdPage"
+        "New-UDAntdRoute"
+        "New-UDAntdResult"
+        "Get-UDAntdPage"
     )
 }
 

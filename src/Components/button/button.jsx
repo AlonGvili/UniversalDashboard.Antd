@@ -1,28 +1,21 @@
-import { Button } from "antd";
-import React from "react";
-
-// import 'antd/es/button/style/index.less'
+import React from "react"
+import { Button } from "antd"
 
 const AntdButton = props => {
+	const onClick = () => {
+		props.hasCallback
+			? UniversalDashboard.publish("element-event", {
+					type: "clientEvent",
+					eventId: props.id + "onClick",
+					eventName: "onClick",
+					eventData: "",
+			  })
+			: null
+	}
 
-  const onClick = () => {
-    props.hasCallback ? UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: props.id + "onClick",
-      eventName: "onClick",
-      eventData: ""
-    }) : null
-  };
-
-  return (
-    <Button
-      {...props}
-      htmlType={props.htmlType}
-      type={props.buttonType}
-      onClick={onClick}
-      children={props.label}
-    />
-  );
+	return (
+		<Button {...props} htmlType={props.htmlType} type={props.buttonType} onClick={onClick} children={props.label} />
+	)
 }
 
-export default AntdButton;
+export default AntdButton

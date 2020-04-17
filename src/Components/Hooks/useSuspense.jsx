@@ -1,8 +1,10 @@
-import React, { Suspense } from 'react'
-const useSuspense = (Component, Fallback) => {
-    return <Suspense fallback={<Fallback/>}>
-            <Component />
-        </Suspense>
+import React, { Suspense } from "react"
+const useSuspense = (Component, fallback = null) => {
+	return (
+		<Suspense fallback={fallback} >
+			<Component />
+		</Suspense>
+	)
 }
 
 export default useSuspense

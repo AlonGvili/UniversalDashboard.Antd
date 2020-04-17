@@ -112,6 +112,7 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     historyApiFallback: true,
+    overlay: true,
     port: 10000,
     // hot: true,
     compress: true,

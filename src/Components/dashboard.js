@@ -1,5 +1,5 @@
 import React from "react"
-import { Layout } from "antd"
+import { Layout } from "antd/es"
 import PageManager from "./framework/pageManager"
 import { disableUdTheme } from "./resets/reset-style"
 import DashboardHeader from "./framework/DashboardHeader"
@@ -7,8 +7,6 @@ import DashboardFooter from "./framework/DashboardFooter"
 import DashboardSideBar from "./framework/DashboardSideBar"
 import { DashboardStateProvider } from "./app-state"
 import appStateReducer, { initialState } from "./appReducer"
-
-const { Content } = Layout
 
 export default ({ dashboard }) => {
 	disableUdTheme()
@@ -19,9 +17,9 @@ export default ({ dashboard }) => {
 				<DashboardHeader />
 				<Layout>
 					<DashboardSideBar />
-					<Content>
+					<Layout.Content>
 						<PageManager />
-					</Content>
+					</Layout.Content>
 				</Layout>
 				<DashboardFooter />
 			</Layout>

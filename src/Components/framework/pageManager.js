@@ -1,12 +1,10 @@
 import React from "react"
 import Page from "./Page"
-import { Route, Switch, Redirect } from "react-router-dom"
+import { Route, Switch, Redirect, useLocation } from "react-router-dom"
 import { useDashboardState } from "../app-state"
 
 export default () => {
 	const [{ pages }, dispatch] = useDashboardState()
-
-	if (pages.length < 1) return
 
 	const getHomePage = () => {
 		const home = pages.find(page => page.defaultHomePage || page.name === "Home")
@@ -18,14 +16,10 @@ export default () => {
 
 	const dashboardPages = pages.map(page => (
 		<Route
-			location={{
-				pathname: page.dynamic ? page.url : `/${page.name}`,
-				state: { pageTitle: page.title },
-			}}
 			exact={!page.dynamic}
 			path={page.dynamic ? page.url : `/${page.name}`}
 		>
-			<Page key={page.id} {...page} />
+			<Page {...page} />
 		</Route>
 	))
 

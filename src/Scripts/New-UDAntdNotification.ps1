@@ -5,13 +5,13 @@ function New-UDAntdNotification {
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
-        [string]$Key = (New-Guid).ToString(),
+        [string]$UpdateKey = (New-Guid).ToString(),
         [Parameter(HelpMessage = "A class name for the control use this to style the control using UDTheme.")]
         [string]$ClassName,
         [Parameter(HelpMessage = "Add custom close button to the notification.")]
         [object]$CustomCloseButton,
         [Parameter(HelpMessage = "How long the notification will appear in seconds, if set to 0 will not disapear.")]
-        [int]$Duration,
+        [int]$Duration = 4.5,
         [Parameter(HelpMessage = "Custom icon for the notification.")]
         [object]$Icon,
         [Parameter(HelpMessage = "Notification description.")]
@@ -26,10 +26,10 @@ function New-UDAntdNotification {
         [hashtable]$TitleStyle,
         [Parameter(HelpMessage = "Set notification position.")]
         [ValidateSet("topLeft", "topRight", "bottomLeft", "bottomRight")]
-        [string]$Placement,
+        [string]$Placement = "topRight",
         [Parameter(HelpMessage = "Set notification with buildin icon.")]
         [ValidateSet("success", "error", "warning", "info")]
-        [string]$Preset,
+        [string]$Preset = "info",
         [Parameter(HelpMessage = "Display the notification")]
         [switch]$Visible
     )
@@ -50,8 +50,8 @@ function New-UDAntdNotification {
             isPlugin          = $true 
             type              = "ud-antd-notification"
             id                = $Id
-            key               = $Key
-            title             = $Title
+            updateKey         = $UpdateKey
+            message           = $Title
             description       = $Description
             placement         = $Placement
             duration          = $Duration

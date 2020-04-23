@@ -1,14 +1,15 @@
 import React, { useEffect } from "react"
 import ReactInterval from "react-interval"
 import useFetchPageContent from "../Hooks/useFetchPageContent"
+import { Spin } from "antd"
 
-export default ({ id, dynamic, name, autoRefresh, refreshInterval }) => {
-	const [content, fetch] = useFetchPageContent(id, name, dynamic)
+export default ({ id, name, autoRefresh, refreshInterval }) => {
+	const [data, loading, error, get] = useFetchPageContent(id, name)
 
 	return (
-		<React.Fragment>
-			{UniversalDashboard.renderComponent(content)}
-			<ReactInterval callback={fetch} enabled={autoRefresh} timeout={refreshInterval} />
-		</React.Fragment>
+		<Spin spinning={loading} >
+			{UniversalDashboard.renderComponent(data)}
+			<ReactInterval callback={get} enabled={autoRefresh} timeout={refreshInterval} />
+		</Spin>
 	)
 }

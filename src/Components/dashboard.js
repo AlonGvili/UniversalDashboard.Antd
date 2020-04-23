@@ -1,28 +1,31 @@
-import React from "react"
-import { Layout } from "antd/es"
+import React, { useContext, useEffect } from "react"
+import { Layout, Spin } from "antd/es"
 import PageManager from "./framework/pageManager"
-import { disableUdTheme } from "./resets/reset-style"
 import DashboardHeader from "./framework/DashboardHeader"
 import DashboardFooter from "./framework/DashboardFooter"
 import DashboardSideBar from "./framework/DashboardSideBar"
-import { DashboardStateProvider } from "./app-state"
-import appStateReducer, { initialState } from "./appReducer"
+import { DashboardContext } from "./appReducer"
 
 export default ({ dashboard }) => {
-	disableUdTheme()
 	const { pages } = dashboard
+	const { addPage, setLoading, state } = useContext(DashboardContext)
+
+	useEffect(() => {
+		pages.map(page => addPage(page))
+		if (state.pages.length > 0) setLoading(false)
+	}, [])
+
+	console.log("state", state)
 	return (
-		<DashboardStateProvider initialState={{ ...initialState, pages: pages }} reducer={appStateReducer}>
-			<Layout style={{ height: "100vh" }}>
+		<Layout style={{ minHeight: "100vh" }}>
+			<DashboardSideBar />
+			<Layout>
 				<DashboardHeader />
-				<Layout>
-					<DashboardSideBar />
-					<Layout.Content>
-						<PageManager />
-					</Layout.Content>
-				</Layout>
+				<Layout.Content style={{ padding: 24 }}>
+					<PageManager />
+				</Layout.Content>
 				<DashboardFooter />
 			</Layout>
-		</DashboardStateProvider>
+		</Layout>
 	)
 }

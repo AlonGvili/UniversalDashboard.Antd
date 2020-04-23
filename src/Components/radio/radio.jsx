@@ -1,30 +1,12 @@
-import React, { useState, Fragment } from "react";
-import { Radio } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import React from "react"
+import { Radio } from "antd"
+import { guid } from "../appReducer"
 
-const AntdRadio = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-  const [checked, setChecked] = useState(attributes.defaultChecked);
+export default ({ id, value, content,disabled }) => {
+	return (
+		<Radio id={id} value={value} key={guid()} disabled={disabled}>
+			{UniversalDashboard.renderComponent(content)}
+		</Radio>
+	)
+}
 
-  const onChange = event => {
-    setChecked(event.target.checked);
-  };
-
-  return (
-    <Radio
-      value={attributes.value}
-      onChange={onChange}
-      checked={checked}
-      key={attributes.id}
-    >
-      <Fragment>
-        {content.map(item =>
-          item.type ? UniversalDashboard.renderComponent(item) : item
-        )}
-      </Fragment>
-    </Radio>
-  );
-};
-
-export default AntdRadio;

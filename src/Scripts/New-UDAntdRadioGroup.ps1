@@ -45,11 +45,11 @@ function New-UDAntdRadioGroup {
             isPlugin     = $true 
             type         = "ud-antd-radio-group"
             id           = $Id
-            className    = $ClassName
+            # className    = $ClassName
             disabled     = $Disabled.IsPresent
             content      = $Content.Invoke()
             value        = $Value
-            style        = $Style
+            # style        = $Style
             size         = $Size
             name         = $Name
             buttonStyle  = $ButtonStyle

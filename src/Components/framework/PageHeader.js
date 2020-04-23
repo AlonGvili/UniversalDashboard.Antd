@@ -1,12 +1,32 @@
-import React from "react"
+import React, { useContext } from "react"
 import PageHeader from "antd/es/page-header"
 import "antd/es/page-header/style/index.css"
-export default ({ subTitle }) => {
+import { DashboardContext } from "./../appReducer"
+import { useHistory } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
+
+export default ({ subTitle, title, tags, avatar, ghost, footer, extra, id }) => {
+	const history = useHistory()
+	const location = useLocation()
+	const {
+		state: { selectedPageTitle },
+	} = useContext(DashboardContext)
+
+	const onGoBack = () => {
+		(location.state && history.push(location.state.returnPathname))
+	}
 	return (
 		<PageHeader
-			onBack={() => history.goBack()}
-			title={(location.state && location.state.pageTitle) || "demo"}
+			id={id}
+			onBack={() => onGoBack()}
+			title={selectedPageTitle || title}
+			ghost={ghost}
 			subTitle={subTitle}
+			tags={tags && UniversalDashboard.renderComponent(tags)}
+			avatar={avatar && UniversalDashboard.renderComponent(avatar)}
+			footer={footer && UniversalDashboard.renderComponent(footer)}
+			extra={extra && UniversalDashboard.renderComponent(extra)}
 		/>
 	)
 }

@@ -50,7 +50,3 @@ export default ({ id, content, layout, formName }) => {
 		</div>
 	)
 }
-
-/**
- *  Form controls
- */

@@ -46,30 +46,46 @@ function New-UDAntdColumn {
         [Parameter()]
         [string]$Xl,
         [Parameter()]
-        [string]$Xxl
+        [string]$Xxl,
+        [Parameter()]
+        [switch]$AutoRefresh,
+        [Parameter()]
+        [int]$RefreshInterval = 5
     )
 
     End {
 
+        if ($null -ne $Content) {
+            
+            if ($Content -is [scriptblock]) {
+                $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
+                    
+            }
+            elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
+                throw "Content must be a script block or UDEndpoint"
+            }
+            
+        }
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-col"
-            id = $Id
-            className = $ClassName
-            style = $Style
-            content = $Content.Invoke()
-            offset = $Offset
-            order = $Order
-            pull = $Pull
-            push = $Push
-            span = $Span
-            xs = $Xs
-            sm = $Sm
-            md = $Md
-            lg = $Lg
-            xl = $Xl
-            xxl = $Xxl
+            assetId         = $AssetId 
+            isPlugin        = $true 
+            type            = "ud-antd-col"
+            id              = $Id
+            className       = $ClassName
+            style           = $Style
+            offset          = $Offset
+            order           = $Order
+            pull            = $Pull
+            push            = $Push
+            span            = $Span
+            xs              = $Xs
+            sm              = $Sm
+            md              = $Md
+            lg              = $Lg
+            xl              = $Xl
+            xxl             = $Xxl
+            autoRefresh     = $AutoRefresh.IsPresent
+            refreshInterval = $RefreshInterval
         }
 
     }

@@ -1,24 +1,16 @@
-import React, { Suspense } from "react";
-import { Col, Skeleton } from "antd";
-import ReactInterval from 'react-interval'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import React from "react"
+import { Col, Skeleton } from "antd"
+import ReactInterval from "react-interval"
+import { endpoint } from "../consts"
+import useApi from "../Hooks/useApi"
 
-const AntdColumn = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-
-  // const { content, style } = props;
-
-  return (
-    <Suspense fallback={null}>
-    <Skeleton loading={content ? false : true } paragraph={{rows: 4}} avatar={false}>
-    <Col {...attributes}>
-      {UniversalDashboard.renderComponent(content)}
-    </Col>
-    </Skeleton>
-    <ReactInterval callback={reload} enabled={attributes.autoRefresh} timeout={attributes.refreshInterval}/>
-    </Suspense>
-  );
-};
-
-export default AntdColumn;
+export default ({ id, autoRefresh, refreshInterval, ...restOfProps }) => {
+  const [data, loading, error, get] = useApi(endpoint(id))
+  
+	return (
+		<Skeleton loading={loading} paragraph={{ rows: 4 }}>
+			<Col {...restOfProps}>{UniversalDashboard.renderComponent(data)}</Col>
+			<ReactInterval callback={get} enabled={autoRefresh} timeout={refreshInterval} />
+		</Skeleton>
+	)
+}

@@ -1,33 +1,21 @@
-import React, { useState } from "react";
-import { Radio } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import React from "react"
+import { Radio } from "antd"
+import { guid } from "../appReducer"
 
-const AntdRadioGroup = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-  const [value, setValue] = useState(attributes.value);
+export default ({ id, content, ...restOfProps }) => {
+	const onChange = event => {
+		UniversalDashboard.publish("element-event", {
+			type: "clientEvent",
+			eventId: id + "onChange",
+			eventName: "onChange",
+			eventData: event.target.value,
+		})
+	}
 
-  const onChange = event => {
-    setValue(event.target.value);
-    console.log(event.target.value)
-    UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: attributes.id + "onChange",
-      eventName: "onChange",
-      eventData: event.target.value
-    });
-  };
+	return (
+		<Radio.Group id={id} key={guid()} onChange={onChange} {...restOfProps}>
+			{UniversalDashboard.renderComponent(content)}
+		</Radio.Group>
+	)
+}
 
-  return (
-    <Radio.Group
-      {...attributes}
-      value={value}
-      onChange={onChange}
-      key={attributes.id}
-    >
-      {UniversalDashboard.renderComponent(content)}
-    </Radio.Group>
-  );
-};
-
-export default AntdRadioGroup;

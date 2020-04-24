@@ -102,6 +102,8 @@ $manifestParameters = @{
         "New-UDAntdRoute"
         "New-UDAntdResult"
         "Get-UDAntdPageHeader"
+        "Get-UDAntdTag"
+        "Get-UDAntdTagCheckable"
     )
 }
 

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react"
 import { Form, Button, Input, Switch, InputNumber, Modal } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
-import { DashboardContext, guid } from "../appReducer"
+import { DashboardContext } from "../../../api/appReducer"
+import { guid } from "../../../Utils/utils"
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 	const [form] = Form.useForm()

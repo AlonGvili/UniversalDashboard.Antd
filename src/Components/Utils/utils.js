@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useDashboardState } from './../app-state';
 // was take from stackoverflow.com
 // https://stackoverflow.com/questions/37374896/in-javascript-what-would-be-the-simplest-function-to-get-the-namespace-of-a-mult?answertab=active#tab-top
 export const getPath = object => {
@@ -23,14 +22,12 @@ export const getValue = (object, path) => {
   }, object);
 };
 
-export function getAntdPage({ name }){
-  const [state, dispatch] = useDashboardState()
-  console.log('state',state)
-  useEffect(() => {
-    dispatch({ type: "GET_PAGE", payload: name})
-  },[name])
-  
-  if(!state.page) return console.log("No return page!")
-  console.log('page',state.page)
-  return JSON.stringify(state.page)
+export function guid() {
+	return "xxxxxxxx".replace(/[xy]/g, function (c) {
+		// eslint-disable-next-line no-bitwise
+		var r = (Math.random() * 16) | 0 // eslint-disable-next-line no-bitwise
+
+		var v = c === "x" ? r : (r & 0x3) | 0x8
+		return v.toString(16)
+	})
 }

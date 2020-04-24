@@ -1,6 +1,6 @@
 import React, { Suspense } from "react"
 import { notification } from "antd"
-import useDashboardEvent from "../Hooks/useDashboardEvent"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const UDAntdNotification = props => {
 	const [{attributes}, reload, setState] = useDashboardEvent(props.id, props)

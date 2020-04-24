@@ -1,6 +1,6 @@
-import React, { useReducer, useContext } from "react"
+import React, { useContext } from "react"
 import { Layout } from "antd"
-import { DashboardContext } from "./../appReducer"
+import { DashboardContext } from "../../api/appReducer"
 const Sider = Layout.Sider
 
 export default function DashboardSideBar({ content = [], visible = true }) {

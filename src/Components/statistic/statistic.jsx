@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import ReactInterval from "react-interval";
 import { Statistic } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdStatistic = props => {
   return <Statistic {...props}/>

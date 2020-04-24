@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Badge } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const UDAntdBadge = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

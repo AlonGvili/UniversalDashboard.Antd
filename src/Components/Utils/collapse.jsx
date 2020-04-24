@@ -1,6 +1,6 @@
 import React from 'react'
 import TweenOne from 'rc-tween-one'
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdCollapsed = props => {
     const [state, reload] = useDashboardEvent(props.id, props);

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Carousel } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 import ReactInterval from "react-interval";
 
 const AntdCarousel = props => {

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Slider, Skeleton } from 'antd'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const UDAntdSlider = props => {
     const [state, reload] = useDashboardEvent(props.id, props);

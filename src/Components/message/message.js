@@ -1,6 +1,6 @@
 import React from 'react'
 import { message } from 'antd';
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const UDAntdMessage = props => {
     const [state, reload] = useDashboardEvent(props.id, props);

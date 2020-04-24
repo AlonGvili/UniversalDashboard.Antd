@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 import { useClipboard } from 'use-clipboard-copy'
 
 const AntdCopyToClipboard = props => {

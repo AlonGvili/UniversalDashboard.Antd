@@ -1,7 +1,7 @@
 import React,{useState, useEffect, useContext} from "react";
 import { Comment, Avatar, Button } from "antd";
 import moment from 'moment'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const UDAntdComment = props => {
     const [state, reload, setState] = useDashboardEvent(props.id, props);

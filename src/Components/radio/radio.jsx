@@ -1,6 +1,6 @@
 import React from "react"
 import { Radio } from "antd"
-import { guid } from "../appReducer"
+import { guid } from "../Utils/utils"
 
 export default ({ id, value, content,disabled }) => {
 	return (

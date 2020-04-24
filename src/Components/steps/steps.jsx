@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Steps, Button, Icon } from 'antd'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const CustomStep = props => {
     const onClick = () => {

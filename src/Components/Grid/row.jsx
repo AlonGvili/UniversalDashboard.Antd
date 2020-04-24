@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Row, Skeleton, Spin } from "antd";
 import ReactInterval from 'react-interval'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdRow = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

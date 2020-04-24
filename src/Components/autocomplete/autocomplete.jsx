@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { Input, Empty, AutoComplete } from "antd/es";
-import { useDashboardEvent } from "../Hooks/index";
 import matchSorter from 'match-sorter'
 import ReactInterval from 'react-interval'
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const UDAntdAutoComplete = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

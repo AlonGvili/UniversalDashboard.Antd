@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react"
-
+import React, { useEffect, useState } from "react"
 
 const baseUrl = window.baseUrl
 
@@ -8,7 +7,7 @@ const useApi = url => {
 	const [error, setError] = useState(null)
 	const [loading, setLoading] = useState(true)
 
-	function fetchApiData() {
+	function get() {
 		fetch(`${baseUrl}${url}`)
 			.then(response => response.json())
 			.then(response => {
@@ -28,12 +27,12 @@ const useApi = url => {
 			setLoading(true)
 			setData([])
 			setError(null)
-			fetchApiData()
+			get()
 		}
 		return () => (isCurrent = false)
 	}, [url])
 
-	return [data, loading, error, fetchApiData]
+	return {data, loading, error, get}
 }
 
 useApi.displayName = "useApi"

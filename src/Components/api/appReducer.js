@@ -1,5 +1,6 @@
 import { REMOVE_PAGE, ADD_PAGE, SET_LOADING, SET_SIDEBAR, SET_PAGE } from "./consts"
-import React, { useReducer, useCallback, createContext, Suspense } from "react"
+import React, { useReducer, createContext, Suspense, useCallback } from "react"
+import { Spin } from "antd"
 
 const initialState = {
 	pages: [],
@@ -37,7 +38,6 @@ const reducer = (state, action) => {
 	}
 
 	if (action.type === SET_PAGE) {
-		console.log('payload', action.payload)
 		return {
 			...state,
 			selectedPageTitle: action.payload.selectedPageTitle,
@@ -62,9 +62,10 @@ const reducer = (state, action) => {
 	return state
 }
 
-export const DashboardProvider = ({ children }) => {
+const DashboardProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
+	
 	const addPage = useCallback(
 		({ id, name, autoRefresh, refreshInterval, content = [], title }) => {
 			dispatch({
@@ -76,7 +77,7 @@ export const DashboardProvider = ({ children }) => {
 					autoRefresh,
 					refreshInterval: refreshInterval * 1000,
 					content,
-					title
+					title,
 				},
 			})
 		},
@@ -89,7 +90,7 @@ export const DashboardProvider = ({ children }) => {
 				type: SET_PAGE,
 				payload: {
 					selectedPageKey: pageKey,
-					selectedPageTitle: pageTitle
+					selectedPageTitle: pageTitle,
 				},
 			})
 		},
@@ -126,21 +127,12 @@ export const DashboardProvider = ({ children }) => {
 		[dispatch]
 	)
 
-	let value = { state, addPage, removePage, setLoading, setSidebar, setPage }
-
+	let value = { state, dispatch, addPage, removePage, setLoading, setSidebar, setPage }
 	return (
 		<DashboardContext.Provider value={value}>
-			<Suspense fallback="Loading...">{children}</Suspense>
+			<Suspense fallback={<Spin delay={500}/>}>{children}</Suspense>
 		</DashboardContext.Provider>
 	)
 }
 
-export function guid() {
-	return "xxxxxxxx".replace(/[xy]/g, function (c) {
-		// eslint-disable-next-line no-bitwise
-		var r = (Math.random() * 16) | 0 // eslint-disable-next-line no-bitwise
-
-		var v = c === "x" ? r : (r & 0x3) | 0x8
-		return v.toString(16)
-	})
-}
+export default DashboardProvider

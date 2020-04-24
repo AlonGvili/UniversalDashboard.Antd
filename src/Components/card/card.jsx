@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Card } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 import ReactInterval from "react-interval";
 
 const renderTabContent = (tabKey, tabs) => {

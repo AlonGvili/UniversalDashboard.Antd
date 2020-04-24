@@ -1,7 +1,7 @@
 import React from "react"
 import ReactInterval from "react-interval"
 import { Timeline } from "antd"
-import useDashboardEvent from "../Hooks/useDashboardEvent"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const AntdTimeLine = props => {
 	const [state, reload] = useDashboardEvent(props.id, props)

@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { Radio } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdRadioButton = props => {
     const [state, reload] = useDashboardEvent(props.id, props);

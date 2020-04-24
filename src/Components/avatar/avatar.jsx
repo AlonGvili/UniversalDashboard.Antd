@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 
 const AntdAvatar = props => {

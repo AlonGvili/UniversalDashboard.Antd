@@ -1,7 +1,7 @@
 import React from "react";
 import ReactInterval from "react-interval";
 import { Descriptions } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent.jsx";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdDescriptionListItem = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

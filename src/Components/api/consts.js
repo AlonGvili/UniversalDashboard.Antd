@@ -6,6 +6,16 @@ export const ADD_PAGE = "ADD_PAGE"
 export const REMOVE_PAGE = "REMOVE_PAGE"
 export const SET_PAGE = "SET_PAGE"
 
+
+/**
+ *  Tags Actions
+ */
+
+export const ADD_TAG = "ADD_TAG"
+export const REMOVE_TAG = "REMOVE_TAG"
+export const SET_TAG = "SET_TAG"
+
+
 /**
  *  Feedback Actions
  */

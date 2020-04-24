@@ -1,6 +1,6 @@
 import React from "react";
 import { Steps } from 'antd'
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const { Step } = Steps
 

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Timeline } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdTimeLineItem = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

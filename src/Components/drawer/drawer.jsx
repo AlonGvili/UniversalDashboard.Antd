@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Drawer } from "antd";
 import ReactInterval from "react-interval";
-import useDashboardEvent from '../Hooks/useDashboardEvent'
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const AntdDrawer = props => {
   const [state, reload, setState] = useDashboardEvent(props.id, props);

@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import PageHeader from "antd/es/page-header"
 import "antd/es/page-header/style/index.css"
-import { DashboardContext } from "./../appReducer"
+import { DashboardContext } from "../../../api/appReducer"
 import { useHistory } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { Link } from "react-router-dom"
@@ -19,7 +19,7 @@ export default ({ subTitle, title, tags, avatar, ghost, footer, extra, id }) => 
 	return (
 		<PageHeader
 			id={id}
-			onBack={() => onGoBack()}
+			onBack={() => window.history.back()}
 			title={selectedPageTitle || title}
 			ghost={ghost}
 			subTitle={subTitle}
@@ -27,6 +27,7 @@ export default ({ subTitle, title, tags, avatar, ghost, footer, extra, id }) => 
 			avatar={avatar && UniversalDashboard.renderComponent(avatar)}
 			footer={footer && UniversalDashboard.renderComponent(footer)}
 			extra={extra && UniversalDashboard.renderComponent(extra)}
+			style={{ marginBottom: 24}}
 		/>
 	)
 }

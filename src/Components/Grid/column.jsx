@@ -1,16 +1,16 @@
 import React from "react"
 import { Col, Skeleton } from "antd"
 import ReactInterval from "react-interval"
-import { endpoint } from "../consts"
-import useApi from "../Hooks/useApi"
+import { endpoint } from "../api/consts";
+import useApi from "../api/Hooks/useApi";
 
 export default ({ id, autoRefresh, refreshInterval, ...restOfProps }) => {
-  const [data, loading, error, get] = useApi(endpoint(id))
+  const {data, get} = useApi(endpoint(id))
   
 	return (
-		<Skeleton loading={loading} paragraph={{ rows: 4 }}>
+		<React.Fragment>
 			<Col {...restOfProps}>{UniversalDashboard.renderComponent(data)}</Col>
 			<ReactInterval callback={get} enabled={autoRefresh} timeout={refreshInterval} />
-		</Skeleton>
+		</React.Fragment>
 	)
 }

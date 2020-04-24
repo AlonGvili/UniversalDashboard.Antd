@@ -1,6 +1,6 @@
 import React from "react";
 import { Popover } from "antd";
-import useDashboardEvent from "../Hooks/useDashboardEvent";
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdPopover = props => {
   const [state, reload] = useDashboardEvent(props.id, props);

@@ -2,7 +2,7 @@ var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
 
-var darkTheme = require("@ant-design/dark-theme")
+// var darkTheme = require("@ant-design/dark-theme")
 
 var BUILD_DIR = path.resolve(__dirname, "public")
 var SRC_DIR = path.resolve(__dirname)
@@ -87,7 +87,15 @@ module.exports = {
 				use: [
 					{ loader: "css-loader" },
 					{ loader: "file-loader" },
-					{ loader: "less-loader", options: { javascriptEnabled: true, modifyVars: darkTheme.default } },
+					{
+						loader: "less-loader",
+						options: {
+							javascriptEnabled: true,
+							modifyVars: {
+								"primary-color": "pink",
+							},
+						},
+					},
 				],
 			},
 			{

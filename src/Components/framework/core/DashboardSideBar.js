@@ -4,8 +4,8 @@ import { DashboardContext } from "../../api/appReducer"
 const Sider = Layout.Sider
 
 export default function DashboardSideBar({ content = [], visible = true }) {
-	const { state, setSidebar } = useContext(DashboardContext)
-	const collapsed = state.sideMenu.collapsed
+	const { collapsed, setSidebar } = useContext(DashboardContext)
+	// const collapsed = collapsed
 
 	return (
 		visible && (

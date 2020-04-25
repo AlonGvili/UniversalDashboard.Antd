@@ -1,36 +1,35 @@
-import React, { useContext, useEffect } from "react"
+import React from "react"
 import Page from "./components/Page"
-import { Route, Switch, Redirect } from "react-router-dom"
 import NotFound from "../templates/NotFound"
-import { DashboardContext } from "../../api/appReducer"
-import { Layout } from "antd"
+import { Route, Switch, Redirect } from "react-router-dom"
+import { useQuery } from "react-query"
+import Spin from "antd/es/spin"
+import "antd/es/spin/style/index.css"
 
-export default ({ pages }) => {
-	const { addPage } = useContext(DashboardContext)
-
-	const getHomePage = () => {
-		const home = pages.find(page => page.defaultHomePage || page.name === "Home")
-		if (!home) return pages[0].name !== "404" ? pages[0] : pages[1]
-		else return home
-	}
-	let home = getHomePage()
-
-	useEffect(() => {
-		if (pages.length < 1) return null
-		pages.map(page => addPage(page))
-	}, [])
+export default () => {
+	const { data, status, isFetching, error } = useQuery("pages", () =>
+		fetch(`${window.baseUrl}/api/internal/dashboard/pages`)
+			.then(res => res.json())
+			.then(res => res)
+	)
 
 	return (
-		<Layout.Content style={{ padding: 24 }}>
-			<Switch>
-				{pages.map(page => (
-					<Route path={`/${page.name}`}>
-						<Page {...page} />
-					</Route>
-				))}
-				<Redirect exact from="/" to={`/${home.name}`} />
-				<Route path="/" component={NotFound} />
-			</Switch>
-		</Layout.Content>
+		<React.Fragment>
+			{status === "loading" ? (
+				<Spin spinning={isFetching} tip="Getting Pages" />
+			) : status === "error" ? (
+				<span>{error.message}</span>
+			) : (
+				<Switch>
+					{data.map(page => (
+						<Route path={`/${page.name}`}>
+							<Page {...page} />
+						</Route>
+					))}
+					<Redirect exact from="/" to="/Icons" />
+					<Route path="/" component={NotFound} />
+				</Switch>
+			)}
+		</React.Fragment>
 	)
 }

@@ -3,10 +3,6 @@ import React, { useReducer, createContext, Suspense, useCallback } from "react"
 import { Spin } from "antd"
 
 const initialState = {
-	pages: [],
-	selectedPageKey: "",
-	selectedPageTitle: "",
-	loading: true,
 	framework: "Antd",
 	theme: {
 		defaultTheme: {},
@@ -65,7 +61,6 @@ const reducer = (state, action) => {
 const DashboardProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
-	
 	const addPage = useCallback(
 		({ id, name, autoRefresh, refreshInterval, content = [], title }) => {
 			dispatch({
@@ -126,13 +121,13 @@ const DashboardProvider = ({ children }) => {
 		},
 		[dispatch]
 	)
-
-	let value = { state, dispatch, addPage, removePage, setLoading, setSidebar, setPage }
-	return (
-		<DashboardContext.Provider value={value}>
-			<Suspense fallback={<Spin delay={500}/>}>{children}</Suspense>
-		</DashboardContext.Provider>
+	
+	let collapsed = state.sideMenu.collapsed
+	let value = React.useMemo(
+		() => ({collapsed, dispatch, addPage, removePage, setLoading, setSidebar, setPage }),
+		[collapsed, dispatch, setLoading, setSidebar]
 	)
+	return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>
 }
 
 export default DashboardProvider

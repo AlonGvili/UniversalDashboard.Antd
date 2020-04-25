@@ -5,19 +5,20 @@ import DashboardHeader from "../framework/core/DashboardHeader"
 import DashboardFooter from "../framework/core/DashboardFooter"
 import DashboardSideBar from "../framework/core/DashboardSideBar"
 import DashboardProvider from "./appReducer"
+import { ReactQueryDevtools } from "react-query-devtools"
 
-export default ({ dashboard }) => {
-	const { pages } = dashboard
-	return (
+export default () => (
+	<Layout style={{ minHeight: "100vh" }} hasSider>
 		<DashboardProvider>
-			<Layout style={{ minHeight: "100vh" }}>
-				<DashboardSideBar />
-				<Layout>
-					<DashboardHeader />
-					<PageManager pages={pages} />
-					<DashboardFooter />
-				</Layout>
-			</Layout>
+			<DashboardSideBar />
 		</DashboardProvider>
-	)
-}
+		<Layout>
+			<DashboardHeader />
+			<Layout.Content style={{ padding: 24 }}>
+				<PageManager />
+			</Layout.Content>
+			<DashboardFooter />
+		</Layout>
+		<ReactQueryDevtools />
+	</Layout>
+)

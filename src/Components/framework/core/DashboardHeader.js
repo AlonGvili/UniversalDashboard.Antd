@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react"
 import { Layout, Menu } from "antd"
 import { Link, useLocation } from "react-router-dom"
-import { DashboardContext } from "../../api/appReducer"
-
+import {queryCache} from 'react-query'
 export default function DashboardHeader({ visible = true }) {
-	const location = useLocation()
-	const {
-		state: { pages },
-	} = useContext(DashboardContext)
 	const [current, setCurrent] = useState([])
+	const location = useLocation()
+	// const {
+	// 	state: { pages },
+	// } = useContext(DashboardContext)
+	const pages = queryCache.getQueryData("pages")
+	if(!pages) return null
 
 	const links = pages.map((page, index) => (
 		<Menu.Item key={page.name}>

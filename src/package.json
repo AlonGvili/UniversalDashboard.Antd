@@ -25,6 +25,8 @@
     "antd": "^4.1.0",
     "dynamic-antd-theme": "^0.4.1",
     "query-string": "^6.11.1",
+    "react-query": "^1.2.9",
+    "react-query-devtools": "^1.1.5",
     "sunflower-antd": "^1.0.0-beta.3",
     "use-dark-mode": "^2.3.1"
   },

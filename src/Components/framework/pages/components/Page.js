@@ -1,19 +1,29 @@
-import React, {Fragment } from "react"
-import ReactInterval from "react-interval"
+import React from "react"
 import { useParams } from "react-router-dom"
-import useApi from "../../../api/Hooks/useApi"
 import queryString from "query-string"
-import { Spin } from "antd"
-const dynamicUrl = "/api/internal/component/element/"
+import { useQuery } from "react-query"
+import Spin from "antd/es/spin"
+import "antd/es/spin/style/index.css"
 
 export default ({ id, autoRefresh, refreshInterval }) => {
 	const params = useParams()
 	const query = `?${queryString.stringify(params)}`
-	const {data, loading, error, get} = useApi(`${dynamicUrl}${id}${query}`)
+	const dynamicUrl = "/api/internal/component/element/"
+
+	const { data, isFetching, status } = useQuery(
+		id,
+		() =>
+			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`)
+				.then(res => res.json())
+				.then(res => res),
+		{
+			refetchInterval: autoRefresh && refreshInterval,
+			refetchIntervalInBackground: autoRefresh,
+		}
+	)
 	return (
-		<Spin spinning={loading} tip={`Loading data please wait...`} delay={250}>
-			{UniversalDashboard.renderComponent(data)}
-			<ReactInterval callback={get} enabled={autoRefresh} timeout={refreshInterval} />
+		<Spin spinning={isFetching} tip={`Loading data please wait...`}>
+			{status === "loading" ? [] : UniversalDashboard.renderComponent(data)}
 		</Spin>
 	)
 }

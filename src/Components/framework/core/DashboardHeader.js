@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react"
-import { Layout, Menu } from "antd"
+import { Layout, Menu, Spin } from "antd"
 import { Link, useLocation } from "react-router-dom"
-import {queryCache} from 'react-query'
+import { queryCache, useQuery } from "react-query"
 export default function DashboardHeader({ visible = true }) {
 	const [current, setCurrent] = useState([])
-	const [pages, setPages] = useState([])
 	const location = useLocation()
-	// const pages = queryCache.getQueryData("pages")
-	useEffect(() => {
-		const initPages = queryCache.getQuery("pages")
-		if(!initPages) return null
-		else setPages(initPages)
-	},[])
 
-	const links = pages.map((page) => (
+	const { data, isFetching, error, status } = useQuery("pages", () =>
+		fetch(`${window.baseUrl}/api/internal/dashboard/pages`)
+			.then(res => res.json())
+			.then(res => res)
+	)
+	
+
+	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Pages" delay={750} />
+	if (status === "error") return <p>{`Error: ${error.message}`}</p> 
+
+	const links = data.map(page => (
 		<Menu.Item key={page.name}>
 			<Link to={`/${page.name}`}>{page.name}</Link>
 		</Menu.Item>
@@ -27,14 +30,16 @@ export default function DashboardHeader({ visible = true }) {
 					mode="horizontal"
 					onClick={({ key }) => setCurrent(key)}
 					selectedKeys={[
-						current === `${location.pathname.split("/")[1]}`  ? current : `${location.pathname.split("/")[1]}`,
+						current === `${location.pathname.split("/")[1]}`
+							? current
+							: `${location.pathname.split("/")[1]}`,
 					]}
 					defaultSelectedKeys={[current || `${location.pathname.split("/")[1]}`]}
 				>
 					{links}
 				</Menu>
 			</Layout.Header>
-		) 
+		)
 	)
 }
 

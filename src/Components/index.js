@@ -4,7 +4,8 @@ import AntDesign from "./api/dashboard"
 import registerComponents from "./api/imports"
 import disableUdTheme from "./resets/reset-style"
 
-UniversalDashboard.renderDashboard = ({ dashboard }) => {
+
+UniversalDashboard.renderDashboard = () => {
 	registerComponents()
 	disableUdTheme()
 	return (

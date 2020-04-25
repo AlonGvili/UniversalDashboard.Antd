@@ -1,6 +1,6 @@
 import React from "react"
 import Page from "./components/Page"
-import NotFound from "../templates/NotFound"
+const NotFound = React.lazy(() => import( /* webpackChunkName: 'NotFoundPage' */ "../templates/NotFound"))
 import { Route, Switch, Redirect } from "react-router-dom"
 import { useQuery } from "react-query"
 import Spin from "antd/es/spin"
@@ -13,23 +13,20 @@ export default () => {
 			.then(res => res)
 	)
 
+	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Pages" delay={750} />
+	if (status === "error") return <p>{`Error: ${error.message}`}</p>
+
 	return (
 		<React.Fragment>
-			{status === "loading" ? (
-				<Spin spinning={isFetching} tip="Getting Pages" />
-			) : status === "error" ? (
-				<span>{error.message}</span>
-			) : (
-				<Switch>
-					{data.map(page => (
-						<Route path={`/${page.name}`}>
-							<Page {...page} />
-						</Route>
-					))}
-					<Redirect exact from="/" to="/Icons" />
-					<Route path="/" component={NotFound} />
-				</Switch>
-			)}
+			<Switch>
+				{data.map(page => (
+					<Route path={`/${page.name}`}>
+						<Page {...page} />
+					</Route>
+				))}
+				<Redirect exact from="/" to="/Icons" />
+				<Route path="/" component={NotFound} />
+			</Switch>
 		</React.Fragment>
 	)
 }

@@ -26,7 +26,6 @@ bin-release/
 /src/package-lock.json
 /src/Components/app.jsx
 /src/Components/Services
-/src/Components/resets
 /src/Components/Monitors
 /src/Components/General/autocomplete.jsx.old
 /src/Components/comment/api.jsx

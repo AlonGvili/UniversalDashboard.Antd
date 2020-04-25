@@ -7,7 +7,6 @@ export default () => {
 	const history = useHistory()
 	return (
 		<Result
-			// icon={icon && UniversalDashboard.renderComponent(icon)}
 			status="404"
 			title="Page Not Found"
 			subTitle="The page you are looking for dont exsist."

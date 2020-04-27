@@ -7,7 +7,7 @@ export default function DashboardHeader({ visible = true }) {
 	const location = useLocation()
 
 	const { data, isFetching, error, status } = useQuery("pages", () =>
-		fetch(`${window.baseUrl}/api/internal/dashboard/pages`)
+		fetch(`${window.baseUrl}/api/internal/component/element/pages`, { headers: { dashboardid: 3,  UDConnectionId: UniversalDashboard.connectionId }})
 			.then(res => res.json())
 			.then(res => res)
 	)

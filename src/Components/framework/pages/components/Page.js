@@ -4,6 +4,9 @@ import queryString from "query-string"
 import { useQuery } from "react-query"
 import Spin from "antd/es/spin"
 import "antd/es/spin/style/index.css"
+import { getMeta } from '../meta'
+
+const dashboardid = getMeta('ud-dashboard');
 
 export default ({ id, autoRefresh, refreshInterval }) => {
 	const params = useParams()
@@ -13,7 +16,7 @@ export default ({ id, autoRefresh, refreshInterval }) => {
 	const { data, isFetching, status } = useQuery(
 		id,
 		() =>
-			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`, { headers: { dashboardid: 3,  UDConnectionId: UniversalDashboard.connectionId }})
+			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`, { headers: { dashboardid,  UDConnectionId: UniversalDashboard.connectionId }})
 				.then(res => res.json())
 				.then(res => res),
 		{

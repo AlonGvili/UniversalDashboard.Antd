@@ -13,7 +13,7 @@ export default ({ id, autoRefresh, refreshInterval }) => {
 	const { data, isFetching, status } = useQuery(
 		id,
 		() =>
-			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`)
+			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`, { headers: { dashboardid: 3,  UDConnectionId: UniversalDashboard.connectionId }})
 				.then(res => res.json())
 				.then(res => res),
 		{

@@ -1,6 +1,7 @@
 var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // var darkTheme = require("@ant-design/dark-theme")
 
@@ -11,7 +12,7 @@ var APP_DIR = path.resolve(__dirname, "src/app")
 module.exports = {
 	mode: "production",
 	entry: {
-		index: __dirname + "/components/index.js",
+		index: __dirname + "/app/index.jsx",
 	},
 	output: {
 		path: BUILD_DIR,
@@ -105,12 +106,15 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [],
+    plugins: [
+		new HtmlWebpackPlugin({
+		  favicon: path.resolve(SRC_DIR, 'favicon.ico'),
+		  template: path.resolve(SRC_DIR, 'index.html'),
+		  chunksSortMode: 'none'
+		})
+  	],
 	externals: {
-		UniversalDashboard: "UniversalDashboard",
-		react: "react",
-		"react-router-dom": "reactrouterdom",
-		"theme-ui": "themeui",
+		UniversalDashboard: "UniversalDashboard"
 	},
 	resolve: {
 		extensions: [".js", ".jsx"],
@@ -125,5 +129,18 @@ module.exports = {
 		compress: true,
 		publicPath: "/",
 		stats: "minimal",
+		proxy: {
+			'/api': {
+				changeOrigin: true,
+				//pathRewrite: { '^/api': '' },
+				target: 'http://localhost:5000/',
+				secure: true,
+				logLevel: 'debug'
+			},
+			'/dashboardhub': {
+			  target: 'ws://localhost:5000',
+			  ws: true
+		   },
+		}
 	},
 }

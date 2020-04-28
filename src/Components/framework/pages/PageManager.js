@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom"
 import { useQuery } from "react-query"
 import Spin from "antd/es/spin"
 import "antd/es/spin/style/index.css"
-import { getMeta } from '../meta'
+import { getMeta } from '../../meta'
 
 const dashboardid = getMeta('ud-dashboard');
 

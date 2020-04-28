@@ -1,18 +1,20 @@
 import React from "react"
 import { Layout } from "antd"
+import store from "./store"
 const PageManager = React.lazy(() => import(/* webpackChunkName: 'PageManager'*/ "../framework/pages/PageManager"))
-import DashboardHeader from '../framework/core/DashboardHeader'
+const DashboardHeader = React.lazy(() =>
+	import(/* webpackChunkName: 'DashboardHeader' */ "../framework/core/DashboardHeader")
+)
 const DashboardFooter = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardFooter'*/ "../framework/core/DashboardFooter")
 )
 const DashboardSideBar = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardSideBar'*/ "../framework/core/DashboardSideBar")
 )
-import DashboardProvider from "./appReducer"
 
 export default () => (
-	<Layout style={{ minHeight: "100vh" }}>
-		<DashboardProvider>
+	<store.Provider initialValue={{ isOpen: false }}>
+		<Layout style={{ minHeight: "100vh" }}>
 			<DashboardSideBar />
 			<Layout>
 				<DashboardHeader />
@@ -21,6 +23,6 @@ export default () => (
 				</Layout.Content>
 				<DashboardFooter />
 			</Layout>
-		</DashboardProvider>
-	</Layout>
+		</Layout>
+	</store.Provider>
 )

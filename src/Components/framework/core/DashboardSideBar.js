@@ -1,15 +1,15 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Layout } from "antd"
-import { DashboardContext } from "../../api/appReducer"
+import { useIsOpen, useCollapsed } from "./sidebar"
 const Sider = Layout.Sider
 
 export default function DashboardSideBar({ content = [], visible = true }) {
-	const { collapsed, setSidebar } = useContext(DashboardContext)
-	// const collapsed = collapsed
+	const isOpen = useIsOpen()
+	const collapsed = useCollapsed()
 
 	return (
 		visible && (
-			<Sider collapsible collapsed={collapsed} onCollapse={() => setSidebar(!collapsed)}>
+			<Sider collapsible collapsed={isOpen} onCollapse={() => collapsed()}>
 				{UniversalDashboard.renderComponent(content)}
 			</Sider>
 		)

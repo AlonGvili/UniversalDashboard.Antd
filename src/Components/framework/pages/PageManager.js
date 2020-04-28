@@ -5,10 +5,13 @@ import { Route, Switch, Redirect } from "react-router-dom"
 import { useQuery } from "react-query"
 import Spin from "antd/es/spin"
 import "antd/es/spin/style/index.css"
+import { getMeta } from '../meta'
+
+const dashboardid = getMeta('ud-dashboard');
 
 export default () => {
 	const { data, status, isFetching, error } = useQuery("pages", () =>
-		fetch(`${window.baseUrl}/api/internal/component/element/pages`, { headers: { dashboardid: 3,  UDConnectionId: UniversalDashboard.connectionId }})
+		fetch(`${window.baseUrl}/api/internal/component/element/pages`, { headers: { dashboardid,  UDConnectionId: UniversalDashboard.connectionId }})
 			.then(res => res.json())
 			.then(res => res)
 	)

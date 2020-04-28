@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react"
 import { Layout, Menu, Spin } from "antd"
 import { Link, useLocation } from "react-router-dom"
 import { queryCache, useQuery } from "react-query"
+import { getMeta } from '../meta'
+
+const dashboardid = getMeta('ud-dashboard');
+
 export default function DashboardHeader({ visible = true }) {
 	const [current, setCurrent] = useState([])
 	const location = useLocation()
 
 	const { data, isFetching, error, status } = useQuery("pages", () =>
-		fetch(`${window.baseUrl}/api/internal/component/element/pages`, { headers: { dashboardid: 3,  UDConnectionId: UniversalDashboard.connectionId }})
+		fetch(`${window.baseUrl}/api/internal/component/element/pages`, { headers: { dashboardid,  UDConnectionId: UniversalDashboard.connectionId }})
 			.then(res => res.json())
 			.then(res => res)
 	)

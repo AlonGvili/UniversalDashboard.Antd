@@ -40,18 +40,23 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     window.location.reload(true)
   })
 
-  connection.on('setState', (componentId, state) => {
-    PubSub.publish(componentId, {
+  connection.on('setState', json => {
+
+    var data = JSON.parse(json);
+
+    PubSub.publish(data.componentId, {
       type: 'setState',
-      state: state,
+      state: data.state,
     })
   })
 
-  connection.on('showToast', model => {
+  connection.on('showToast', json => {
+    var model = JSON.parse(json);
     toaster.show(model)
   })
 
-  connection.on('showError', model => {
+  connection.on('showError', json => {
+    var model = JSON.parse(json);
     toaster.error(model)
   })
 
@@ -59,18 +64,24 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     toaster.hide(id)
   })
 
-  connection.on('requestState', (componentId, requestId) => {
-    PubSub.publish(componentId, {
+  connection.on('requestState', json => {
+
+    var data = JSON.parse(json)
+
+    PubSub.publish(data.componentId, {
       type: 'requestState',
-      requestId: requestId,
+      requestId: data.requestId,
     })
   })
 
-  connection.on('removeElement', (componentId, parentId) => {
-    PubSub.publish(componentId, {
+  connection.on('removeElement', json => {
+
+    var data = JSON.parse(json);
+
+    PubSub.publish(data.componentId, {
       type: 'removeElement',
-      componentId: componentId,
-      parentId: parentId,
+      componentId: data.componentId,
+      parentId: data.parentId,
     })
   })
 
@@ -88,17 +99,18 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     })
   })
 
-  connection.on('addElement', (componentId, elements) => {
-    if (componentId == null) return
+  connection.on('addElement', json => {
+    var data = JSON.parse(json);
 
-    PubSub.publish(componentId, {
+    PubSub.publish(data.componentId, {
       type: 'addElement',
-      componentId: componentId,
-      elements: elements,
+      componentId: data.componentId,
+      elements: data.elements,
     })
   })
 
-  connection.on('showModal', props => {
+  connection.on('showModal', json => {
+    var props = JSON.parse(json);
     PubSub.publish('modal.open', props)
   })
 
@@ -106,27 +118,26 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     PubSub.publish('modal.close', {})
   })
 
-  connection.on('redirect', (url, newWindow) => {
-    if (url.startsWith('/'))
+  connection.on('redirect', json => {
+    var data = JSON.parse(json);
+
+    if (data.url.startsWith('/'))
     {
        history.push(url);
     }
-    else if (newWindow) {
-      window.open(url)
+    else if (data.openInNewWindow) {
+      window.open(data.url)
     } else {
-      window.location.href = url
+      window.location.href = data.url
     }
   })
 
-  connection.on('select', (ParameterSetName, ID, scrollToElement) => {
-    if (ParameterSetName == 'ToTop') {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-    if (ParameterSetName == 'Normal') {
-      document.getElementById(ID).focus()
-      if (scrollToElement) {
-        document.getElementById(ID).scrollIntoView()
-      }
+  connection.on('select', json => {
+
+    var data = JSON.parse(json);
+    document.getElementById(data.id).focus()
+    if (data.scrollToElement) {
+      document.getElementById(data.id).scrollIntoView()
     }
   })
 
@@ -134,17 +145,18 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     eval(jsscript)
   })
 
-  connection.on('clipboard', (Data, toastOnSuccess, toastOnError) => {
-    let data = Data
+  connection.on('clipboard', json => {
+
+    var data = JSON.parse(json);
     try {
-      let isCopyed = data !== null || data !== '' ? copy(data) : false
-      if (toastOnSuccess && isCopyed) {
+      let isCopyed = data.data !== null || data !== '' ? copy(data.data) : false
+      if (data.toastOnSuccess && isCopyed) {
         toaster.show({
           message: 'Copied to clipboard',
         })
       }
     } catch (err) {
-      if (toastOnError) {
+      if (data.toastOnError) {
         toaster.show({
           message: 'Unable to copy to clipboard',
         })

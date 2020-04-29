@@ -32,7 +32,7 @@ export default ({ id, content, layout, formName }) => {
 			type: "clientEvent",
 			eventId: id + "onSubmit",
 			eventName: "onSubmit",
-			eventData: "test",
+			eventData: JSON.stringify(values),
 		})
 	}
 

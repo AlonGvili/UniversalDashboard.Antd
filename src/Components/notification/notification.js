@@ -4,8 +4,10 @@ import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const UDAntdNotification = props => {
 	const [{attributes}, reload, setState] = useDashboardEvent(props.id, props)
-    const {visible, preset, updateKey, ...restOfProps} = attributes
+    const {visible, preset, updateKey, description, ...restOfProps} = attributes
 
+	console.log('noti props', props)
+	console.log('noti attrib', attributes)
 	const onClose = () => {
 		restOfProps.hasCallback
 			? UniversalDashboard.publish("element-event", {
@@ -20,6 +22,7 @@ const UDAntdNotification = props => {
 	const openNotification = notificationProps => {
 		notification[preset]({
 			...notificationProps,
+			description: description,
 			onClose: () => onClose(),
 			key: updateKey || restOfProps.id,
 		})

@@ -24,11 +24,10 @@ export default function useDashboardEvent(elementId, initialState) {
 		switch (event.type) {
 			// Set-UDElement
 			case SET_STATE:
-				const { content: newContent, ...newAttributes } = event.state
-
+				console.log('dashboard event set state', event.state)
 				setState(prevState => {
 					return {
-						attributes: { ...prevState.attributes, ...newAttributes },
+						attributes: { ...prevState.attributes, ...event.state.attributes },
 						content: event.state.content,
 					}
 				})

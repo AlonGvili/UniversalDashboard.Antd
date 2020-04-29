@@ -20,7 +20,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
            
     }
     New-UDPage -Title 'Forms' -Name 'Form' -Content {
-        New-UDAntdNotification -Id "info" -Title "Universal Dashboard" -Description "Notification Description Content" -Preset "info" -Duration 0
+        New-UDAntdNotification -Id "info2" -Title "Universal Dashboard" -Description "Notification Description Content" -Preset "success" -Duration 0
         New-UDAntdForm -Id 'demoForm' -Variant small -Content {
             New-UDAntdFormItem -Name 'username' -Content (
                 New-UDAntdInput -PlaceHolder 'Enter your user name' -Prefix ( New-UDAntdIcon -Icon UserOutlined )
@@ -61,14 +61,25 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 } 
             )
         } -Layout vertical -OnSubmit {
-            Set-UDElement -Id "info" -Properties @{visible = $true; description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json  ) }            
+            Set-UDElement -Id "info2" -Properties @{
+                attributes = @{
+                    description = $EventData
+                    visible = $true 
+                    preset = "error"
+                    # description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json)
+                }
+            }
         }
     }
     New-UDPage -Title 'Profile' -Name Profile -Endpoint {
        
         New-UDAntdNotification -Id "userInfo" -Title "Universal Dashboard" -Description "The UserID is:and its name is:" -Preset "info" 
         New-UDAntdButton -Label Demo -ButtonType primary -OnClick {
-            Set-UDElement -Id "userInfo" -Properties @{visible = $true }
+            Set-UDElement -Id "userInfo" -Properties @{
+                attributes = @{
+                    visible = $true 
+                }
+            }
         }
        
     }

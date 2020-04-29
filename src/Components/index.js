@@ -2,12 +2,12 @@ import "./framework/public-path"
 import React, { Suspense } from "react"
 import AntDesign from "./api/dashboard"
 import registerComponents from "./api/imports"
-import disableUdTheme from "./resets/reset-style"
+// import disableUdTheme from "./resets/reset-style"
 
 
 UniversalDashboard.renderDashboard = () => {
 	registerComponents()
-	disableUdTheme()
+	// disableUdTheme()
 	return (
 		<Suspense fallback={null}>
 			<AntDesign />

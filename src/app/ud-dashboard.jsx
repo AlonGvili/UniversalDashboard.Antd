@@ -179,13 +179,14 @@ function connectWebSocket(sessionId, location, setLoading, history) {
     }
 
     if (data.type === 'clientEvent') {
+      console.log('clientEvent', data)
       connection
         .invoke(
           'clientEvent',
           data.eventId,
           data.eventName,
           data.eventData,
-          location,
+          // location,
         )
         .catch(function(e) {
           toaster.show({

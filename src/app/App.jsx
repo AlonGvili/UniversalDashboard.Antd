@@ -27,12 +27,12 @@ export default class App extends React.Component {
     }
 
     componentWillMount() {
-        var styles = document.createElement('link');
-        styles.rel = 'stylesheet';
-        styles.type = 'text/css';
-        styles.media = 'screen';
-        styles.href = getApiPath() + "/api/internal/dashboard/theme";
-        document.getElementsByTagName('head')[0].appendChild(styles);
+        // var styles = document.createElement('link');
+        // styles.rel = 'stylesheet';
+        // styles.type = 'text/css';
+        // styles.media = 'screen';
+        // styles.href = getApiPath() + "/api/internal/dashboard/theme";
+        // document.getElementsByTagName('head')[0].appendChild(styles);
 
         this.setState({
             loading: false

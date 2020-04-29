@@ -186,7 +186,7 @@ function connectWebSocket(sessionId, location, setLoading, history) {
           data.eventId,
           data.eventName,
           data.eventData,
-          // location,
+          location,
         )
         .catch(function(e) {
           toaster.show({

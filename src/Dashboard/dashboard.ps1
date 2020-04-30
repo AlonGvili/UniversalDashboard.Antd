@@ -61,9 +61,10 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 } 
             )
         } -Layout vertical -OnSubmit {
+            $t = ConvertFrom-Json $EventData 
             Set-UDElement -Id "info2" -Properties @{
                 attributes = @{
-                    description = (ConvertFrom-Json $EventData | ConvertTo-Json)
+                    description = "$($t.username)"
                     visible = $true 
                     preset = "error"
                     # description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json)

@@ -9,7 +9,7 @@ import { base } from '@theme-ui/presets'
 import toaster from './services/toaster'
 import LazyElement from './basics/lazy-element.jsx'
 import copy from 'copy-to-clipboard'
-
+import {useLocation} from 'react-router-dom'
 function getMeta(metaName) {
   const metas = document.getElementsByTagName('meta');
 
@@ -185,8 +185,8 @@ function connectWebSocket(sessionId, location, setLoading, history) {
           'clientEvent',
           data.eventId,
           data.eventName,
-          data.eventData,
-          location,
+          `${data.eventData}`,
+          "",
         )
         .catch(function(e) {
           toaster.show({
@@ -294,7 +294,7 @@ function Dashboard({ history }) {
   const [hasError, setHasError] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [location, setLocation] = useState(null)
+  const [location, setLocation] = useState(useLocation())
 
   useEffect(() => {
     if (dashboard) return

@@ -18,7 +18,7 @@ export default function useDashboardEvent(elementId, initialState) {
 	useEffect(() => {
 		const pubSubToken = UniversalDashboard.subscribe(elementId, events)
 		return () => UniversalDashboard.unsubscribe(pubSubToken)
-	}, [elementId])
+	}, [])
 
 	const events = (msg, event) => {
 		switch (event.type) {

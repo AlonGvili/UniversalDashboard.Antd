@@ -3,7 +3,6 @@ import { fetchGet, fetchPost, fetchDelete, fetchPut, fetchPostRaw, fetchPostForm
 import { internalRenderComponent } from './render-service.jsx';
 import LazyElement from './../basics/lazy-element.jsx';
 import PubSub from 'pubsub-js';
-import toaster from './toaster';
 
 var components = []
 
@@ -84,7 +83,6 @@ export const UniversalDashboardService = {
     subscribe: PubSub.subscribe,
     unsubscribe: PubSub.unsubscribe,
     publish: PubSub.publishSync,
-    toaster: toaster,
     connectionId: '',
     sessionId: '',
     sessionTimedOut: false,

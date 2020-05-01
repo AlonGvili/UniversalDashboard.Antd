@@ -1,6 +1,6 @@
 import React from "react";
-import { Input } from "antd/es"
-import "antd/es/input/style/index.css"
+import { Input } from "antd"
+// import "antd/es/input/style/index.css"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 export default props => {

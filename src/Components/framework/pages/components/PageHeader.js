@@ -1,6 +1,6 @@
 import React from "react"
-import PageHeader from "antd/es/page-header"
-import "antd/es/page-header/style/index.css"
+import {PageHeader} from "antd"
+// import "antd/es/page-header/style/index.css"
 
 export default ({ subTitle, title, tags, avatar, ghost, footer, extra, id }) => {
 	return (

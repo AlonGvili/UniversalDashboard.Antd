@@ -10,6 +10,7 @@ export default function AntdErrorBoundary({ children }) {
 		errorInfo, // null or the error info as described in the react docs
 	} = useErrorBoundary()
 
+    console.log(errorInfo)
 	return (
 		<ErrorBoundary message={`An Uncaught Error`} description={errorInfo}>
 			{children}

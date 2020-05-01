@@ -1,7 +1,7 @@
 var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 // var darkTheme = require("@ant-design/dark-theme")
 
@@ -28,7 +28,7 @@ module.exports = {
 			chunks: "async",
 			minSize: 30000,
 			maxSize: 0,
-			minChunks: 1,
+			minChunks: 2,
 			maxAsyncRequests: 5,
 			maxInitialRequests: 3,
 			automaticNameDelimiter: "-",
@@ -51,7 +51,7 @@ module.exports = {
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
-				cache: false,
+				cache: true,
 				extractComments: true,
 				terserOptions: {
 					sourceMap: true,
@@ -86,14 +86,17 @@ module.exports = {
 			{
 				test: /\.less$/,
 				use: [
-					{ loader: "css-loader" },
-					{ loader: "file-loader" },
+					{
+						loader: "style-loader",
+					},
+					{
+						loader: "css-loader",
+					},
 					{
 						loader: "less-loader",
 						options: {
-							javascriptEnabled: true,
-							modifyVars: {
-								"primary-color": "pink",
+							lessOptions: {
+								javascriptEnabled: true,
 							},
 						},
 					},
@@ -106,15 +109,15 @@ module.exports = {
 			},
 		],
 	},
-    plugins: [
+	plugins: [
 		new HtmlWebpackPlugin({
-		  favicon: path.resolve(SRC_DIR, 'favicon.ico'),
-		  template: path.resolve(SRC_DIR, 'index.html'),
-		  chunksSortMode: 'none'
-		})
-  	],
+			favicon: path.resolve(SRC_DIR, "favicon.ico"),
+			template: path.resolve(SRC_DIR, "index.html"),
+			chunksSortMode: "none",
+		}),
+	],
 	externals: {
-		UniversalDashboard: "UniversalDashboard"
+		UniversalDashboard: "UniversalDashboard",
 	},
 	resolve: {
 		extensions: [".js", ".jsx"],
@@ -130,17 +133,17 @@ module.exports = {
 		publicPath: "/",
 		stats: "minimal",
 		proxy: {
-			'/api': {
+			"/api": {
 				changeOrigin: true,
 				//pathRewrite: { '^/api': '' },
-				target: 'http://localhost:5000/',
+				target: "http://localhost:5000/",
 				secure: true,
-				logLevel: 'debug'
+				logLevel: "debug",
 			},
-			'/dashboardhub': {
-			  target: 'ws://localhost:5000',
-			  ws: true
-		   },
-		}
+			"/dashboardhub": {
+				target: "ws://localhost:5000",
+				ws: true,
+			},
+		},
 	},
 }

@@ -6,6 +6,6 @@ if (document.getElementsByTagName('base')[0].href.indexOf("_BASEHREF_") == -1)
 else 
 {
     document.getElementsByTagName('base')[0].href = ""
-    __webpack_public_path__ = ""
+    __webpack_public_path__ = "/"
     window.baseUrl = ""
 }

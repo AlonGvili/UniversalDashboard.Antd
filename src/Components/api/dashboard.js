@@ -12,8 +12,9 @@ const DashboardSideBar = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardSideBar'*/ "../framework/core/DashboardSideBar")
 )
 
+
 export default () => (
-	<store.Provider initialValue={{ isOpen: false }}>
+	<store.Provider initialValue={{ isOpen: true }}>
 		<Layout style={{ minHeight: "100vh" }}>
 			<DashboardSideBar />
 			<Layout>
@@ -26,3 +27,5 @@ export default () => (
 		</Layout>
 	</store.Provider>
 )
+
+window.less.options.javascriptEnabled = true

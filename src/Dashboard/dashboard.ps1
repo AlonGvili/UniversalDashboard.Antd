@@ -20,7 +20,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
            
     }
     New-UDPage -Title 'Forms' -Name 'Form' -Content {
-        New-UDAntdNotification -Id "info2" -Title "Universal Dashboard" -Description "Notification Description Content" -Preset "success" -Duration 0
+        New-UDAntdNotification -Id "info2" -Title "Universal Dashboard" -Description "Notification Description Content" -Preset "success" -Duration 8
         New-UDAntdForm -Id 'demoForm' -Variant small -Content {
             New-UDAntdFormItem -Name 'username' -Content (
                 New-UDAntdInput -PlaceHolder 'Enter your user name' -Prefix ( New-UDAntdIcon -Icon UserOutlined )
@@ -61,12 +61,13 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 } 
             )
         } -Layout vertical -OnSubmit {
-            $t = ConvertFrom-Json $EventData 
+            # $t = ConvertFrom-Json $EventData 
             Set-UDElement -Id "info2" -Properties @{
                 attributes = @{
-                    description = "$($t.username)"
+                    description = ConvertFrom-Json $EventData | ConvertTo-Json
                     visible = $true 
                     preset = "error"
+                    duration = 3
                     # description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json)
                 }
             }
@@ -83,7 +84,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             }
         }
        
-    }
+    } -DefaultHomePage
     New-UDPage -Title 'Dynamic' -Name Dynamic -Url "/counter" -Endpoint {
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 12 -Content {
@@ -100,6 +101,9 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             } -AutoRefresh -RefreshInterval 8000
 
         } -Gutter 16
+    }  
+    New-UDPage -Title 'Not Found' -Name 404 -Url "/404" -Endpoint {
+        New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "test" 
     }  
 
 ) 

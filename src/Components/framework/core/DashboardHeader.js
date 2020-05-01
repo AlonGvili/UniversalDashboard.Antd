@@ -20,7 +20,8 @@ export default function DashboardHeader({ visible = true }) {
 	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Pages" delay={750} />
 	if (status === "error") return <p>{`Error: ${error.message}`}</p> 
 
-	const links = data.map(page => (
+	const pages = data.filter(page => page.name !== "404")
+	const links = pages.map(page => (
 		<Menu.Item key={page.name}>
 			<Link to={`/${page.name}`}>{page.name}</Link>
 		</Menu.Item>

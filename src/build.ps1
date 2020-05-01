@@ -27,9 +27,9 @@ if (!$Minimal) {
 
 npm run build
 
-Copy-Item $BuildFolder\public $OutputPath\jsfiles -Recurse -Force
+Copy-Item $BuildFolder\public\* $OutputPath -Recurse -Force
 Copy-Item $BuildFolder\Scripts $OutputPath\Scripts -Recurse -Force
-Copy-Item $BuildFolder\less.js $OutputPath\jsfiles 
+Copy-Item $BuildFolder\less.js $OutputPat 
 Copy-Item $BuildFolder\UniversalDashboard.Antd.psm1 $OutputPath
 
 Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Recurse

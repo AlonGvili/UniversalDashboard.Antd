@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 import React from "react"
-import { Form, Button } from "antd/es"
-import "antd/lib/form/style/index.css"
-import "antd/lib/button/style/index.css"
+import { Form, Button } from "antd"
+// import "antd/lib/form/style/index.css"
+// import "antd/lib/button/style/index.css"
 import { message } from "antd"
 import AntdErrorBoundary from "../framework/core/errorBoundries"
 
@@ -38,7 +38,7 @@ export default ({ id, content, layout, formName }) => {
 	}
 
 	return (
-		<AntdErrorBoundary>
+		// <AntdErrorBoundary>
 			<div style={{ maxWidth: 300, padding: 48 }}>
 				<Form id={id} form={form} name={formName || `form-${id}`} layout={layout} onFinish={onFormSubmit}>
 					{UniversalDashboard.renderComponent(content)}
@@ -52,6 +52,6 @@ export default ({ id, content, layout, formName }) => {
 					</Form.Item>
 				</Form>
 			</div>
-		</AntdErrorBoundary>
+		// </AntdErrorBoundary>
 	)
 }

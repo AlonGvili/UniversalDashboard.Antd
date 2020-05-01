@@ -42,8 +42,8 @@ function New-UDAntdForm {
             submitButton = $SubmitButton
             # className = $ClassName
             variant = $Variant
-            # hideRequiredMark = $HideRequiredMark.IsPresent
-            # labelAlign = $LabelAlign
+            hideRequiredMark = $HideRequiredMark.IsPresent
+            labelAlign = $LabelAlign
             layout= $Layout
             content = $Content.Invoke()
             
@@ -103,7 +103,7 @@ function New-UDAntdFormItem {
             name = $Name
             label = $Label
             required = $Required.IsPresent
-            # hasFeedback = $HasFeedback.IsPresent
+            hasFeedback = $HasFeedback.IsPresent
             # initialValue = $InitialValue
             rules = if($Rules.Length -gt 0){$Rules}else{$null}
             content = $Content

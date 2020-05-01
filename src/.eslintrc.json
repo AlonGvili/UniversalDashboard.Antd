@@ -17,6 +17,7 @@
         "react/jsx-key": 1,
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error"
+
     },
     "globals": {
         "UniversalDashboard": true,

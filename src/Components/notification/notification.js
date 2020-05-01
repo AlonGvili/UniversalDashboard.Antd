@@ -6,8 +6,6 @@ const UDAntdNotification = props => {
 	const [{attributes}, reload, setState] = useDashboardEvent(props.id, props)
     const {visible, preset, updateKey, description, ...restOfProps} = attributes
 
-	console.log('noti props', props)
-	console.log('noti attrib', attributes)
 	const onClose = () => {
 		restOfProps.hasCallback
 			? UniversalDashboard.publish("element-event", {

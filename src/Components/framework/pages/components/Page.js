@@ -2,8 +2,8 @@ import React from "react"
 import { useParams } from "react-router-dom"
 import queryString from "query-string"
 import { useQuery } from "react-query"
-import Spin from "antd/es/spin"
-import "antd/es/spin/style/index.css"
+import {Spin} from "antd"
+// import "antd/es/spin/style/index.css"
 import { getMeta } from '../../meta'
 
 const dashboardid = getMeta('ud-dashboard');

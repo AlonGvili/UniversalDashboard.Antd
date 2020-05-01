@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Input } from "antd/es";
-import 'antd/es/input/style/index.css'
+import { Input } from "antd";
+// import 'antd/es/input/style/index.css'
 
 const UDAntdInput = ({prefix,suffix,addonAfter,addonBefore, ...props}) => {
 

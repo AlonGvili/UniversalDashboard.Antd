@@ -1,368 +1,331 @@
-import React, { Suspense, useState, useEffect } from 'react'
+import React, { Suspense, useState, useEffect } from "react"
 
-import { getApiPath } from './config.jsx'
-import PubSub from 'pubsub-js'
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
-import { ThemeProvider } from 'theme-ui'
-import { ColorModeProvider } from '@theme-ui/color-modes'
-import { base } from '@theme-ui/presets'
-import toaster from './services/toaster'
-import LazyElement from './basics/lazy-element.jsx'
-import copy from 'copy-to-clipboard'
-import {useLocation} from 'react-router-dom'
+import { getApiPath } from "./config.jsx"
+import PubSub from "pubsub-js"
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
+import { ThemeProvider } from "theme-ui"
+import { ColorModeProvider } from "@theme-ui/color-modes"
+import { base } from "@theme-ui/presets"
+import LazyElement from "./basics/lazy-element.jsx"
+import copy from "copy-to-clipboard"
+import { useLocation } from "react-router-dom"
 function getMeta(metaName) {
-  const metas = document.getElementsByTagName('meta');
+	const metas = document.getElementsByTagName("meta")
 
-  for (let i = 0; i < metas.length; i++) {
-    if (metas[i].getAttribute('name') === metaName) {
-      return metas[i].getAttribute('content');
-    }
-  }
+	for (let i = 0; i < metas.length; i++) {
+		if (metas[i].getAttribute("name") === metaName) {
+			return metas[i].getAttribute("content")
+		}
+	}
 
-  return '';
+	return ""
 }
 
-const dashboardId = getMeta('ud-dashboard');
+const dashboardId = getMeta("ud-dashboard")
 
 var connection
 
 function connectWebSocket(sessionId, location, setLoading, history) {
-  if (connection) {
-    setLoading(false)
-  }
+	if (connection) {
+		setLoading(false)
+	}
 
-  connection = new HubConnectionBuilder()
-    .withUrl(getApiPath() + `/dashboardhub?dashboardId=${dashboardId}`)
-    .configureLogging(LogLevel.Information)
-    .build()
+	connection = new HubConnectionBuilder()
+		.withUrl(getApiPath() + `/dashboardhub?dashboardId=${dashboardId}`)
+		.configureLogging(LogLevel.Information)
+		.build()
 
-  connection.on('reload', data => {
-    window.location.reload(true)
-  })
+	connection.on("reload", data => {
+		window.location.reload(true)
+	})
 
-  connection.on('setState', json => {
+	connection.on("setState", json => {
+		var data = JSON.parse(json)
 
-    var data = JSON.parse(json);
+		PubSub.publish(data.componentId, {
+			type: "setState",
+			state: data.state,
+		})
+	})
 
-    PubSub.publish(data.componentId, {
-      type: 'setState',
-      state: data.state,
-    })
-  })
+	connection.on("showToast", json => {
+		var model = JSON.parse(json)
+		toaster.show(model)
+	})
 
-  connection.on('showToast', json => {
-    var model = JSON.parse(json);
-    toaster.show(model)
-  })
+	connection.on("showError", json => {
+		var model = JSON.parse(json)
+		console.log(model)
+	})
 
-  connection.on('showError', json => {
-    var model = JSON.parse(json);
-    toaster.error(model)
-  })
+	connection.on("requestState", json => {
+		var data = JSON.parse(json)
 
-  connection.on('hideToast', id => {
-    toaster.hide(id)
-  })
+		PubSub.publish(data.componentId, {
+			type: "requestState",
+			requestId: data.requestId,
+		})
+	})
 
-  connection.on('requestState', json => {
+	connection.on("removeElement", json => {
+		var data = JSON.parse(json)
 
-    var data = JSON.parse(json)
+		PubSub.publish(data.componentId, {
+			type: "removeElement",
+			componentId: data.componentId,
+			parentId: data.parentId,
+		})
+	})
 
-    PubSub.publish(data.componentId, {
-      type: 'requestState',
-      requestId: data.requestId,
-    })
-  })
+	connection.on("clearElement", componentId => {
+		PubSub.publish(componentId, {
+			type: "clearElement",
+			componentId: componentId,
+		})
+	})
 
-  connection.on('removeElement', json => {
+	connection.on("syncElement", componentId => {
+		PubSub.publish(componentId, {
+			type: "syncElement",
+			componentId: componentId,
+		})
+	})
 
-    var data = JSON.parse(json);
+	connection.on("addElement", json => {
+		var data = JSON.parse(json)
 
-    PubSub.publish(data.componentId, {
-      type: 'removeElement',
-      componentId: data.componentId,
-      parentId: data.parentId,
-    })
-  })
+		PubSub.publish(data.componentId, {
+			type: "addElement",
+			componentId: data.componentId,
+			elements: data.elements,
+		})
+	})
 
-  connection.on('clearElement', componentId => {
-    PubSub.publish(componentId, {
-      type: 'clearElement',
-      componentId: componentId,
-    })
-  })
+	connection.on("showModal", json => {
+		var props = JSON.parse(json)
+		PubSub.publish("modal.open", props)
+	})
 
-  connection.on('syncElement', componentId => {
-    PubSub.publish(componentId, {
-      type: 'syncElement',
-      componentId: componentId,
-    })
-  })
+	connection.on("closeModal", () => {
+		PubSub.publish("modal.close", {})
+	})
 
-  connection.on('addElement', json => {
-    var data = JSON.parse(json);
+	connection.on("redirect", json => {
+		var data = JSON.parse(json)
 
-    PubSub.publish(data.componentId, {
-      type: 'addElement',
-      componentId: data.componentId,
-      elements: data.elements,
-    })
-  })
+		if (data.url.startsWith("/")) {
+			history.push(url)
+		} else if (data.openInNewWindow) {
+			window.open(data.url)
+		} else {
+			window.location.href = data.url
+		}
+	})
 
-  connection.on('showModal', json => {
-    var props = JSON.parse(json);
-    PubSub.publish('modal.open', props)
-  })
+	connection.on("select", json => {
+		var data = JSON.parse(json)
+		document.getElementById(data.id).focus()
+		if (data.scrollToElement) {
+			document.getElementById(data.id).scrollIntoView()
+		}
+	})
 
-  connection.on('closeModal', () => {
-    PubSub.publish('modal.close', {})
-  })
+	connection.on("invokejavascript", jsscript => {
+		eval(jsscript)
+	})
 
-  connection.on('redirect', json => {
-    var data = JSON.parse(json);
+	connection.on("write", message => {
+		PubSub.publish("write", message)
+	})
 
-    if (data.url.startsWith('/'))
-    {
-       history.push(url);
-    }
-    else if (data.openInNewWindow) {
-      window.open(data.url)
-    } else {
-      window.location.href = data.url
-    }
-  })
+	connection.on("setConnectionId", id => {
+		UniversalDashboard.connectionId = id
+		setLoading(false)
+	})
 
-  connection.on('select', json => {
+	PubSub.subscribe("element-event", function (e, data) {
+		if (data.type === "requestStateResponse") {
+			connection.invoke("requestStateResponse", data.requestId, data.state)
+		}
 
-    var data = JSON.parse(json);
-    document.getElementById(data.id).focus()
-    if (data.scrollToElement) {
-      document.getElementById(data.id).scrollIntoView()
-    }
-  })
+		if (data.type === "clientEvent") {
+			console.log("clientEvent", data)
+			connection.invoke("clientEvent", data.eventId, data.eventName, data.eventData, "").catch(function (e) {
+				console.log(e.message)
+			})
+		}
 
-  connection.on('invokejavascript', jsscript => {
-    eval(jsscript)
-  })
+		if (data.type === "unregisterEvent") {
+			connection.invoke("unregisterEvent", data.eventId)
+		}
+	})
 
-  connection.on('clipboard', json => {
-
-    var data = JSON.parse(json);
-    try {
-      let isCopyed = data.data !== null || data !== '' ? copy(data.data) : false
-      if (data.toastOnSuccess && isCopyed) {
-        toaster.show({
-          message: 'Copied to clipboard',
-        })
-      }
-    } catch (err) {
-      if (data.toastOnError) {
-        toaster.show({
-          message: 'Unable to copy to clipboard',
-        })
-      }
-    }
-  })
-
-  connection.on('write', message => {
-    PubSub.publish('write', message)
-  })
-
-  connection.on('setConnectionId', id => {
-    UniversalDashboard.connectionId = id
-    setLoading(false)
-  })
-
-  PubSub.subscribe('element-event', function(e, data) {
-    if (data.type === 'requestStateResponse') {
-      connection.invoke('requestStateResponse', data.requestId, data.state)
-    }
-
-    if (data.type === 'clientEvent') {
-      console.log('clientEvent', data)
-      connection
-        .invoke(
-          'clientEvent',
-          data.eventId,
-          data.eventName,
-          `${data.eventData}`,
-          "",
-        )
-        .catch(function(e) {
-          toaster.show({
-            message: e.message,
-            icon: 'fa fa-times-circle',
-            iconColor: '#FF0000',
-          })
-        })
-    }
-
-    if (data.type === 'unregisterEvent') {
-      connection.invoke('unregisterEvent', data.eventId)
-    }
-  })
-
-  connection.start().then(x => {
-    window.UniversalDashboard.webSocket = connection
-    connection.invoke('setSessionId', sessionId)
-  })
+	connection.start().then(x => {
+		window.UniversalDashboard.webSocket = connection
+		connection.invoke("setSessionId", sessionId)
+	})
 }
 
 function loadStylesheet(url) {
-  var styles = document.createElement('link')
-  styles.rel = 'stylesheet'
-  styles.type = 'text/css'
-  styles.media = 'screen'
-  styles.href = url
-  document.getElementsByTagName('head')[0].appendChild(styles)
+	var styles = document.createElement("link")
+	styles.rel = "stylesheet"
+	styles.type = "text/css"
+	styles.media = "screen"
+	styles.href = url
+	document.getElementsByTagName("head")[0].appendChild(styles)
 }
 
 function loadJavascript(url, onLoad) {
-  var jsElm = document.createElement('script')
-  jsElm.onload = onLoad
-  jsElm.type = 'application/javascript'
-  jsElm.src = url
-  document.body.appendChild(jsElm)
+	var jsElm = document.createElement("script")
+	jsElm.onload = onLoad
+	jsElm.type = "application/javascript"
+	jsElm.src = url
+	document.body.appendChild(jsElm)
 }
 
-var sessionCheckToken = null;
+var sessionCheckToken = null
 
 const checkSession = () => {
-  UniversalDashboard.get(`/api/internal/session/${UniversalDashboard.sessionId}`, () => {}, null, () => {
-      UniversalDashboard.sessionTimedOut = true;
-      UniversalDashboard.onSessionTimedOut();
-      clearInterval(sessionCheckToken);
-  })
+	UniversalDashboard.get(
+		`/api/internal/session/${UniversalDashboard.sessionId}`,
+		() => {},
+		null,
+		() => {
+			UniversalDashboard.sessionTimedOut = true
+			UniversalDashboard.onSessionTimedOut()
+			clearInterval(sessionCheckToken)
+		}
+	)
 }
 
 function loadData(setDashboard, setLocation, history, location, setLoading) {
-  UniversalDashboard.get(
-    '/api/internal/dashboard',
-    function(json) {
-      var dashboard = json.dashboard
+	UniversalDashboard.get(
+		"/api/internal/dashboard",
+		function (json) {
+			var dashboard = json.dashboard
 
-      if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
+			if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
 
-      if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
+			if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
 
-      connectWebSocket(json.sessionId, location, setLoading, history)
-      UniversalDashboard.sessionId = json.sessionId;
+			connectWebSocket(json.sessionId, location, setLoading, history)
+			UniversalDashboard.sessionId = json.sessionId
 
-      sessionCheckToken = setInterval(checkSession, 5000);
+			sessionCheckToken = setInterval(checkSession, 5000)
 
-      UniversalDashboard.design = dashboard.design
+			UniversalDashboard.design = dashboard.design
 
-      setDashboard(dashboard)
+			setDashboard(dashboard)
 
-      if (dashboard.geolocation) {
-        getLocation(setLocation)
-      }
-    },
-    history,
-  )
+			if (dashboard.geolocation) {
+				getLocation(setLocation)
+			}
+		},
+		history
+	)
 }
 
 function getLocation(setLocation) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var name = 'location'
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			var name = "location"
 
-      var positionJson = {
-        coords: {
-          accuracy: position.coords.accuracy,
-          altitude: position.coords.altitude,
-          altitudeAccuracy: position.coords.altitudeAccuracy,
-          heading: position.coords.heading,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          speed: position.coords.speed,
-        },
-        timestamp: new Date(position.timestamp).toJSON(),
-      }
+			var positionJson = {
+				coords: {
+					accuracy: position.coords.accuracy,
+					altitude: position.coords.altitude,
+					altitudeAccuracy: position.coords.altitudeAccuracy,
+					heading: position.coords.heading,
+					latitude: position.coords.latitude,
+					longitude: position.coords.longitude,
+					speed: position.coords.speed,
+				},
+				timestamp: new Date(position.timestamp).toJSON(),
+			}
 
-      var value = JSON.stringify(positionJson)
-      value = btoa(value)
-      document.cookie = name + '=' + (value || '') + '; path=/'
+			var value = JSON.stringify(positionJson)
+			value = btoa(value)
+			document.cookie = name + "=" + (value || "") + "; path=/"
 
-      setLocation(value)
-    })
-  }
+			setLocation(value)
+		})
+	}
 }
 
 function Dashboard({ history }) {
-  const [dashboard, setDashboard] = useState(null)
-  const [hasError, setHasError] = useState(false)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [location, setLocation] = useState(useLocation())
+	const [dashboard, setDashboard] = useState(null)
+	const [hasError, setHasError] = useState(false)
+	const [error, setError] = useState(null)
+	const [loading, setLoading] = useState(true)
+	const [location, setLocation] = useState(useLocation())
 
-  useEffect(() => {
-    if (dashboard) return
+	useEffect(() => {
+		if (dashboard) return
 
-    try {
-      loadData(setDashboard, setLocation, history, location, setLoading)
-    } catch (err) {
-      setError(err)
-      setHasError(true)
-    }
-  })
+		try {
+			loadData(setDashboard, setLocation, history, location, setLoading)
+		} catch (err) {
+			setError(err)
+			setHasError(true)
+		}
+	})
 
-  if (hasError) {
-    return (
-      <Suspense fallback={null}>
-        <LazyElement
-          component={{
-            type: 'error',
-            message: error.message,
-            location: error.stackTrace,
-          }}
-        />
-      </Suspense>
-    )
-  }
+	if (hasError) {
+		return (
+			<Suspense fallback={null}>
+				<LazyElement
+					component={{
+						type: "error",
+						message: error.message,
+						location: error.stackTrace,
+					}}
+				/>
+			</Suspense>
+		)
+	}
 
-  if (loading) {
-    return <div />
-  }
+	if (loading) {
+		return <div />
+	}
 
-  try {
-    var component = UniversalDashboard.renderDashboard({
-      dashboard: dashboard,
-      history: history,
-    })
+	try {
+		var component = UniversalDashboard.renderDashboard({
+			dashboard: dashboard,
+			history: history,
+		})
 
-    var pluginComponents = UniversalDashboard.provideDashboardComponents()
+		var pluginComponents = UniversalDashboard.provideDashboardComponents()
 
-    // const { colors, modes, ...rest } = dashboard.themes[0].definition
-    // let theme = {
-    //   ...base,
-    //   colors: {
-    //     ...colors,
-    //     modes: {
-    //       ...modes,
-    //     },
-    //   },
-    //   ...rest,
-    //   styles: {
-    //     ...base.styles,
-    //     h1: {
-    //       ...base.styles.h1,
-    //       fontSize: [4, 5, 6],
-    //     },
-    //   },
-    // }
-    
-    return (
-      <ThemeProvider theme={{}}>
-        <ColorModeProvider>{[component, pluginComponents]}</ColorModeProvider>
-      </ThemeProvider>
-    )
-  } catch (err) {
-    setError(err)
-    setHasError(true)
-  }
+		// const { colors, modes, ...rest } = dashboard.themes[0].definition
+		// let theme = {
+		//   ...base,
+		//   colors: {
+		//     ...colors,
+		//     modes: {
+		//       ...modes,
+		//     },
+		//   },
+		//   ...rest,
+		//   styles: {
+		//     ...base.styles,
+		//     h1: {
+		//       ...base.styles.h1,
+		//       fontSize: [4, 5, 6],
+		//     },
+		//   },
+		// }
 
-  return null
+		return (
+			<ThemeProvider theme={{}}>
+				<ColorModeProvider>{[component, pluginComponents]}</ColorModeProvider>
+			</ThemeProvider>
+		)
+	} catch (err) {
+		setError(err)
+		setHasError(true)
+	}
+
+	return null
 }
 
 export default Dashboard

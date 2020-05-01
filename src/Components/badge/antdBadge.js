@@ -1,13 +1,12 @@
-import React from "react";
-import { Badge } from "antd";
-import AntdErrorBoundary from "../framework/core/errorBoundries";
+import React from "react"
+import { Badge } from "antd"
 
-export default ({ content, color }) => {
-  return (
-		<AntdErrorBoundary>
-			<div>
-				<Badge color={color}>{UniversalDashboard.renderComponent(content)}</Badge>
-			</div>
-		</AntdErrorBoundary>
-  )
-};
+function AntdBadge({ content, color }) {
+	return (
+		<div>
+			<Badge color={color}>{UniversalDashboard.renderComponent(content)}</Badge>
+		</div>
+	)
+}
+AntdBadge.displayName = "AntdBadge"
+export default AntdBadge

@@ -1,6 +1,6 @@
 import React from 'react'
 import Footer from 'rc-footer'
-import 'rc-footer/assets/index.css'
+// import 'rc-footer/assets/index.css'
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 export default function UDAntdFooter({id, ...props}){

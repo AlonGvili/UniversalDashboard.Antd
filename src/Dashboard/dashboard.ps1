@@ -1,11 +1,15 @@
+# $Config = @()
+# Get-ChildItem "$PSScriptRoot\Configuration" -Recurse -Filter "*.config.ps1" | ForEach-Object {
+#     $Config += . $_.FullName
+# }
 New-UDDashboard -Title "Dashboard" -Pages @(
-    New-UDPage -Title 'Icons' -Name 'Icons' -Content {
-        New-UDAntdPageHeader -SubTitle "this is the icon page"
-        New-UDElement -Tag 'main' -Content {
-            (Get-Command -Name New-UDAntdIcon).parameters["Icon"].Attributes.ValidValues.foreach( {
-                    New-UDAntdIcon -Icon $_ -Size 4x
-                })
-        }
+    New-UDPage -Title 'Icons' -Name 'Icons' -Icon (New-UDAntdIcon -Icon GithubOutlined) -Content {
+
+        
+        (Get-Command -Name New-UDAntdIcon).parameters["Icon"].Attributes.ValidValues.foreach( {
+                New-UDAntdIcon -Icon $_ -Size 4x
+            })
+        
     }
     New-UDPage -Title 'Bages' -Name Badges -url '/Badge/colors' -Endpoint {
         New-UDAntdPageHeader -SubTitle "this is the badges color page" -Tags @(
@@ -65,9 +69,9 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             Set-UDElement -Id "info2" -Properties @{
                 attributes = @{
                     description = ConvertFrom-Json $EventData | ConvertTo-Json
-                    visible = $true 
-                    preset = "error"
-                    duration = 3
+                    visible     = $true 
+                    preset      = "error"
+                    duration    = 3
                     # description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json)
                 }
             }
@@ -102,11 +106,80 @@ New-UDDashboard -Title "Dashboard" -Pages @(
 
         } -Gutter 16
     }  
-    New-UDPage -Title 'Not Found' -Name 404 -Url "/404" -Endpoint {
-        New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "test" 
+    New-UDPage -Title 'Not Found' -Name "404" -Url "/404" -Endpoint {
+        New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "Try again the url is not exsists" 
+    }  
+    New-UDPage -Url "/Demos/:demoId" -Endpoint {
+        param($DemoId)
+        New-UDAntdCard -Title $DemoId -Bordered -Content {
+            if($DemoId -eq "Monitor"){
+                New-UDAntdIcon -Icon MonitorOutlined -Size 3x
+            }
+            if($DemoId -eq "UserSettings"){
+                New-UDAntdIcon -Icon SettingOutlined -Size 3x
+            }
+            if($DemoId -eq "GithubClone"){
+                New-UDAntdIcon -Icon GithubOutlined -Size 3x
+            }
+        } 
     }  
 
-) 
+) -Theme @{
+    color = "light"
+} -AppBar @{
+    appbar = New-UDAntdAppBar -Visible -Content {
+        New-UDAntdMenu -Mode horizontal -Content {
+            New-UDAntdMenuItem -Text "Ant-Design" -To "/"
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon ForkOutlined
+            ) -Text "Forks" -To "/Dynamic"
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon AppstoreOutlined
+            ) -Text "Components" -To "/Form"
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon CiOutlined
+            ) -Text "CI" -To "/Icons"
+            New-UDAntdSubMenu -Title "Dashboard Examples" -Content {
+                New-UDAntdMenuItem -Icon (
+                    New-UDAntdIcon -Icon DashboardOutlined
+                ) -Text "Monitor" -To "/Demos/Monitor"
+                New-UDAntdMenuItem -Icon (
+                    New-UDAntdIcon -Icon SettingOutlined
+                ) -Text "User Settings" -To "/Demos/UserSettings"
+                New-UDAntdMenuItem -Icon (
+                    New-UDAntdIcon -Icon GithubOutlined
+                ) -Text "Github Clone" -To "/Demos/GithubClone"
+            } 
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon ReadOutlined
+            ) -Text "Docs" 
+            New-UDAntdMenuItem -Content (
+                New-UDAntdHeaderAccountSettings -Name "Alon Gvili" -Image "https://avatars1.githubusercontent.com/u/34351424?s=400&u=1af0f32562a8f68850c736e3fca838c5ed022203&v=4" -Menu (
+                    New-UDAntdMenu -Content {
+                        New-UDAntdMenuItem -Icon (
+                            New-UDAntdIcon -Icon ReadOutlined
+                        ) -Text "Docs" -To "#"
+                        New-UDAntdMenuItem -Icon (
+                            New-UDAntdIcon -Icon BgColorsOutlined
+                        ) -Content (New-AntdDarkModeToggle) -Text "Dark Mode"
+                        # New-UDAntdMenuDivider 
+                        New-UDAntdMenuItem -Icon (  
+                            New-UDAntdIcon -Icon SettingOutlined
+                        ) -Text "Settings"  -To "#"
+                        New-UDAntdMenuItem -Icon (
+                            New-UDAntdIcon -Icon UserOutlined
+                        ) -Text "Profile"  -To "#"
+                        # New-UDAntdMenuDivider
+                        New-UDAntdMenuItem -Icon (
+                            New-UDAntdIcon -Icon LockOutlined
+                        ) -Text "Security"  -To "#" 
+                    }
+                )
+            )
+        }
+    }
+}
+
 
 
 # $Dashboard.FrameworkAssetId = [UniversalDashboard.Services.AssetService]::Instance.Frameworks[“Antd”]

@@ -21,12 +21,11 @@ export default () => {
 	if (status === "error") return <p>{`Error: ${error.message}`}</p>
 
 	let home = useHomePage()
-	console.log('home', home)
 	return (
 		<React.Fragment>
 			<Switch>
 				{data.map(page => (
-					<Route key={page.name} path={`/${page.name}`}>
+					<Route key={page.dynamic ? page.id : page.name} path={page.dynamic ? page.url : `/${page.name}`}>
 						<Page {...page} />
 					</Route>
 				))}

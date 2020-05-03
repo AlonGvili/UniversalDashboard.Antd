@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdMenuItemGroup
 
 ## SYNOPSIS
@@ -7,7 +14,7 @@
 
 ```
 New-UDAntdMenuItemGroup [[-Id] <String>] [[-ClassName] <String>] [[-Title] <String>] [[-Key] <String>]
- [[-Content] <ScriptBlock>] [<CommonParameters>]
+ [[-Content] <ScriptBlock>] [[-Style] <Hashtable>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -79,6 +86,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Style
+{{ Fill Style Description }}
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

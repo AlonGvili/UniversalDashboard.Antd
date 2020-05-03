@@ -1,9 +1,9 @@
 function New-UDPage 
 {
     param(
-        [Parameter(Position = 0, Mandatory)]
-        [string]$Name,
-        [Parameter(Position = 2, Mandatory)]
+        [Parameter(Position = 0)]
+        [object]$Name,
+        [Parameter(Position = 2)]
         [Alias("Endpoint")]
         [Endpoint]$Content,
         [Parameter(Position = 0)]
@@ -17,7 +17,9 @@ function New-UDPage
         [Parameter()]
         [string]$Id = [Guid]::NewGuid(),
         [Parameter()]
-        [ScriptBlock]$OnLoading
+        [ScriptBlock]$OnLoading,
+        [Parameter()]
+        [object]$Icon
     )
 
     $Content.Register($Id, $PSCmdlet)
@@ -27,7 +29,7 @@ function New-UDPage
         $Url = "/" + $Url
     }
 
-    if ($Null -eq $Url -and $null -ne $Name)
+    if ($Null -eq $Url -and $null -ne $Name -and $Name -is [System.string])
     {
         $Url = "/" + $Name.Replace(' ', '-');
     }
@@ -47,5 +49,7 @@ function New-UDPage
         blank = $Blank.IsPresent
         loading = $LoadingContent
         content = $Content 
+        icon = $Icon
+        dynamic = $Url -match ":"
     }
 }

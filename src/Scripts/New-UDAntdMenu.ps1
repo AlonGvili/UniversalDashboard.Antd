@@ -6,10 +6,10 @@ function New-UDAntdMenu {
         [string]$ClassName,
         [Parameter()]
         [ValidateSet("horizontal","vertical","inline")]
-        [string]$Mode,
+        [string]$Mode = "horizontal",
         [Parameter()]
         [ValidateSet("hover","click")]
-        [string]$TriggerSubMenuAction,
+        [string]$TriggerSubMenuAction = "click",
         [Parameter()]
         [string[]]$DefaultOpenKeys,
         [Parameter()]
@@ -27,7 +27,7 @@ function New-UDAntdMenu {
             isPlugin = $true 
             type = "ud-antd-menu"
             id = $Id
-            className = $ClassName
+            # className = $ClassName
             mode = $Mode
             triggerSubMenuAction = $TriggerSubMenuAction
             defaultOpenKeys      = $DefaultOpenKeys
@@ -35,7 +35,7 @@ function New-UDAntdMenu {
             # inlineCollapsed = $Collapsed.IsPresent
             # key = $Key
             content = $Content.Invoke()
-            style = $Style
+            # style = $Style
         }
         $AntdMenu.PSTypeNames.Insert(0, "universaldashboard.antd.menu") | Out-Null
         $AntdMenu

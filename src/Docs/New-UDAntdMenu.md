@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdMenu
 
 ## SYNOPSIS
@@ -7,7 +14,8 @@
 
 ```
 New-UDAntdMenu [[-Id] <String>] [[-ClassName] <String>] [[-Mode] <String>] [[-TriggerSubMenuAction] <String>]
- [[-DefaultOpenKeys] <String[]>] [[-Content] <ScriptBlock>] [[-Style] <Hashtable>] [<CommonParameters>]
+ [[-DefaultOpenKeys] <String[]>] [[-DefaultSelectedKeys] <String>] [[-Content] <ScriptBlock>]
+ [[-Style] <Hashtable>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,7 +56,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,6 +72,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultSelectedKeys
+{{ Fill DefaultSelectedKeys Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -109,7 +132,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -1,15 +1,14 @@
-// import "./framework/public-path"
+/* eslint-disable react/display-name */
 import React, { Suspense } from "react"
 import AntDesign from "./api/dashboard"
 import registerComponents from "./api/imports"
-// import disableUdTheme from "./resets/reset-style"
 
-UniversalDashboard.renderDashboard = () => {
+
+UniversalDashboard.renderDashboard = ({ dashboard }) => {
 	registerComponents()
-	// disableUdTheme()
 	return (
 		<Suspense fallback={null}>
-			<AntDesign />
+			<AntDesign appbar={dashboard.appbar}/>
 		</Suspense>
 	)
 }

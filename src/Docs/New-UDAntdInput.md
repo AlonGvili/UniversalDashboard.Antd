@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdInput
 
 ## SYNOPSIS
@@ -8,8 +15,7 @@
 ```
 New-UDAntdInput [[-Id] <String>] [[-ClassName] <String>] [-disabled] [-AllowClear] [[-size] <String>]
  [[-Suffix] <Object>] [[-Prefix] <Object>] [[-AddonBefore] <Object>] [[-AddonAfter] <Object>]
- [[-onChange] <ScriptBlock>] [[-OnPressEnter] <ScriptBlock>] [[-PlaceHolder] <String>] [[-Style] <Hashtable>]
- [<CommonParameters>]
+ [[-PlaceHolder] <String>] [[-Style] <Hashtable>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -101,21 +107,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OnPressEnter
-{{ Fill OnPressEnter Description }}
-
-```yaml
-Type: ScriptBlock
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -PlaceHolder
 {{ Fill PlaceHolder Description }}
 
@@ -125,7 +116,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -155,7 +146,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -186,21 +177,6 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -onChange
-{{ Fill onChange Description }}
-
-```yaml
-Type: ScriptBlock
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

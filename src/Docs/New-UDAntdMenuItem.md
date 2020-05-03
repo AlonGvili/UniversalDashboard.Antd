@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdMenuItem
 
 ## SYNOPSIS
@@ -6,8 +13,8 @@
 ## SYNTAX
 
 ```
-New-UDAntdMenuItem [[-Id] <String>] [[-ClassName] <String>] [[-Title] <String>] [[-Key] <String>] [-Disabled]
- [[-Content] <ScriptBlock>] [-OnClick] <Object> [[-Style] <Hashtable>] [<CommonParameters>]
+New-UDAntdMenuItem [[-Id] <String>] [[-Icon] <Object>] [[-Title] <String>] [[-Key] <String>] [-Disabled]
+ [[-Text] <String>] [[-OnClick] <Object>] [[-InlineIndent] <Int32>] [[-To] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,36 +31,6 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -ClassName
-{{ Fill ClassName Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Content
-{{ Fill Content Description }}
-
-```yaml
-Type: ScriptBlock
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Disabled
 {{ Fill Disabled Description }}
 
@@ -69,6 +46,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Icon
+{{ Fill Icon Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Id
 {{ Fill Id Description }}
 
@@ -79,6 +71,21 @@ Aliases:
 
 Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InlineIndent
+{{ Fill InlineIndent Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -107,23 +114,23 @@ Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Style
-{{ Fill Style Description }}
+### -Text
+{{ Fill Text Description }}
 
 ```yaml
-Type: Hashtable
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -139,6 +146,21 @@ Aliases:
 
 Required: False
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -To
+{{ Fill To Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

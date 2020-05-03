@@ -12,11 +12,12 @@ export default ({ id, autoRefresh, refreshInterval }) => {
 	const params = useParams()
 	const query = `?${queryString.stringify(params)}`
 	const dynamicUrl = "/api/internal/component/element/"
+	let url = `${window.baseUrl}${dynamicUrl}${id}${query}`
 
 	const { data, isFetching, status } = useQuery(
-		id,
+		url,
 		() =>
-			fetch(`${window.baseUrl}${dynamicUrl}${id}${query}`, { headers: { dashboardid,  UDConnectionId: UniversalDashboard.connectionId }})
+			fetch(url, { headers: { dashboardid,  UDConnectionId: UniversalDashboard.connectionId }})
 				.then(res => res.json())
 				.then(res => res),
 		{

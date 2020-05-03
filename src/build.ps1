@@ -104,6 +104,11 @@ $manifestParameters = @{
         "Get-UDAntdPageHeader"
         "Get-UDAntdTag"
         "Get-UDAntdTagCheckable"
+        "New-UDAntdConfiguration"
+        "New-UDAntdHeaderAccountSettings"
+        "New-UDAntdNavigationItem"
+        "New-UDAntdAppBar"
+        "New-AntdDarkModeToggle"
     )
 }
 

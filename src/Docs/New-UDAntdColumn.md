@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdColumn
 
 ## SYNOPSIS
@@ -9,7 +16,7 @@ Sample control for UniversalDashboard.
 New-UDAntdColumn [[-Id] <String>] [[-ClassName] <String>] [[-Style] <Hashtable>] [-Content] <ScriptBlock>
  [[-Offset] <String>] [-Span] <String> [[-Pull] <String>] [[-Push] <String>] [[-Order] <String>]
  [[-Xs] <String>] [[-Sm] <String>] [[-Md] <String>] [[-Lg] <String>] [[-Xl] <String>] [[-Xxl] <String>]
- [<CommonParameters>]
+ [-AutoRefresh] [[-RefreshInterval] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -21,9 +28,8 @@ This function must have an ID and return a hash table.
 ### EXAMPLE 1
 ```
 <example usage>
-```
-
 Explanation of what the example does
+```
 
 ## PARAMETERS
 
@@ -248,6 +254,36 @@ Aliases:
 Required: False
 Position: 15
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AutoRefresh
+{{ Fill AutoRefresh Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RefreshInterval
+{{ Fill RefreshInterval Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 16
+Default value: 5
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

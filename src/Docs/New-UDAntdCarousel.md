@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdCarousel
 
 ## SYNOPSIS
@@ -23,9 +30,8 @@ This function must have an ID and return a hash table.
 ### EXAMPLE 1
 ```
 <example usage>
-```
-
 Explanation of what the example does
+```
 
 ## PARAMETERS
 
@@ -279,7 +285,7 @@ Aliases:
 
 Required: False
 Position: 10
-Default value: 0
+Default value: 1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -294,7 +300,7 @@ Aliases:
 
 Required: False
 Position: 11
-Default value: 0
+Default value: 1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

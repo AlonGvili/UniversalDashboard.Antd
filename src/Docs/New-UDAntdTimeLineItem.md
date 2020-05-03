@@ -1,3 +1,10 @@
+---
+external help file: UniversalDashboard.Antd-help.xml
+Module Name: UniversalDashboard.Antd
+online version:
+schema: 2.0.0
+---
+
 # New-UDAntdTimeLineItem
 
 ## SYNOPSIS
@@ -19,9 +26,8 @@ This function must have an ID and return a hash table.
 ### EXAMPLE 1
 ```
 <example usage>
-```
-
 Explanation of what the example does
+```
 
 ## PARAMETERS
 

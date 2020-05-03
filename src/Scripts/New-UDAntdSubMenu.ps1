@@ -7,7 +7,7 @@ function New-UDAntdSubMenu {
         [Parameter()]
         [string]$Key = $Id,
         [Parameter()]
-        [scriptblock]$Title,
+        [string]$Title,
         [Parameter()]
         [switch]$Disabled,
         [Parameter()]
@@ -36,13 +36,13 @@ function New-UDAntdSubMenu {
             isPlugin = $true 
             type = "ud-antd-sub-menu"
             id = $Id
-            className = $ClassName
-            title = $Title.Invoke()
+            # className = $ClassName
+            title = $Title
             key = $Key
             disabled = $Disabled.IsPresent
             content = $Content.Invoke()
-            popupOffset = $PopupOffset
-            style = $Style
+            # popupOffset = $PopupOffset
+            # style = $Style
         }
         $AntdSubMenu.PSTypeNames.Insert(0, "universaldashboard.antd.submenu") | Out-Null
         $AntdSubMenu

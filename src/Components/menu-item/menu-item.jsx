@@ -1,28 +1,32 @@
-import React from "react";
-import { Menu } from "antd";
+import React from "react"
+import { Menu } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
+import { Link } from 'react-router-dom';
 
 const AntdMenuItem = props => {
+	const [{ attributes:{ text, icon, to, ...restOfProps} }] = useDashboardEvent(props.id, props)
 
-    const [state, reload] = useDashboardEvent(props.id, props);
-    const { content, attributes } = state;
+	const onClick = event => {
+		UniversalDashboard.publish("element-event", {
+			type: "clientEvent",
+			eventId: restOfProps.id + "onClick",
+			eventName: "onClick",
+			eventData: JSON.stringify(event.item.toString()),
+		})
+	}
 
-  const onClick = event => {
-    UniversalDashboard.publish("element-event", {
-      type: "clientEvent",
-      eventId: attributes.id + "onClick",
-      eventName: "onClick",
-      eventData: event.item.toString()
-    });
-  };
+	return (
+		<Menu.Item
+			{...restOfProps}
+			onClick={onClick}
+			icon={icon && UniversalDashboard.renderComponent(icon)}
+		>
+			{to && <Link to={to} style={{color: "unset"}}> 
+				{text}
+			</Link> || text
+			}
+		</Menu.Item>
+	)
+}
 
-  return (
-    <Menu.Item {...attributes} onClick={onClick} >
-      {content.map(item =>
-        item.type ? UniversalDashboard.renderComponent(item) : <span>{item}</span>
-      )}
-    </Menu.Item>
-  );
-};
-
-export default AntdMenuItem;
+export default AntdMenuItem

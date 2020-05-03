@@ -3,7 +3,7 @@ function New-UDAntdMenuItem {
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
+        [object]$Icon,
         [Parameter()]
         [string]$Title,
         [Parameter()]
@@ -11,13 +11,15 @@ function New-UDAntdMenuItem {
         [Parameter()]
         [switch]$Disabled,
         [Parameter()]
-        [scriptblock]$Content,
-        [Parameter(Mandatory)]
+        [string]$Text,
+        [Parameter()]
         [object]$OnClick,
         [Parameter()]
         [int]$InlineIndent,
         [Parameter()]
-        [hashtable]$Style
+        [string]$To,
+        [Parameter()]
+        [object]$Content
     )
 
     End {
@@ -40,13 +42,15 @@ function New-UDAntdMenuItem {
             isPlugin = $true 
             type = "ud-antd-menu-item"
             id = $Id
-            className = $ClassName
+            # className = $ClassName
             disabled = $Disabled.IsPresent
             title = $Title
             key = $key
+            icon = $Icon
             inlineIndent = $InlineIndent
-            style = $Style
-            content = $Content.Invoke()
+            to = $To
+            text = $Text
+            content = $Content
         }
 
     }

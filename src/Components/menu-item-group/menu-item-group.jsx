@@ -1,18 +1,11 @@
-import React from "react";
-import { Menu } from "antd";
-import useDashboardEvent from "../api/Hooks/useDashboardEvent";
+import React from "react"
+import { Menu } from "antd"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const AntdMenuItemGroup = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+	const [{ content, attributes }] = useDashboardEvent(props.id, props)
 
-  return (
-    <Menu.ItemGroup {...attributes} >
-      {content.map(item =>
-        item.type ? UniversalDashboard.renderComponent(item) : <span>{item}</span>
-      )}
-    </Menu.ItemGroup>
-  );
-};
+	return <Menu.ItemGroup {...attributes}>{UniversalDashboard.renderComponent(content)}</Menu.ItemGroup>
+}
 
-export default AntdMenuItemGroup;
+export default AntdMenuItemGroup

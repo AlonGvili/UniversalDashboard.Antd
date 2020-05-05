@@ -1,33 +1,20 @@
-import React, { Suspense, useState, useEffect } from "react"
+import React from "react"
 
 import { getApiPath } from "./config.jsx"
 import PubSub from "pubsub-js"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
-import { ThemeProvider } from "theme-ui"
-import { ColorModeProvider } from "@theme-ui/color-modes"
-import { base } from "@theme-ui/presets"
 import LazyElement from "./basics/lazy-element.jsx"
-import copy from "copy-to-clipboard"
-import { useLocation } from "react-router-dom"
-function getMeta(metaName) {
-	const metas = document.getElementsByTagName("meta")
-
-	for (let i = 0; i < metas.length; i++) {
-		if (metas[i].getAttribute("name") === metaName) {
-			return metas[i].getAttribute("content")
-		}
-	}
-
-	return ""
-}
+import { useLocation, useHistory } from "react-router-dom"
+import { getMeta } from "../Components/framework/meta.js"
+import { queryCache, ReactQueryConfigProvider } from "react-query"
 
 const dashboardId = getMeta("ud-dashboard")
 
 var connection
 
-function connectWebSocket(sessionId, location, setLoading, history) {
+function connectWebSocket(sessionId, location, history) {
 	if (connection) {
-		setLoading(false)
+		// setLoading(false)
 	}
 
 	connection = new HubConnectionBuilder()
@@ -140,7 +127,7 @@ function connectWebSocket(sessionId, location, setLoading, history) {
 
 	connection.on("setConnectionId", id => {
 		UniversalDashboard.connectionId = id
-		setLoading(false)
+		// setLoading(false)
 	})
 
 	PubSub.subscribe("element-event", function (e, data) {
@@ -183,149 +170,47 @@ function loadJavascript(url, onLoad) {
 	document.body.appendChild(jsElm)
 }
 
-var sessionCheckToken = null
-
-const checkSession = () => {
-	UniversalDashboard.get(
-		`/api/internal/session/${UniversalDashboard.sessionId}`,
-		() => {},
-		null,
-		() => {
-			UniversalDashboard.sessionTimedOut = true
-			UniversalDashboard.onSessionTimedOut()
-			clearInterval(sessionCheckToken)
-		}
-	)
-}
-
-function loadData(setDashboard, setLocation, history, location, setLoading) {
+const loadData = (setDashboard, history, location) => {
 	UniversalDashboard.get(
 		"/api/internal/dashboard",
 		function (json) {
 			var dashboard = json.dashboard
 
 			if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
-
+			queryCache.setQueryData("pages", dashboard.pages)
 			if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
 
-			connectWebSocket(json.sessionId, location, setLoading, history)
+			connectWebSocket(json.sessionId, location, history)
 			UniversalDashboard.sessionId = json.sessionId
-
-			sessionCheckToken = setInterval(checkSession, 5000)
 
 			UniversalDashboard.design = dashboard.design
 
 			setDashboard(dashboard)
-
-			if (dashboard.geolocation) {
-				getLocation(setLocation)
-			}
 		},
 		history
 	)
 }
 
-function getLocation(setLocation) {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function (position) {
-			var name = "location"
+function Dashboard() {
+	const [dashboard, setDashboard] = React.useState(null)
+	let history = useHistory()
+	let location = useLocation()
 
-			var positionJson = {
-				coords: {
-					accuracy: position.coords.accuracy,
-					altitude: position.coords.altitude,
-					altitudeAccuracy: position.coords.altitudeAccuracy,
-					heading: position.coords.heading,
-					latitude: position.coords.latitude,
-					longitude: position.coords.longitude,
-					speed: position.coords.speed,
-				},
-				timestamp: new Date(position.timestamp).toJSON(),
-			}
-
-			var value = JSON.stringify(positionJson)
-			value = btoa(value)
-			document.cookie = name + "=" + (value || "") + "; path=/"
-
-			setLocation(value)
-		})
-	}
-}
-
-function Dashboard({ history }) {
-	const [dashboard, setDashboard] = useState(null)
-	const [hasError, setHasError] = useState(false)
-	const [error, setError] = useState(null)
-	const [loading, setLoading] = useState(true)
-	const [location, setLocation] = useState(useLocation())
-
-	useEffect(() => {
-		if (dashboard) return
-
-		try {
-			loadData(setDashboard, setLocation, history, location, setLoading)
-		} catch (err) {
-			setError(err)
-			setHasError(true)
+	const dashboardRef = React.useRef(UniversalDashboard.connectionId)
+	React.useEffect(() => {
+		let isCurrent = true
+		if (isCurrent) {
+			loadData(setDashboard, history, location)
 		}
+		return () => (isCurrent = false)
+	}, [UniversalDashboard.connectionId, dashboardId])
+
+	if (!dashboard) return null
+	
+	return UniversalDashboard.renderDashboard({
+		dashboard,
+		history,
 	})
-
-	if (hasError) {
-		return (
-			<Suspense fallback={null}>
-				<LazyElement
-					component={{
-						type: "error",
-						message: error.message,
-						location: error.stackTrace,
-					}}
-				/>
-			</Suspense>
-		)
-	}
-
-	if (loading) {
-		return <div />
-	}
-
-	try {
-		var component = UniversalDashboard.renderDashboard({
-			dashboard: dashboard,
-			history: history,
-		})
-
-		var pluginComponents = UniversalDashboard.provideDashboardComponents()
-
-		// const { colors, modes, ...rest } = dashboard.themes[0].definition
-		// let theme = {
-		//   ...base,
-		//   colors: {
-		//     ...colors,
-		//     modes: {
-		//       ...modes,
-		//     },
-		//   },
-		//   ...rest,
-		//   styles: {
-		//     ...base.styles,
-		//     h1: {
-		//       ...base.styles.h1,
-		//       fontSize: [4, 5, 6],
-		//     },
-		//   },
-		// }
-
-		return (
-			<ThemeProvider theme={{}}>
-				<ColorModeProvider>{[component, pluginComponents]}</ColorModeProvider>
-			</ThemeProvider>
-		)
-	} catch (err) {
-		setError(err)
-		setHasError(true)
-	}
-
-	return null
 }
 
 export default Dashboard

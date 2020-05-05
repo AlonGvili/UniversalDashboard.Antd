@@ -18,24 +18,24 @@ export default function useDashboardEvent(elementId, initialState) {
 	useEffect(() => {
 		const pubSubToken = UniversalDashboard.subscribe(elementId, events)
 		return () => UniversalDashboard.unsubscribe(pubSubToken)
-	}, [])
+	})
 
 	const events = (msg, event) => {
 		switch (event.type) {
 			// Set-UDElement
 			case SET_STATE:
-				console.log('dashboard event set state', event.state)
+				console.log("dashboard event set state", event.state)
 				setState(prevState => {
 					return {
 						attributes: { ...prevState.attributes, ...event.state.attributes },
-						content: event.state.content,
+						content: { ...event.state.content },
 					}
 				})
 				break
 			// Get-UDElement
 			case REQUEST_STATE:
 				console.log("REQUEST_STATE: ", state)
-				UniversalDashboard.post(`/api/internal/component/element/sessionState/${event.requestId}`, { ...state })
+				UniversalDashboard.post(`/api/internal/component/element/sessionState/${event.requestId}`, { state })
 				break
 			// Add-UDElement
 			case ADD_ELEMENT:

@@ -2,12 +2,13 @@ var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-
-// var darkTheme = require("@ant-design/dark-theme")
+const darkTheme = require("@ant-design/dark-theme").default
+const aliyunTheme = require("@ant-design/aliyun-theme").default
 
 var BUILD_DIR = path.resolve(__dirname, "public")
 var SRC_DIR = path.resolve(__dirname)
 var APP_DIR = path.resolve(__dirname, "src/app")
+
 
 module.exports = {
 	mode: "production",
@@ -96,7 +97,13 @@ module.exports = {
 						loader: "less-loader",
 						options: {
 							lessOptions: {
+								modifyVars: {
+									// ...darkTheme,
+									"@primary-color": "red" 
+								},
+								async: true,
 								javascriptEnabled: true,
+								env: "production"
 							},
 						},
 					},

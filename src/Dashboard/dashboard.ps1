@@ -90,35 +90,54 @@ New-UDDashboard -Title "Dashboard" -Pages @(
        
     } -DefaultHomePage
     New-UDPage -Title 'Dynamic' -Name Dynamic -Url "/counter" -Endpoint {
+        New-UDAntdNotification -Id "vv" -Title "Universal Dashboard" -Description "" -Preset "info" 
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 12 -Content {
                 New-UDAntdCard -Content {
                     New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x )
                 } -Title "GitLab Stats" -BodyStyle @{padding = 24 }
-            } -AutoRefresh -RefreshInterval 8000
+            }
             New-UDAntdColumn -span 12 -Content {
                 New-UDAntdCard -Content {
                     New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Following -Prefix ( New-UDAntdIcon -Icon GithubOutlined -Size 2x )
                 } -Title "GitHub Stats" -BodyStyle @{padding = 24 } -Extra @(
                     New-UDAntdTag -Color "#333" -Content "Github" -Icon ( New-UDAntdIcon -Icon GithubOutlined -Size xs)
-                ) -Bordered
-            } -AutoRefresh -RefreshInterval 8000
-
-        } -Gutter 16
-    }  
+                ) 
+            }
+        
+        } -Gutter @(16, 16)
+        New-UDAntdRow -Content {
+            $Cache:rx = 0
+            New-UDAntdColumn -span 24 -Content {
+                New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
+                    
+                    if ($Cache:rx -eq 100) {
+                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ autoRefresh = $false; refreshInterval = 50000 } }
+                    }
+                    else {
+                        $Cache:rx = $Cache:rx + 1
+                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
+                    }
+                    
+                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Color ("blue", "pink", "gold", "volcano", "green" | Get-Random) -Target 100 -TargetLabel "demo"
+                } -AutoRefresh -RefreshInterval 5000
+                
+            } 
+        } -Gutter @(16, 16)  
+    }
     New-UDPage -Title 'Not Found' -Name "404" -Url "/404" -Endpoint {
         New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "Try again the url is not exsists" 
     }  
     New-UDPage -Url "/Demos/:demoId" -Endpoint {
         param($DemoId)
         New-UDAntdCard -Title $DemoId -Bordered -Content {
-            if($DemoId -eq "Monitor"){
+            if ($DemoId -eq "Monitor") {
                 New-UDAntdIcon -Icon MonitorOutlined -Size 3x
             }
-            if($DemoId -eq "UserSettings"){
+            if ($DemoId -eq "UserSettings") {
                 New-UDAntdIcon -Icon SettingOutlined -Size 3x
             }
-            if($DemoId -eq "GithubClone"){
+            if ($DemoId -eq "GithubClone") {
                 New-UDAntdIcon -Icon GithubOutlined -Size 3x
             }
         } 
@@ -126,8 +145,8 @@ New-UDDashboard -Title "Dashboard" -Pages @(
 
 ) -Theme @{
     color = "light"
-} -AppBar @{
-    appbar = New-UDAntdAppBar -Visible -Content {
+} -AppBar (
+    New-UDAntdAppBar -Visible -Content {
         New-UDAntdMenu -Mode horizontal -Content {
             New-UDAntdMenuItem -Text "Ant-Design" -To "/"
             New-UDAntdMenuItem -Icon (
@@ -152,7 +171,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             } 
             New-UDAntdMenuItem -Icon (
                 New-UDAntdIcon -Icon ReadOutlined
-            ) -Text "Docs" 
+            ) -Text "Docs" -To "/Badge/colors"
             New-UDAntdMenuItem -Content (
                 New-UDAntdHeaderAccountSettings -Name "Alon Gvili" -Image "https://avatars1.githubusercontent.com/u/34351424?s=400&u=1af0f32562a8f68850c736e3fca838c5ed022203&v=4" -Menu (
                     New-UDAntdMenu -Content {
@@ -161,7 +180,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         ) -Text "Docs" -To "#"
                         New-UDAntdMenuItem -Icon (
                             New-UDAntdIcon -Icon BgColorsOutlined
-                        ) -Content (New-AntdDarkModeToggle) -Text "Dark Mode"
+                        ) -Content (New-AntdDarkModeToggle -Size "small") -Text "Dark Mode"
                         # New-UDAntdMenuDivider 
                         New-UDAntdMenuItem -Icon (  
                             New-UDAntdIcon -Icon SettingOutlined
@@ -178,7 +197,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             )
         }
     }
-}
+)
 
 
 

@@ -15,8 +15,7 @@ function Get-UDElement
         componentId = $Id
     }
 
-    $DashboardHub.SendWebSocketMessage($ConnectionId, "requestState", $Data)
-
+    $DashboardHub.SendWebSocketMessage("requestState", $ConnectionId, $Data)
     $retry = 0
     while($retry -lt 10) {
         if (-not $stateRequestService.TryGet($requestId, [out]$value)) {

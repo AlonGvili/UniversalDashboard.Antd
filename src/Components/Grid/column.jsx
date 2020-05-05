@@ -18,6 +18,8 @@ export default ({ id, autoRefresh, refreshInterval, ...restOfProps }) => {
 		{
 			refetchInterval: autoRefresh && refreshInterval,
 			refetchIntervalInBackground: autoRefresh,
+			refetchOnMount: false,
+			refetchOnWindowFocus:false
 		}
 	)
 	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Data" delay={750} />

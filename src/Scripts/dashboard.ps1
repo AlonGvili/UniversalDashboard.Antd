@@ -14,7 +14,7 @@ function New-UDDashboard{
         [Parameter()]
         [hashtable[]]$Theme = @(),
         [Parameter()]
-        [hashtable]$AppBar
+        [object]$AppBar
 
     )   
 

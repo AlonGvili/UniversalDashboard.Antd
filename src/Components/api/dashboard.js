@@ -2,6 +2,7 @@
 import React from "react"
 import { Layout } from "antd"
 import store from "./store"
+import { ReactQueryDevtools } from "react-query-devtools/dist/react-query-devtools.development"
 const PageManager = React.lazy(() => import(/* webpackChunkName: 'PageManager'*/ "../framework/pages/PageManager"))
 const DashboardFooter = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardFooter'*/ "../framework/core/DashboardFooter")
@@ -12,21 +13,24 @@ const DashboardSideBar = React.lazy(() =>
 
 export default ({ appbar }) => {
 	return (
-		<store.Provider initialValue={{ darkMode: false }}>
-			<store.Provider initialValue={{ isOpen: true }}>
-				<Layout style={{ minHeight: "100vh" }}>
-					<DashboardSideBar />
+		<Layout style={{ minHeight: "100vh" }}>
+			<store.Provider initialValue={{ darkMode: true }}>
+				<store.Provider initialValue={{ isOpen: true }}>
+					{/* <DashboardSideBar /> */}
 					<Layout>
-						{UniversalDashboard.renderComponent(appbar.appbar)}
-						<Layout.Content style={{ padding: 24 }}>
-							<PageManager />
-						</Layout.Content>
+						{UniversalDashboard.renderComponent(appbar)}
+						<PageManager />
+						<ReactQueryDevtools initialIsOpen={false} />
 						<DashboardFooter />
 					</Layout>
-				</Layout>
+				</store.Provider>
 			</store.Provider>
-		</store.Provider>
+		</Layout>
 	)
 }
 
 window.less.options.javascriptEnabled = true
+// window.less.env = "production"
+// window.less.options.async = true
+// window.less.options.modifyVars = { ...light, "@primary-color": "red" }
+window.less.watch()

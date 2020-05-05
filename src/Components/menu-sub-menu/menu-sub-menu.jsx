@@ -1,29 +1,14 @@
-import React from "react";
-import { Menu } from "antd";
-import useDashboardEvent from "../api/Hooks/useDashboardEvent";
+import React from "react"
+import { Menu } from "antd"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 const AntdSubMenu = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+	const [state, reload] = useDashboardEvent(props.id, props)
+	const { content, attributes } = state
 
-  return (
-    <Menu.SubMenu
-      {...attributes}
-      title={
-        <span>
-          {attributes.title.map(subTitle =>
-            subTitle.type
-              ? UniversalDashboard.renderComponent(subTitle)
-              : <span>{subTitle}</span>
-          )}
-        </span>
-      }
-    >
-      {content.map(item =>
-        item.type ? UniversalDashboard.renderComponent(item) : <span>{item}</span>
-      )}
+	return <Menu.SubMenu {...attributes} title={attributes.title}>
+    {UniversalDashboard.renderComponent(content)}
     </Menu.SubMenu>
-  );
-};
+}
 
-export default AntdSubMenu;
+export default AntdSubMenu

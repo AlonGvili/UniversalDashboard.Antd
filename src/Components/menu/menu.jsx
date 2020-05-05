@@ -1,21 +1,21 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable import/no-unresolved */
 import React, { useState } from "react"
-import { Menu } from "antd"
+import { Menu, Space } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useIsDarkMode } from "../framework/core/darkMode"
 
 const AntdMenu = props => {
 	const [state] = useDashboardEvent(props.id, props)
 	const { content, attributes } = state
 	const [current, setCurrent] = useState([])
-
+	let location = useLocation()
 	const darkMode = useIsDarkMode()
 
 	const renderMenuLink = item => (
 		<Menu.Item>
-			<Link to={item.to} style={{ color: "unset" }}>
+			<Link to={item.to} style={{ color: "inherit", width: "100%" }}>
 				<Menu.Item key={item.key} icon={item.icon && UniversalDashboard.renderComponent(item.icon)}>
 					{item.text && UniversalDashboard.renderComponent(item.text)}
 				</Menu.Item>
@@ -25,7 +25,10 @@ const AntdMenu = props => {
 
 	const renderMenuContent = item => (
 		<Menu.Item key={item.key} icon={item.icon && UniversalDashboard.renderComponent(item.icon)}>
-				{(item.content && UniversalDashboard.renderComponent(item.content))}
+			<Space>
+				{item.text && UniversalDashboard.renderComponent(item.text)}
+				{item.content && UniversalDashboard.renderComponent(item.content)}
+			</Space>
 		</Menu.Item>
 	)
 

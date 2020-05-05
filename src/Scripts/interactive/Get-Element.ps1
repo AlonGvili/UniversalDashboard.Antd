@@ -16,17 +16,5 @@ function Get-UDElement
     }
 
     $DashboardHub.SendWebSocketMessage($ConnectionId, "requestState", $Data)
-
-    $retry = 0
-    while($retry -lt 10) {
-        if (-not $stateRequestService.TryGet($requestId, [out]$value)) {
-            $stateRequestService.EventAvailable.WaitOne(100)
-            $retry++;
-            continue;
-        }
-
-        $Value
-        break;
-    }
-    
+    $stateRequestService.Get($requestId)
 }

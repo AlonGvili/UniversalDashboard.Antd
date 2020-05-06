@@ -8,7 +8,7 @@ function New-UDAntdChartCard {
         [Parameter()]
         [object]$Action,
         [Parameter()]
-        [string]$Total,
+        [object]$Total,
         [Parameter()]
         [int]$ContentHeight,
         [Parameter()]

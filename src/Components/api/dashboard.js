@@ -10,27 +10,23 @@ const DashboardFooter = React.lazy(() =>
 const DashboardSideBar = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardSideBar'*/ "../framework/core/DashboardSideBar")
 )
+{
+	/* <store.Provider initialValue={{ isOpen: true }}> */
+}
 
 export default ({ appbar }) => {
 	return (
-		<Layout style={{ minHeight: "100vh" }}>
-			<store.Provider initialValue={{ darkMode: true }}>
-				<store.Provider initialValue={{ isOpen: true }}>
-					{/* <DashboardSideBar /> */}
-					<Layout>
-						{UniversalDashboard.renderComponent(appbar)}
-						<PageManager />
-						<ReactQueryDevtools initialIsOpen={false} />
-						<DashboardFooter />
-					</Layout>
-				</store.Provider>
-			</store.Provider>
-		</Layout>
+		<store.Provider initialValue={{ darkMode: false }}>
+			<Layout style={{ minHeight: "100vh" }}>
+				<Layout>
+					{UniversalDashboard.renderComponent(appbar)}
+					<PageManager />
+					<DashboardFooter />
+					<ReactQueryDevtools initialIsOpen={false} />
+				</Layout>
+			</Layout>
+		</store.Provider>
 	)
 }
 
 window.less.options.javascriptEnabled = true
-// window.less.env = "production"
-// window.less.options.async = true
-// window.less.options.modifyVars = { ...light, "@primary-color": "red" }
-window.less.watch()

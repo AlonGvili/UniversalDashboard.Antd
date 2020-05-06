@@ -111,6 +111,8 @@ $manifestParameters = @{
         "New-AntdDarkModeToggle"
         "New-UDAntdChartCard"
         "New-UDAntdChartMiniProgress"
+        "New-UDAntdChartField"
+        "New-UDAntdChartTrend"
     )
 }
 

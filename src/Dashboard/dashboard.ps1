@@ -108,7 +108,8 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         } -Gutter @(16, 16)
         New-UDAntdRow -Content {
             $Cache:rx = 0
-            New-UDAntdColumn -span 24 -Content {
+            $Cache:FieldData = $null
+            New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
                     
                     if ($Cache:rx -eq 100) {
@@ -120,7 +121,37 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                     }
                     
                     New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Color ("blue", "pink", "gold", "volcano", "green" | Get-Random) -Target 100 -TargetLabel "demo"
-                } -AutoRefresh -RefreshInterval 5000
+                } -AutoRefresh -RefreshInterval 5000 -Footer (
+                    New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
+                )
+                
+            } 
+            New-UDAntdColumn -span 8 -Content {
+                New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
+                    
+                    if ($Cache:rx -eq 100) {
+                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ autoRefresh = $false; refreshInterval = 50000 } }
+                    }
+                    else {
+                        $Cache:rx = $Cache:rx + 1
+                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
+                    }
+                    
+                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Color ("blue", "pink", "gold", "volcano", "green" | Get-Random) -Target 100 -TargetLabel "demo"
+                } -AutoRefresh -RefreshInterval 5000 -Footer (
+                    New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
+                )
+                
+            } 
+            New-UDAntdColumn -span 8 -Content {
+                New-UDAntdChartCard -Id "alon_info" -Title "Alon Gvili Info" -Content {
+                    New-UDAntdChartTrend -Content "12%" -colorful -reverseColor -Flag down 
+                    # New-UDAntdChartTrend -Content "46%" -colorful -Flag up   
+                } -AutoRefresh -RefreshInterval 5000 -Avatar (
+                    New-UDAntdAvatar -Src "https://avatars1.githubusercontent.com/u/34351424?s=400&u=1af0f32562a8f68850c736e3fca838c5ed022203&v=4"  -Shape circle -Size large 
+                ) -Total (       
+                    New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x )    
+                ) 
                 
             } 
         } -Gutter @(16, 16)  

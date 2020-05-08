@@ -14,14 +14,17 @@ function New-UDAntdChartField {
     )
     End {
 
-        $EndpointChartField = New-UDEndpoint -Id $Id -Endpoint $Content 
+        if($null -ne $Content){
+            New-UDEndpoint -Id $Id -Endpoint $Content | out-null
+            $EndpointChartField = $Content.Invoke() 
+        }
 
         @{
             assetId         = $AssetId 
             isPlugin        = $true 
             type            = "ud-antd-chart-field"
             id              = $Id
-            content           = $Content.Invoke()
+            content           = $EndpointChartField 
             label           = $Label
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval

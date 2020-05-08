@@ -30,10 +30,8 @@ export default function AntdChartField({ id, ...props }) {
 
 	if (status === "loading") return null
 	if (status === "error") return <p>{`Error: ${error.message}`}</p>
-
-	console.log('value', returnValue)
 		
-	return <Field id={id} label={UniversalDashboard.renderComponent(label)} value={returnValue} />
+	return <Field id={id} label={UniversalDashboard.renderComponent(label)} value={UniversalDashboard.renderComponent(returnValue)} />
 }
 
 AntdChartField.displayName = "AntdChartField"

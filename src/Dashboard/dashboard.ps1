@@ -144,13 +144,25 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 
             } 
             New-UDAntdColumn -span 8 -Content {
-                New-UDAntdChartCard -Id "alon_info" -Title "Alon Gvili Info" -Content {
-                    New-UDAntdChartTrend -Content "12%" -colorful -reverseColor -Flag down 
-                    # New-UDAntdChartTrend -Content "46%" -colorful -Flag up   
-                } -AutoRefresh -RefreshInterval 5000 -Avatar (
-                    New-UDAntdAvatar -Src "https://avatars1.githubusercontent.com/u/34351424?s=400&u=1af0f32562a8f68850c736e3fca838c5ed022203&v=4"  -Shape circle -Size large 
-                ) -Total (       
-                    New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x )    
+                New-UDAntdChartCard -Id "alon_info" -Title "Universal Dashboard Antd Repo" -Content {
+                    New-UDAntdChartField -Label (
+                        12
+                    ) -Content { 
+                        New-UDAntdChartMiniProgress -Id "miniProgress2" -Percent 45 -StrokeWidth 5 -Color "red" -Target 50 
+                    }
+                }  -Footer (
+                    New-UDAntdRow -Content {
+                        
+                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title PR -Prefix ( New-UDAntdIcon -Icon GithubOutlined -Size lg ) 
+                        
+                        New-UDAntdMenuDivider -Style @{width = 2; heigth = '80%' } 
+                        
+                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Issues -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size lg ) 
+                        New-UDAntdMenuDivider -Style @{width = 2; heigth = '80%' } 
+                        
+                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Forks -Prefix ( New-UDAntdIcon -Icon ForkOutlined -Size lg ) 
+                        
+                    } -Gutter @(24, 24) -Justify space-around  -Align middle -Style @{padding = 8 } 
                 ) 
                 
             } 

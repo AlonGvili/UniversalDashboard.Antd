@@ -1,6 +1,7 @@
 
 function New-UDAntdIcon {
-    [CmdletBinding( DefaultParameterSetName = 'Color' )]
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Icon")]
     param(
         [Parameter()]
         [ValidateSet('AccountBookFilled',
@@ -735,12 +736,8 @@ function New-UDAntdIcon {
         )]
         [string]$Icon,
         [Parameter ()]
-        [ValidateSet("xs", "sm", "lg", "2x", "3x", "4x", "5x", "6x","7x","8x","9x","10x")]
+        [ValidateSet("xs", "sm", "lg", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x")]
         [string]$Size = "sm",
-        [Parameter()]
-        [switch]$Spin,
-        [Parameter()]
-        [string]$Variant,
         [Parameter()]
         [object]$OnClick,
         [Parameter()]
@@ -758,27 +755,16 @@ function New-UDAntdIcon {
             }
         }
 
-        $IconGroupName = if($Icon -match 'Filled'){
-            'filled'
+        $AntDesignIcon = @{
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-icon"
+            id          = $Id
+            name        = $Icon
+            size        = $Size
+            hasCallback = $null -ne $OnClick
         }
-        elseif($Icon -match 'Outlined'){
-            'outlined'
-        }else{
-            'twotone'
-        }
-
-        @{
-            assetId        = $AssetId 
-            isPlugin       = $true 
-            type           = "ud-antd-icon"
-            id             = $Id
-            name          = $Icon
-            size           = $Size
-            spin           = $Spin.IsPresent
-            # style          = $Style
-            hasCallback    = $null -ne $OnClick
-            group = $IconGroupName
-        }
-
+        $AntDesignIcon.PSTypeNames.Insert(0, 'Ant.Design.Icon')
+        $AntDesignIcon
     }
 }

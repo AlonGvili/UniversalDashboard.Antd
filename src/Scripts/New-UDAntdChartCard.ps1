@@ -30,18 +30,18 @@ function New-UDAntdChartCard {
         # New-UDEndpoint -Id ("$($Id)-total") -Endpoint $Total | Out-Null
 
         @{
-            assetId       = $AssetId 
-            isPlugin      = $true 
-            type          = "ud-antd-chart-card"
-            id            = $Id
-            title         = $Title
-            action        = $Action
-            contentHeight = $ContentHeight
-            total         = $Total
-            bordered       = $Bordered.IsPresent
-            footer        = $Footer
-            avatar        = $Avatar
-            autoRefresh = $AutoRefresh.IsPresent
+            assetId         = $AssetId 
+            isPlugin        = $true 
+            type            = "ud-antd-chart-card"
+            id              = $Id
+            title           = $Title
+            action          = $Action
+            contentHeight   = $ContentHeight
+            total           = $Total
+            bordered        = $Bordered.IsPresent
+            footer          = $Footer
+            avatar          = $Avatar
+            autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
         }
     }

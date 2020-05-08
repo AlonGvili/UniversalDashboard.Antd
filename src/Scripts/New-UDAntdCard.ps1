@@ -65,7 +65,7 @@ function New-UDAntdCard {
         [Parameter(ParameterSetName = 'Tabs')]
         [Parameter(ParameterSetName = 'Default')]
         [Parameter(ParameterSetName = 'Grid')]
-        [hashtable]$BodyStyle = @{ padding = '0px' },
+        [hashtable]$BodyStyle = @{padding = 24},
         [Parameter(ParameterSetName = 'Tabs')]
         [Parameter(ParameterSetName = 'Default')]
         [Parameter(ParameterSetName = 'Grid')]
@@ -93,9 +93,9 @@ function New-UDAntdCard {
         [int]$RefreshInterval = 5000,
 
         [Parameter(ParameterSetName = 'Meta')]
-        [string]$MetaTitle,
+        [object]$MetaTitle,
         [Parameter(ParameterSetName = 'Meta')]
-        [string]$MetaDescription,
+        [object]$MetaDescription,
         [Parameter(ParameterSetName = 'Meta')]
         [object]$MetaAvatar,
 
@@ -120,11 +120,11 @@ function New-UDAntdCard {
     End {
 
         if ($null -ne $Content) {
+            $BodyStyle = @{padding = 0}
             if ($IsEndpoint) {
                 if ($Content -is [scriptblock]) {
                     $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
                     $CardContent = $Content.Invoke()
-                    $BodyStyle.Clear()
                 }
                 elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
                     throw "Content must be a script block or UDEndpoint"
@@ -136,6 +136,25 @@ function New-UDAntdCard {
         }
         else {
             $CardContent = @()
+        }
+
+        if($null -ne $MetaTitle){
+            if ($MetaTitle -is [scriptblock]){
+                $MetaTitleContent = $MetaTitle.Invoke()
+            }
+            else{
+                $MetaTitleContent = $MetaTitle
+            }
+        }
+
+        if($null -ne $MetaDescription){
+            # $BodyStyle = @{padding = 0}
+            if ($MetaDescription -is [scriptblock]){
+                $MetaDescriptionContent = $MetaDescription.Invoke()
+            }
+            else{
+                $MetaDescriptionContent = $MetaDescription
+            }
         }
 
         $UDAntdCard = @{
@@ -166,8 +185,8 @@ function New-UDAntdCard {
             parameterSet       = $PSCmdlet.ParameterSetName
 
             # Properties for card meta
-            metaTitle          = $MetaTitle
-            metaDescription    = $MetaDescription
+            metaTitle          = $MetaTitleContent
+            metaDescription    = $MetaDescriptionContent
             metaAvatar         = $MetaAvatar
 
             # Properties for card grid

@@ -31,6 +31,7 @@ export default ({ id, autoRefresh, refreshInterval }) => {
 	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Page Data" />
 	if (status === "error") return <p>{`Error: ${error.message}`}</p>
 
+	console.log("page data", data)
 	return (
 		UniversalDashboard.renderComponent(data)
 	)

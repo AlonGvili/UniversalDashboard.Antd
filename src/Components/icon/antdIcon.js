@@ -2,7 +2,16 @@ import React from "react"
 import Icon from "@ant-design/icons-react"
 import * as AntdIcons from "@ant-design/icons-svg/"
 
-export default ({ name, size }) => {
+export default ({ id, name, size, hasCallback }) => {
+	const onClick = () => {
+		UniversalDashboard.publish("element-event", {
+			type: "clientEvent",
+			eventId: id + "onClick",
+			eventName: "onClick",
+			eventData: "",
+		})
+	}
+
 	const fontSize = {
 		xs: 12,
 		sm: 14,
@@ -18,5 +27,12 @@ export default ({ name, size }) => {
 		"10x": 256,
 	}
 
-	return <Icon className="anticon" type={AntdIcons[name] || AntdIcons.QuestionCircleOutlined} style={{fontSize: fontSize[size]}}/>
+	return (
+		<Icon
+			className="anticon"
+			onClick={hasCallback && onClick}
+			type={AntdIcons[name] || AntdIcons.QuestionCircleOutlined}
+			style={{ fontSize: fontSize[size] }}
+		/>
+	)
 }

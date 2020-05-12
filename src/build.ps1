@@ -109,6 +109,10 @@ $manifestParameters = @{
         "New-UDAntdNavigationItem"
         "New-UDAntdAppBar"
         "New-AntdDarkModeToggle"
+        "New-UDAntdChartCard"
+        "New-UDAntdChartMiniProgress"
+        "New-UDAntdChartField"
+        "New-UDAntdChartTrend"
     )
 }
 

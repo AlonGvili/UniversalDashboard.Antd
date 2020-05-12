@@ -2,7 +2,6 @@ import store from "../../api/store"
 
 export const useIsDarkMode = () => {
 	const [{ darkMode }] = store.useStore()
-
 	return darkMode
 }
 
@@ -15,3 +14,5 @@ export const useDarkMode = () => {
 			darkMode: !old.darkMode,
 		}))
 }
+
+

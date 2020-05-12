@@ -100,9 +100,6 @@ function New-UDAntdTypography {
             type            = "ud-antd-typography"
             id              = $Id
             className       = $ClassName
-            actions         = $Actions
-            extra           = $Extra
-            hoverable       = $Hoverable.IsPresent
             content         = $CardContent  
             bordered        = $Bordered.IsPresent
             cover           = $Cover

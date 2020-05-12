@@ -13,7 +13,7 @@ function New-UDAntdRow {
         [ValidateSet("top","middle","bottom")]
         [string]$Align,
         [Parameter()]
-        [int]$Gutter,
+        [int[]]$Gutter,
         [Parameter()]
         [ValidateSet("start","end","center","space-around","space-between")]
         [string]$Justify,

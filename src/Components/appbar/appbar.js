@@ -1,6 +1,7 @@
 import React from "react"
 import { Layout } from "antd"
 import { useIsDarkMode } from "../framework/core/darkMode"
+import store from "../api/store"
 
 export default function AntdAppBar({ visible, content }) {
 	const darkMode = useIsDarkMode()
@@ -15,7 +16,7 @@ export default function AntdAppBar({ visible, content }) {
 					backgroundColor: darkMode ? "#001529" : "#fff",
 				}}
 			>
-				{UniversalDashboard.renderComponent(content)}
+					{UniversalDashboard.renderComponent(content)}
 			</Layout.Header>
 		)
 	)

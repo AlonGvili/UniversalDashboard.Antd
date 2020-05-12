@@ -15,7 +15,7 @@ function New-UDAntdButton {
         [ValidateSet("button","submit","reset")]
         [string]$HtmlType,
         [Parameter()]
-        [string]$Icon,
+        [object]$Icon,
         [Parameter()]
         [switch]$Loading,
         [Parameter()]

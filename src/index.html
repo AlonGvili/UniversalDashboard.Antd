@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <base href="_BASEHREF_">
-    <meta charset="utf-8" />
-    <meta name="ud-dashboard" content="1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PowerShell Universal Dashboard</title>
-</head>
-<body>
-    <script src="less.js" ></script>
-    <div id="app" class="app"/>
-</body>
+	<head>
+		<base href="_BASEHREF_" />
+		<meta charset="utf-8" />
+		<meta name="ud-dashboard" content="1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>PowerShell Universal Dashboard</title>
+	</head>
+	<body>
+		<!-- <link rel="stylesheet/less" type="text/css" href="/color.less" /> -->
+		<div id="app" class="app" />
+
+		<script>
+			window.less = {
+				async: false,
+				env: "production",
+				javascriptEnabled: true,
+			}
+		</script>
+		<script type="text/javascript" src="/less.js"></script>
+	</body>
 </html>

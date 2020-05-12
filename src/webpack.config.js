@@ -2,8 +2,23 @@ var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const darkTheme = require("@ant-design/dark-theme")
+// const AntDesignThemePlugin = require("antd-theme-webpack-plugin")
 
-// var darkTheme = require("@ant-design/dark-theme")
+// const options = {
+// 	antDir: path.join(__dirname, "./node_modules/antd"),
+// 	stylesDir: path.join(__dirname, "./components/styles"),
+// 	varFile: path.join(__dirname, "./components/styles/variables.less"),
+// 	mainLessFile: path.join(__dirname, "./components/styles/index.less"),
+// 	themeVariables: ["@primary-color"],
+// 	indexFileName: "index.html",
+// 	generateOnce: false,
+// 	lessUrl: "less.js",
+// 	publicPath: "",
+// 	customColorRegexArray: [], // An array of regex codes to match your custom color variable values so that code can identify that it's a valid color. Make sure your regex does not adds false positives.
+// }
+
+// const themePlugin = new AntDesignThemePlugin(options)
 
 var BUILD_DIR = path.resolve(__dirname, "public")
 var SRC_DIR = path.resolve(__dirname)
@@ -95,9 +110,12 @@ module.exports = {
 					{
 						loader: "less-loader",
 						options: {
-							lessOptions: {
+							 lessOptions:{
+								 modifyVars: {
+									 ...darkTheme.default
+								},
 								javascriptEnabled: true,
-							},
+							 },
 						},
 					},
 				],
@@ -115,6 +133,7 @@ module.exports = {
 			template: path.resolve(SRC_DIR, "index.html"),
 			chunksSortMode: "none",
 		}),
+		// themePlugin,
 	],
 	externals: {
 		UniversalDashboard: "UniversalDashboard",

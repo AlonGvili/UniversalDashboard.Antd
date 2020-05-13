@@ -1,6 +1,6 @@
 function New-UDAntdResult {
     [CmdletBinding()]
-    [OutputType('UDAntd.ResultPage')]
+    [OutputType('Ant.Design.ResultPage')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -29,7 +29,7 @@ function New-UDAntdResult {
             icon     = $Icon
             extra    = $Extra
         }
-        $UDAntdResult.PSTypeNames.Insert(0, 'UDAntd.ResultPage')
+        $UDAntdResult.PSTypeNames.Insert(0, 'Ant.Design.ResultPage')
         $UDAntdResult
     }
 }

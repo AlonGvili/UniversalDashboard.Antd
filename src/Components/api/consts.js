@@ -2,10 +2,12 @@
  *  Pages Action
  */
 
+import { useParams } from "react-router-dom"
+import queryString from "query-string"
+
 export const ADD_PAGE = "ADD_PAGE"
 export const REMOVE_PAGE = "REMOVE_PAGE"
 export const SET_PAGE = "SET_PAGE"
-
 
 /**
  *  Tags Actions
@@ -14,7 +16,6 @@ export const SET_PAGE = "SET_PAGE"
 export const ADD_TAG = "ADD_TAG"
 export const REMOVE_TAG = "REMOVE_TAG"
 export const SET_TAG = "SET_TAG"
-
 
 /**
  *  Feedback Actions
@@ -64,4 +65,11 @@ export const SYNC_COMPONENT = "syncElement"
  *  Endpoint Urls
  */
 
-export const endpoint = elementId => `/api/internal/component/element/${elementId}`
+export const endpoint = elementId => {
+	const query = `?${queryString.stringify(useParams())}`
+	const base = "/api/internal/component/element/"
+
+	let url = `${window.baseUrl}${base}${elementId}${query}`
+
+	return url
+}

@@ -1,6 +1,6 @@
 function New-UDAntdSlider {
     [CmdletBinding()]
-    [OutputType('UDAntd.Slider')]
+    [OutputType('Ant.Design.Slider')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -99,7 +99,7 @@ function New-UDAntdSlider {
             allowCross       = $AllowCross.IsPresent
             pushable         = $Pushable.IsPresent
         }
-        $UDAntdSlider.PSTypeNames.Insert(0, 'UDAntd.Slider')
+        $UDAntdSlider.PSTypeNames.Insert(0, 'Ant.Design.Slider')
         $UDAntdSlider
     }
 }

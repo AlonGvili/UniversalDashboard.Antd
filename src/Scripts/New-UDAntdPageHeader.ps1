@@ -1,7 +1,7 @@
 
 function New-UDAntdPageHeader {
     [CmdletBinding()]
-    [OutputType('UDAntd.Page.Header')]
+    [OutputType('Ant.Design.Page.Header')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -58,7 +58,7 @@ function New-UDAntdPageHeader {
             breadcrumb = $Breadcrumb
             ghost      = $Ghost.IsPresent
         }
-        $UDAntdPageHeader.PSTypeNames.Insert(0, 'UDAntd.Page.Header')
+        $UDAntdPageHeader.PSTypeNames.Insert(0, 'Ant.Design.Page.Header')
         $UDAntdPageHeader
 
     }

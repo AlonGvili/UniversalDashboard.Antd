@@ -3,10 +3,9 @@ import React from "react"
 import { getApiPath } from "./config.jsx"
 import PubSub from "pubsub-js"
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
-import LazyElement from "./basics/lazy-element.jsx"
 import { useLocation, useHistory } from "react-router-dom"
 import { getMeta } from "../Components/framework/meta.js"
-import { queryCache, ReactQueryConfigProvider } from "react-query"
+import { queryCache } from "react-query"
 
 const dashboardId = getMeta("ud-dashboard")
 
@@ -14,7 +13,6 @@ var connection
 
 function connectWebSocket(sessionId, location, history) {
 	if (connection) {
-		// setLoading(false)
 	}
 
 	connection = new HubConnectionBuilder()
@@ -175,9 +173,6 @@ const loadData = (setDashboard, history, location) => {
 		"/api/internal/dashboard",
 		function (json) {
 			var dashboard = json.dashboard
-
-			// if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
-			// if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
 			
 			queryCache.setQueryData("pages", dashboard.pages)
 
@@ -197,14 +192,12 @@ function Dashboard() {
 	let history = useHistory()
 	let location = useLocation()
 
-	const dashboardRef = React.useRef(UniversalDashboard.connectionId)
+	const dashboardRef = React.useRef()
 	React.useEffect(() => {
-		let isCurrent = true
-		if (isCurrent) {
+
 			loadData(setDashboard, history, location)
-		}
-		return () => (isCurrent = false)
-	}, [UniversalDashboard.connectionId, dashboardId])
+
+	}, [dashboardId])
 
 	if (!dashboard) return null
 	

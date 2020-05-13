@@ -254,7 +254,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.Notification
+### Ant.Design.Notification
 
 ## NOTES
 

@@ -1,15 +1,9 @@
-# $Config = @()
-# Get-ChildItem "$PSScriptRoot\Configuration" -Recurse -Filter "*.config.ps1" | ForEach-Object {
-#     $Config += . $_.FullName
-# }
+
 New-UDDashboard -Title "Dashboard" -Pages @(
     New-UDPage -Title 'Icons' -Name 'Icons' -Icon (New-UDAntdIcon -Icon GithubOutlined) -Content {
-
-        
         (Get-Command -Name New-UDAntdIcon).parameters["Icon"].Attributes.ValidValues.foreach( {
                 New-UDAntdIcon -Icon $_ -Size 4x
             })
-        
     }
     New-UDPage -Title 'Bages' -Name Badges -url '/Badge/colors' -Endpoint {
         New-UDAntdPageHeader -SubTitle "this is the badges color page" -Tags @(
@@ -120,7 +114,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
                     }
                     
-                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Color ("blue", "pink", "gold", "volcano", "green" | Get-Random) -Target 100 -TargetLabel "demo"
+                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Target 100 -TargetLabel "demo"
                 } -AutoRefresh -RefreshInterval 5000 -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
                 )
@@ -137,34 +131,18 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
                     }
                     
-                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Color ("blue", "pink", "gold", "volcano", "green" | Get-Random) -Target 100 -TargetLabel "demo"
+                    New-UDAntdChartMiniProgress -Id "miniProgress1" -Percent $Cache:rx -StrokeWidth 5 -Target 100 -TargetLabel "demo"
                 } -AutoRefresh -RefreshInterval 5000 -Footer (
-                    New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
+                    New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh
                 )
                 
             } 
             New-UDAntdColumn -span 8 -Content {
-                New-UDAntdChartCard -Id "alon_info" -Title "Universal Dashboard Antd Repo" -Content {
-                    New-UDAntdChartField -Label (
-                        12
-                    ) -Content { 
-                        New-UDAntdChartMiniProgress -Id "miniProgress2" -Percent 45 -StrokeWidth 5 -Color "red" -Target 50 
-                    }
-                }  -Footer (
-                    New-UDAntdRow -Content {
-                        
-                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title PR -Prefix ( New-UDAntdIcon -Icon GithubOutlined -Size lg ) 
-                        
-                        New-UDAntdMenuDivider -Style @{width = 2; heigth = '80%' } 
-                        
-                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Issues -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size lg ) 
-                        New-UDAntdMenuDivider -Style @{width = 2; heigth = '80%' } 
-                        
-                        New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Forks -Prefix ( New-UDAntdIcon -Icon ForkOutlined -Size lg ) 
-                        
-                    } -Gutter @(24, 24) -Justify space-around  -Align middle -Style @{padding = 8 } 
-                ) 
-                
+                New-UDAntdCard -Id "mini_ring_progress" -Title "Mini Ring Progress" -Content {
+                    New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "#555")
+                    New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "#555")
+                    New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "#555")
+                } 
             } 
         } -Gutter @(16, 16)  
     }
@@ -241,21 +219,3 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         }
     }
 )
-
-
-
-# $Dashboard.FrameworkAssetId = [UniversalDashboard.Services.AssetService]::Instance.Frameworks[“Antd”]
-
-# $pageEndPoint = New-UDEndpoint -Id 'pageValues' -Endpoint { 
-            
-#     $dash = Get-UDDashboard
-#     $data = ConvertFrom-Json -InputObject $EventData
-#     $NewPage = New-UDPage -Title $data.name -Name $data.name -Content {
-#         New-UDAntdCard -Content {
-#             [scriptblock]::Create($data.content).Invoke()
-#         }
-#     }
-#     $NewPage.Callback.Name = $data.Id 
-#     $dash.DashboardService.EndpointService.Endpoints.TryAdd($NewPage.Callback.Name, $NewPage.Callback)
-#     $NewPage  
-# }   

@@ -1,6 +1,6 @@
 function New-UDAntdNotification {
     [CmdletBinding()]
-    [OutputType('UDAntd.Notification')]
+    [OutputType('Ant.Design.Notification')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -64,7 +64,7 @@ function New-UDAntdNotification {
             preset            = $Preset
             visible           = $Visible.IsPresent
         }
-        $UDAntdNotification.PSTypeNames.Insert(0, 'UDAntd.Notification')
+        $UDAntdNotification.PSTypeNames.Insert(0, 'Ant.Design.Notification')
         $UDAntdNotification
     }
 }

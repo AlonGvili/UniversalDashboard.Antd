@@ -69,8 +69,8 @@ const HeaderAccountSettings = lazy(() =>
 )
 const AntdAppBar = lazy(() => import(/* webpackChunkName: 'AntdAppBar' */ "./appbar/appbar"))
 const AntdChartCard = lazy(() => import(/* webpackChunkName: 'AntdChartCard' */ "./card/chartCard"))
-const AntdChartMiniProgress = lazy(() =>
-	import(/* webpackChunkName: 'AntdChartMiniProgress' */ "./charts/miniProgress")
+const AntdMiniRingProgress = lazy(() =>
+	import(/* webpackChunkName: 'AntdMiniRingProgress' */ "./charts/miniCircle")
 )
 const AntdChartField = lazy(() => import(/* webpackChunkName: 'AntdChartField' */ "./charts/field"))
 const AntdChartTrend = lazy(() => import(/* webpackChunkName: 'AntdChartTrend' */ "./charts/trand"))
@@ -136,7 +136,7 @@ export default function registerComponents() {
 			{ type: "ud-antd-appbar", component: AntdAppBar },
 			{ type: "ud-antd-darkmode-toggle", component: AntdDarkModeToggle },
 			{ type: "ud-antd-chart-card", component: AntdChartCard },
-			{ type: "ud-antd-chart-mini-progress", component: AntdChartMiniProgress },
+			{ type: "ud-antd-chart-mini-ring-progress", component: AntdMiniRingProgress },
 			{ type: "ud-antd-chart-field", component: AntdChartField },
 			{ type: "ud-antd-chart-trend", component: AntdChartTrend },
 		].forEach(({ type, component }) => UniversalDashboard.register(type, component))

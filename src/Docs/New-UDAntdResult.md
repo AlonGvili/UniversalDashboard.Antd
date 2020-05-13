@@ -131,7 +131,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.ResultPage
+### Ant.Design.ResultPage
 
 ## NOTES
 

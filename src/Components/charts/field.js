@@ -1,5 +1,5 @@
 import React from "react"
-import { Field } from "ant-design-pro/lib/Charts"
+import Field from "ant-design-pro/lib/Charts/Field"
 import { useQuery } from "react-query"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import { getMeta } from "../framework/meta"

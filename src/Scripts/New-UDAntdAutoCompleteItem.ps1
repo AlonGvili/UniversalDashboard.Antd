@@ -1,7 +1,7 @@
 
 # function New-UDAntdAutoComplete {
 #     [CmdletBinding()]
-#     [OutputType('UDAntd.AutoComplete')]
+#     [OutputType('Ant.Design.AutoComplete')]
 #     param(
 #         [Parameter()]
 #         [string]$Id = (New-Guid).ToString(),
@@ -106,7 +106,7 @@
 #             refreshInterval = $RefreshInterval
 #             content         = $AutoCompleteItemContent
 #         }
-#         $UDAntdAutoComplete.PSTypeNames.Insert(0, 'UDAntd.AutoComplete.Item')
+#         $UDAntdAutoComplete.PSTypeNames.Insert(0, 'Ant.Design.AutoComplete.Item')
 #         $UDAntdAutoComplete
 
 #     }

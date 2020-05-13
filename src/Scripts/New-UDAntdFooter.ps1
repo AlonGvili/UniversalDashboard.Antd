@@ -1,6 +1,6 @@
 function New-UDAntdFooter {
     [CmdletBinding()]
-    [OutputType('UDAntd.Footer')]
+    [OutputType('Ant.Design.Footer')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -59,14 +59,14 @@ function New-UDAntdFooter {
             backgroundColor  = $BackgroundColor
             bottom = $Bottom
         }
-        $UDAntdFooter.PSTypeNames.Insert(0, 'UDAntd.Footer')
+        $UDAntdFooter.PSTypeNames.Insert(0, 'Ant.Design.Footer')
         $UDAntdFooter
     }
 }
 
 function New-UDAntdFooterColumn {
     [CmdletBinding()]
-    [OutputType('UDAntd.FooterColumn')]
+    [OutputType('Ant.Design.FooterColumn')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -116,14 +116,14 @@ function New-UDAntdFooterColumn {
             title = $Title
             content  = $FooterColumnItems
         }
-        $UDAntdFooterColumn.PSTypeNames.Insert(0, 'UDAntd.FooterColumn')
+        $UDAntdFooterColumn.PSTypeNames.Insert(0, 'Ant.Design.FooterColumn')
         $UDAntdFooterColumn
     }
 }
 
 function New-UDAntdFooterColumnItem {
     [CmdletBinding()]
-    [OutputType('UDAntd.FooterColumnItem')]
+    [OutputType('Ant.Design.FooterColumnItem')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -156,7 +156,7 @@ function New-UDAntdFooterColumnItem {
             openExternal = $OpenExternal.IsPresent
             url = $Url
         }
-        $UDAntdFooterColumnItem.PSTypeNames.Insert(0, 'UDAntd.FooterColumnItem')
+        $UDAntdFooterColumnItem.PSTypeNames.Insert(0, 'Ant.Design.FooterColumnItem')
         $UDAntdFooterColumnItem
     }
 }

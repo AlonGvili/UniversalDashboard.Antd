@@ -2,7 +2,7 @@
 import React from "react"
 import { Layout } from "antd"
 import store from "./store"
-import { ReactQueryDevtools } from "react-query-devtools/dist/react-query-devtools.development"
+import { ReactQueryDevtools } from "react-query-devtools"
 const PageManager = React.lazy(() => import(/* webpackChunkName: 'PageManager'*/ "../framework/pages/PageManager"))
 const DashboardFooter = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardFooter'*/ "../framework/core/DashboardFooter")
@@ -10,9 +10,6 @@ const DashboardFooter = React.lazy(() =>
 const DashboardSideBar = React.lazy(() =>
 	import(/* webpackChunkName: 'DashboardSideBar'*/ "../framework/core/DashboardSideBar")
 )
-{
-	/* <store.Provider initialValue={{ isOpen: true }}> */
-}
 
 export default ({ appbar }) => {
 	return (

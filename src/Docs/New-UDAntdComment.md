@@ -176,7 +176,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.Comment
+### Ant.Design.Comment
 
 ## NOTES
 

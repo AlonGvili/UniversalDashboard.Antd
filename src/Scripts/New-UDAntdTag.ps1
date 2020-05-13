@@ -1,6 +1,6 @@
 function New-UDAntdTag {
     [CmdletBinding(DefaultParameterSetName = 'Icon')]
-    [OutputType('UDAntd.Tag')]
+    [OutputType('Ant.Design.Tag')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -31,14 +31,14 @@ function New-UDAntdTag {
             # parameterSet = $PSCmdlet.ParameterSetName
             # hasCallBack  = $null -ne $OnError
         }
-        $UDAntdTag.PSTypeNames.Insert(0, 'UDAntd.Tag')
+        $UDAntdTag.PSTypeNames.Insert(0, 'Ant.Design.Tag')
         $UDAntdTag
     }
 }
 
 function New-UDAntdTagCheckable {
     [CmdletBinding()]
-    [OutputType('UDAntd.Tag.Checkable')]
+    [OutputType('Ant.Design.Tag.Checkable')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -63,7 +63,7 @@ function New-UDAntdTagCheckable {
             icon     = $Icon
             content  = $Content
         }
-        $UDAntdCheckableTag.PSTypeNames.Insert(0, 'UDAntd.Tag.Checkable')
+        $UDAntdCheckableTag.PSTypeNames.Insert(0, 'Ant.Design.Tag.Checkable')
         $UDAntdCheckableTag
     }
 }

@@ -1,6 +1,6 @@
 function New-UDAntdSteps {
     [CmdletBinding()]
-    [OutputType('UDAntd.Steps')]
+    [OutputType('Ant.Design.Steps')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -100,7 +100,7 @@ function New-UDAntdSteps {
             autorefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
         }
-        $UDAntdSteps.PSTypeNames.Insert(0, 'UDAntd.Steps')
+        $UDAntdSteps.PSTypeNames.Insert(0, 'Ant.Design.Steps')
         $UDAntdSteps
     }
 }

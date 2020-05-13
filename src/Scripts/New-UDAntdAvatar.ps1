@@ -1,6 +1,6 @@
 function New-UDAntdAvatar {
     [CmdletBinding(DefaultParameterSetName = 'Icon')]
-    [OutputType('UDAntd.Avatar')]
+    [OutputType('Ant.Design.Avatar')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -54,7 +54,7 @@ function New-UDAntdAvatar {
             parameterSet = $PSCmdlet.ParameterSetName
             hasCallBack = $null -ne $OnError
         }
-        $UDAntdAvatar.PSTypeNames.Insert(0, 'UDAntd.Avatar')
+        $UDAntdAvatar.PSTypeNames.Insert(0, 'Ant.Design.Avatar')
         $UDAntdAvatar
     }
 }

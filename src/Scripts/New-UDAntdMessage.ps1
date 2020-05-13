@@ -1,6 +1,6 @@
 function New-UDAntdMessage {
     [CmdletBinding()]
-    [OutputType('UDAntd.Message')]
+    [OutputType('Ant.Design.Message')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -60,7 +60,7 @@ function New-UDAntdMessage {
             preset      = $Preset
             visible     = $Visible.IsPresent
         }
-        $UDAntdMessage.PSTypeNames.Insert(0, 'UDAntd.Message')
+        $UDAntdMessage.PSTypeNames.Insert(0, 'Ant.Design.Message')
         $UDAntdMessage
     }
 }

@@ -1,9 +1,39 @@
 import React from "react"
-// import "ant-design-pro/lib/Charts/style/index"
 import MiniProgress from "ant-design-pro/lib/Charts/MiniProgress"
-import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-export default function AntdChartMiniProgress({ id, ...props }) {
-	// const [{ attributes }] = useDashboardEvent(id, props)
-	return <MiniProgress {...props} />
+const miniContext = React.createContext()
+
+export function useMiniProgress() {
+	const progressValue = React.useRef()
+	const api = {
+		progressValue,
+		miniContext,
+	}
+	const MiniProgressBar = useMiniProgressBarComponent(api)
+	return {
+		...api,
+		MiniProgressBar,
+	}
+}
+
+function useMiniProgressBarComponent(api) {
+	const MiniProgressBar = React.useMemo(
+		() => ({ id, percent, target, strokeWidth, color }) => {
+			const { miniContext, progressValue } = MiniProgressBar.api
+			progressValue.current = percent
+			return (
+				<miniContext.Provider value={MiniProgressBar.api}>
+					<MiniProgress
+						id={id}
+						percent={progressValue.current}
+						target={target}
+						color={color}
+						strokeWidth={strokeWidth}
+					/>
+				</miniContext.Provider>
+			)
+		},[]
+	)
+	MiniProgressBar.api = api
+	return MiniProgressBar
 }

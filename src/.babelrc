@@ -8,14 +8,16 @@
 			{
 				"libraryName": "antd",
 				"style": true
-			},"antd"
+			},
+			"antd"
 		],
 		[
 			"import",
 			{
 				"libraryName": "ant-design-pro",
 				"style": true
-			},"ant-design-pro"
+			},
+			"ant-design-pro"
 		]
 	]
 }

@@ -223,7 +223,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.Badge
+### Ant.Design.Badge
 
 ## NOTES
 

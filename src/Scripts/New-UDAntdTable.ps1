@@ -1,6 +1,6 @@
 function New-UDAntdTable {
     [CmdletBinding()]
-    [OutputType("UDAntd.Table")]
+    [OutputType("Ant.Design.Table")]
 
     Param(
         [Parameter()]
@@ -52,14 +52,14 @@ function New-UDAntdTable {
             title = $Title
             showHeader = $ShowHeader.IsPresent
         }
-        $UDAntdTable.PSTypeNames.Insert(0, 'UDAntd.Table')
+        $UDAntdTable.PSTypeNames.Insert(0, 'Ant.Design.Table')
         $UDAntdTable
     }
 }
 
 function New-UDAntdTableColumn {
     [CmdletBinding()]
-    [OutputType("UDAntd.TableColumn")]
+    [OutputType("Ant.Design.TableColumn")]
 
     Param(
         [Parameter()]
@@ -96,7 +96,7 @@ function New-UDAntdTableColumn {
             colSpan = $ColSpan
             align = $Align
         }
-        $UDAntdTableColumn.PSTypeNames.Insert(0, 'UDAntd.TableColumn')
+        $UDAntdTableColumn.PSTypeNames.Insert(0, 'Ant.Design.TableColumn')
         $UDAntdTableColumn
     }
 }

@@ -113,6 +113,7 @@ $manifestParameters = @{
         "New-UDAntdChartMiniProgress"
         "New-UDAntdChartField"
         "New-UDAntdChartTrend"
+        "New-UDAntdMiniRingProgress"
     )
 }
 

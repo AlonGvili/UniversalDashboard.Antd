@@ -1,7 +1,7 @@
 
 function Show-UDAntdThemeButton {
     [CmdletBinding()]
-    [OutputType('UDAntd.ThemeButton')]
+    [OutputType('Ant.Design.ThemeButton')]
     param()
     End {
         $UDAntdThemeButton = @{
@@ -9,7 +9,7 @@ function Show-UDAntdThemeButton {
             isPlugin = $true 
             type = "ud-antd-theme-button"
         }
-        $UDAntdThemeButton.PSTypeNames.Insert(0, 'UDAntd.ThemeButton')
+        $UDAntdThemeButton.PSTypeNames.Insert(0, 'Ant.Design.ThemeButton')
         $UDAntdThemeButton
     }
 }

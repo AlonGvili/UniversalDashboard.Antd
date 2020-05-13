@@ -314,7 +314,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.Typography
+### Ant.Design.Typography
 
 ## NOTES
 

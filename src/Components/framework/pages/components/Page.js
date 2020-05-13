@@ -1,38 +1,68 @@
 import React from "react"
-import { useParams } from "react-router-dom"
-import queryString from "query-string"
 import { useQuery } from "react-query"
-import { Spin } from "antd"
 import { getMeta } from "../../meta"
+import { endpoint } from "../../../api/consts"
 
 const dashboardid = getMeta("ud-dashboard")
 
-export default ({ id, autoRefresh, refreshInterval }) => {
-	const params = useParams()
-	const query = `?${queryString.stringify(params)}`
-	const dynamicUrl = "/api/internal/component/element/"
-	let url = `${window.baseUrl}${dynamicUrl}${id}${query}`
+const pageContext = React.createContext()
 
-	const { data, isFetching, status, error } = useQuery(
-		["pageUrl", {pageUrl: url}],
-		() =>
-			fetch(url, { headers: { dashboardid, UDConnectionId: UniversalDashboard.connectionId } })
-				.then(res => res.json())
-				.then(res => res),
-		{
-			refetchInterval: autoRefresh && refreshInterval,
-			refetchIntervalInBackground: autoRefresh,
-			retry: 3,
-			refetchOnWindowFocus: false,
-			refetchOnMount: false
-		}
+export function usePage() {
+	const dataRef = React.useRef()
+
+	const api = {
+		pageContext,
+		endpoint,
+		dataRef,
+	}
+
+	const Page = usePageComponent(api)
+
+	return {
+		...api,
+		Page,
+	}
+}
+
+function usePageComponent(api) {
+	const Page = React.useMemo(
+		() => ({ id, autoRefresh, refreshInterval }) => {
+			const { endpoint, pageContext, dataRef } = Page.api
+
+			let url = endpoint(id)
+
+			const { data, status, error } = useQuery(
+				["pageUrl", { pageUrl: url }],
+				() =>
+					fetch(url, {
+						headers: {
+							dashboardid,
+							UDConnectionId: UniversalDashboard.connectionId,
+						},
+					})
+						.then(res => res.json())
+						.then(res => res),
+				{
+					refetchInterval: autoRefresh && refreshInterval,
+					refetchIntervalInBackground: autoRefresh,
+					retry: 3,
+					refetchOnWindowFocus: false,
+					refetchOnMount: false,
+				}
+			)
+			if (status === "error") return <p>{`Error: ${error.message}`}</p>
+			dataRef.current = data
+
+			return (
+				<pageContext.Provider value={Page.api}>
+					{UniversalDashboard.renderComponent(dataRef.current)}
+				</pageContext.Provider>
+			)
+		},
+		[]
 	)
 
-	if (status === "loading") return <Spin spinning={isFetching} tip="Getting Page Data" />
-	if (status === "error") return <p>{`Error: ${error.message}`}</p>
+	Page.api = api
 
-	console.log("page data", data)
-	return (
-		UniversalDashboard.renderComponent(data)
-	)
+	return Page
 }

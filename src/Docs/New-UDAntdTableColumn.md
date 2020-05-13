@@ -162,7 +162,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.TableColumn
+### Ant.Design.TableColumn
 
 ## NOTES
 

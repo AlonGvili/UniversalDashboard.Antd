@@ -1,6 +1,6 @@
 function New-AntdDarkModeToggle {
     [CmdletBinding()]
-    [OutputType('UDAntd.DarkModeToggle')]
+    [OutputType('Ant.Design.DarkModeToggle')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -17,7 +17,7 @@ function New-AntdDarkModeToggle {
             id       = $Id
             size     = $Size
         }
-        $UDAntdDarkModeToggle.PSTypeNames.Insert(0, 'UDAntd.DarkModeToggle')
+        $UDAntdDarkModeToggle.PSTypeNames.Insert(0, 'Ant.Design.DarkModeToggle')
         $UDAntdDarkModeToggle
         
     }

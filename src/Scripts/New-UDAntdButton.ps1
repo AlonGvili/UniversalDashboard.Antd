@@ -1,7 +1,7 @@
 
 function New-UDAntdButton {
     [CmdletBinding()]
-    [OutputType('UDAntd.Button')]
+    [OutputType('Ant.Design.Button')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -65,7 +65,7 @@ function New-UDAntdButton {
             label = $Label
             style = $Style
         }
-        $UDAntdButton.PSTypeNames.Insert(0, 'UDAntd.Button')
+        $UDAntdButton.PSTypeNames.Insert(0, 'Ant.Design.Button')
         $UDAntdButton
 
     }

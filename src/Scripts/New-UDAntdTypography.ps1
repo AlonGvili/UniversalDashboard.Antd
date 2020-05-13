@@ -1,7 +1,7 @@
 
 function New-UDAntdTypography {
     [CmdletBinding(DefaultParameterSetName = 'Text')]
-    [OutputType('UDAntd.Typography')]
+    [OutputType('Ant.Design.Typography')]
     param(
         [Parameter(ParameterSetName = 'Paragraph')]
         [Parameter(ParameterSetName = 'Text')]
@@ -113,7 +113,7 @@ function New-UDAntdTypography {
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
         }
-        $UDAntdTypography.PSTypeNames.Insert(0, 'UDAntd.Typography')
+        $UDAntdTypography.PSTypeNames.Insert(0, 'Ant.Design.Typography')
         $UDAntdTypography
     }
 }

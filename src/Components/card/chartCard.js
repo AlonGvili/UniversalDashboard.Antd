@@ -1,17 +1,15 @@
 import React from "react"
 import "ant-design-pro/lib/Charts/style/index"
 import ChartCard from "ant-design-pro/lib/Charts/ChartCard"
-// import "ant-design-pro/lib/style"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import { getMeta } from "../framework/meta"
 import { useQuery } from "react-query"
 import { Spin } from "antd"
-import "ant-design-pro/lib/Trend/style/index"
-import Trend from "ant-design-pro/lib/Trend"
-
+import { useMiniProgress } from "../charts/miniProgress"
 const dashboardid = getMeta("ud-dashboard")
 
 export default function AntdChartCard({ id, ...props }) {
+	const { MiniProgressBar } = useMiniProgress()
 	const [{ attributes }] = useDashboardEvent(id, props)
 	const { autoRefresh, refreshInterval, title, action, total, contentHeight, footer, avatar, bordered } = attributes
 	const { data, isFetching, status, error } = useQuery(
@@ -43,8 +41,13 @@ export default function AntdChartCard({ id, ...props }) {
 			footer={footer && UniversalDashboard.renderComponent(footer)}
 			avatar={avatar && UniversalDashboard.renderComponent(avatar)}
 		>
-		
-			{UniversalDashboard.renderComponent(data)}
+			{data.map(item =>
+				item.type === "ud-antd-chart-mini-progress" ? (
+					<MiniProgressBar {...item} />
+				) : (
+					UniversalDashboard.renderComponent(item)
+				)
+			)}
 		</ChartCard>
 	)
 }

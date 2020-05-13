@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@ant-design/aliyun-theme": "0.0.4",
+    "@ant-design/charts": "^0.9.4",
     "@ant-design/colors": "^4.0.0",
     "@ant-design/dark-theme": "^2.0.1",
     "@ant-design/icons": "4.1.0",
@@ -39,10 +40,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
-    "@babel/polyfill": "^7.8.7",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
@@ -60,6 +61,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^6.0.0",
+    "html-webpack-plugin": "4.3.0",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "prettier": "^2.0.5",
@@ -77,7 +79,6 @@
     "use-clipboard-copy": "^0.1.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "html-webpack-plugin": "4.3.0",
     "webpack-dev-server": "3.10.3"
   },
   "browserslist": [

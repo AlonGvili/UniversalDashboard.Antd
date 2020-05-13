@@ -1,7 +1,7 @@
 
 function New-UDAntdCard {
     [CmdletBinding(DefaultParameterSetName = "Default")]
-    [OutputType('UDAntd.Card')]
+    [OutputType('Ant.Design.Card')]
     param(
         [Parameter(ParameterSetName = 'Meta')]
         [Parameter(ParameterSetName = 'Tabs')]
@@ -198,7 +198,7 @@ function New-UDAntdCard {
             defaultActiveKey   = $DefaultActiveKey
 
         }
-        $UDAntdCard.PSTypeNames.Insert(0, 'UDAntd.Card')
+        $UDAntdCard.PSTypeNames.Insert(0, 'Ant.Design.Card')
         $UDAntdCard
 
     }

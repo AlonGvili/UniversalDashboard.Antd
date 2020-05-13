@@ -1,6 +1,6 @@
 function New-UDAntdComment {
     [CmdletBinding()]
-    [OutputType('UDAntd.Comment')]
+    [OutputType('Ant.Design.Comment')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -61,7 +61,7 @@ function New-UDAntdComment {
             actions   = $Actions
             datetime = $DateTime
         }
-        $UDAntdComment.PSTypeNames.Insert(0, 'UDAntd.Comment')
+        $UDAntdComment.PSTypeNames.Insert(0, 'Ant.Design.Comment')
         $UDAntdComment
     }
 }

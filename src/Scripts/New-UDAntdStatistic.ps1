@@ -1,6 +1,6 @@
 function New-UDAntdStatistic {
     [CmdletBinding(DefaultParameterSetName = "Statistic")]
-    [OutputType('UDAntd.Statistic')]
+    [OutputType('Ant.Design.Statistic')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -80,7 +80,7 @@ function New-UDAntdStatistic {
             hasCallback      = $null -ne $OnFinish
             parameterSetName = $PSCmdlet.ParameterSetName
         }
-        $UDAntdStatistic.PSTypeNames.Insert(0, 'UDAntd.Statistic')
+        $UDAntdStatistic.PSTypeNames.Insert(0, 'Ant.Design.Statistic')
         $UDAntdStatistic
     }
 }

@@ -389,7 +389,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.AutoComplete
+### Ant.Design.AutoComplete
 
 ## NOTES
 

@@ -1,6 +1,6 @@
 function New-UDAntdSider {
     [CmdletBinding()]
-    [OutputType('UDAntd.Sider')]
+    [OutputType('Ant.Design.Sider')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -52,7 +52,7 @@ function New-UDAntdSider {
             hasCallback    = $null -ne $Content
             content = $Content.Invoke()
         }
-        $UDAntdSider.PSTypeNames.Insert(0, 'UDAntd.Sider')
+        $UDAntdSider.PSTypeNames.Insert(0, 'Ant.Design.Sider')
         $UDAntdSider
     }
 }

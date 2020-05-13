@@ -1,36 +1,68 @@
 /* eslint-disable react/display-name */
-import React, { useEffect, useState } from "react"
-import Page from "./components/Page"
+import React from "react"
+import { usePage } from "./components/Page"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { queryCache } from "react-query"
-import useDashboardPages from "../../api/Hooks/useDashboardPages"
 import { Layout } from "antd"
 
-export default () => {
+const managerContext = React.createContext()
+
+function usePageManager() {
 	const pages = queryCache.getQueryData("pages")
 
+	const api = {
+		pages,
+		managerContext,
+	}
 
-	console.log("page manager")
-	if(!pages) return null
+	const PageManager = usePageManagerComponent(api)
 
-	function useHomePage() {
+	return {
+		...api,
+		PageManager,
+	}
+}
+
+function usePageManagerComponent(api) {
+	const getHomePage = React.useCallback(pages => {
 		let homePage = pages.find(page => page.defaultHomePage || page.name === "home")
 		if (!homePage) return pages[0].name
 		return homePage.name
-	}
+	}, [])
 
-	let home = useHomePage()
-	return (
-		<Layout.Content style={{ padding: 24 }}>
-			<Switch>
-				{pages.map(page => (
-					<Route key={page.dynamic ? page.id : page.name} path={page.dynamic ? page.url : `/${page.name}`}>
-						<Page {...page} />
-					</Route>
-				))}
-				<Redirect exact from="/" to={home} />
-				<Redirect from="/" to="/404" />
-			</Switch>
-		</Layout.Content>
-	)
+	const PageManager = React.useMemo(
+		() => props => {
+		const { pages, managerContext } = PageManager.api
+		const { Page } = usePage()
+		const home = getHomePage(pages)
+
+		return (
+			<Layout.Content style={{ padding: 24 }}>
+				<managerContext.Provider value={PageManager.api}>
+					<Switch>
+						{pages.map(page => (
+							<Route
+								key={page.dynamic ? page.id : page.name}
+								path={page.dynamic ? page.url : `/${page.name}`}
+							>
+								<Page {...page} />
+							</Route>
+						))}
+						<Redirect exact from="/" to={home} />
+						<Redirect from="/" to="/404" />
+					</Switch>
+				</managerContext.Provider>
+			</Layout.Content>
+		)
+	}, [])
+
+	PageManager.api = api
+	PageManager.displayName = "PageManager"
+
+	return PageManager
+}
+
+export default () => {
+	const { PageManager } = usePageManager()
+	return <PageManager />
 }

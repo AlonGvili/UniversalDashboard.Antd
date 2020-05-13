@@ -1,6 +1,6 @@
 function New-UDAntdRoute {
     [CmdletBinding()]
-    [OutputType('UDAntd.Route')]
+    [OutputType('Ant.Design.Route')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -22,7 +22,7 @@ function New-UDAntdRoute {
             content  = $Content
             exact    = $Exact.IsPresent
         }
-        $UDAntdRoute.PSTypeNames.Insert(0, 'UDAntd.Route')
+        $UDAntdRoute.PSTypeNames.Insert(0, 'Ant.Design.Route')
         $UDAntdRoute
     }
 }

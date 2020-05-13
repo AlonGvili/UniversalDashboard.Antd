@@ -45,7 +45,7 @@ module.exports = {
 			maxSize: 0,
 			minChunks: 2,
 			maxAsyncRequests: 5,
-			maxInitialRequests: 3,
+			maxInitialRequests: 2,
 			automaticNameDelimiter: "-",
 			automaticNameMaxLength: 15,
 			name: true,
@@ -67,9 +67,9 @@ module.exports = {
 			new TerserPlugin({
 				parallel: true,
 				cache: true,
-				extractComments: true,
+				extractComments: false,
 				terserOptions: {
-					sourceMap: true,
+					sourceMap: false,
 					compress: {
 						drop_console: false,
 					},

@@ -1,7 +1,7 @@
 
 function New-UDAntdForm {
     [CmdletBinding()]
-    [OutputType('UDAntd.Form')]
+    [OutputType('Ant.Design.Form')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -48,7 +48,7 @@ function New-UDAntdForm {
             content = $Content.Invoke()
             
         }
-        $UDAntdForm.PSTypeNames.Insert(0, 'UDAntd.Form')
+        $UDAntdForm.PSTypeNames.Insert(0, 'Ant.Design.Form')
         $UDAntdForm
 
     }
@@ -58,7 +58,7 @@ function New-UDAntdForm {
 
 function New-UDAntdFormItem {
     [CmdletBinding()]
-    [OutputType('UDAntd.FormItem')]
+    [OutputType('Ant.Design.FormItem')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -109,7 +109,7 @@ function New-UDAntdFormItem {
             content = $Content
             
         }
-        $UDAntdFormItem.PSTypeNames.Insert(0, 'UDAntd.FormItem')
+        $UDAntdFormItem.PSTypeNames.Insert(0, 'Ant.Design.FormItem')
         $UDAntdFormItem
 
     }

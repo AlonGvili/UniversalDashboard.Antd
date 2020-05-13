@@ -161,7 +161,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### UDAntd.FooterColumnItem
+### Ant.Design.FooterColumnItem
 
 ## NOTES
 

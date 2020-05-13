@@ -1,6 +1,6 @@
 function New-UDAntdAppBar {
     [CmdletBinding()]
-    [OutputType('UDAntd.AppBar')]
+    [OutputType('Ant.Design.AppBar')]
     Param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -8,7 +8,6 @@ function New-UDAntdAppBar {
         [scriptblock]$Content,
         [Parameter()]
         [switch]$Visible
-
     )
     End {
         $UDAntdAppBar = @{
@@ -16,14 +15,12 @@ function New-UDAntdAppBar {
             isPlugin = $true 
             type     = "ud-antd-appbar"
             id       = $Id
-            content = $Content.Invoke()
-            visible = $Visible.IsPresent
+            content  = $Content.Invoke()
+            visible  = $Visible.IsPresent
         }
-        $UDAntdAppBar.PSTypeNames.Insert(0, 'UDAntd.AppBar')
+        $UDAntdAppBar.PSTypeNames.Insert(0, 'Ant.Design.AppBar')
         $UDAntdAppBar
-        
     }
-        
 }
 
 

@@ -1,7 +1,7 @@
 
 function New-UDAntdBadge {
     [CmdletBinding()]
-    [OutputType('UDAntd.Badge')]
+    [OutputType('Ant.Design.Badge')]
     param(
         [Parameter()]
         [ValidateSet('success', 'processing', 'default', 'error', 'warning')]
@@ -51,7 +51,7 @@ function New-UDAntdBadge {
             text             = $Text   
             content          = $Content
         }
-        $UDAntdBadge.PSTypeNames.Insert(0, 'UDAntd.Badge')
+        $UDAntdBadge.PSTypeNames.Insert(0, 'Ant.Design.Badge')
         $UDAntdBadge
 
     }

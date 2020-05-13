@@ -176,9 +176,10 @@ const loadData = (setDashboard, history, location) => {
 		function (json) {
 			var dashboard = json.dashboard
 
-			if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
+			// if (dashboard.stylesheets) dashboard.stylesheets.map(loadStylesheet)
+			// if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
+			
 			queryCache.setQueryData("pages", dashboard.pages)
-			if (dashboard.scripts) dashboard.scripts.map(loadJavascript)
 
 			connectWebSocket(json.sessionId, location, history)
 			UniversalDashboard.sessionId = json.sessionId

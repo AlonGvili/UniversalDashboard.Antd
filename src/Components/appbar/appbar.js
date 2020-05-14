@@ -1,7 +1,6 @@
 import React from "react"
 import { Layout } from "antd"
 import { useIsDarkMode } from "../framework/core/darkMode"
-import store from "../api/store"
 
 export default function AntdAppBar({ visible, content }) {
 	const darkMode = useIsDarkMode()

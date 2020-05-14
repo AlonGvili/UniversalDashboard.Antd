@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 const SET_STATE = "setState"
 const REQUEST_STATE = "requestState"
@@ -7,17 +7,23 @@ const ADD_ELEMENT = "addElement"
 const CLEAR_ELEMENT = "clearElement"
 const SYNC_ELEMENT = "syncElement"
 
+
+function useEndpointSubscription(endpointId, callback){
+	const callbackRef = React.useRef() 
+	callbackRef.current = callback
+
+	React.useEffect(() => {
+		const pubSubToken = UniversalDashboard.subscribe(endpointId, callbackRef.current)
+		return () => UniversalDashboard.unsubscribe(pubSubToken)
+	},[endpointId])
+
+}
 export default function useDashboardEvent(elementId, initialState) {
 	const { content, ...attributes } = initialState
 
 	const [state, setState] = useState({
 		content: content,
 		attributes: attributes,
-	})
-
-	useEffect(() => {
-		const pubSubToken = UniversalDashboard.subscribe(elementId, events)
-		return () => UniversalDashboard.unsubscribe(pubSubToken)
 	})
 
 	const events = (msg, event) => {
@@ -77,6 +83,7 @@ export default function useDashboardEvent(elementId, initialState) {
 		}
 	}
 
+	useEndpointSubscription(elementId, events)
 	const reload = () => {
 		UniversalDashboard.get(`/api/internal/component/element/${elementId}`, data =>
 			setState(state => {

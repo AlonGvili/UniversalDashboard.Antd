@@ -33,7 +33,7 @@ module.exports = {
 		path: BUILD_DIR,
 		filename: "[name].[contenthash:8].bundle.js",
 		sourceMapFilename: "[name].[hash].bundle.map",
-		publicPath: "/",
+		publicPath: "",
 		library: "Antd",
 		libraryTarget: "var",
 	},

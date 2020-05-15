@@ -22,11 +22,11 @@ function New-UDAntdChartCard {
         [Parameter()]
         [int]$RefreshInterval = 5000,
         [Parameter()]
-        [object]$Content
+        [scriptblock]$Content
     )
     End {
 
-        $endpointChart = New-UDEndpoint -Id $Id -Endpoint $Content 
+        # $endpointChart = New-UDEndpoint -Id $Id -Endpoint $Content 
         # New-UDEndpoint -Id ("$($Id)-total") -Endpoint $Total | Out-Null
 
         @{
@@ -40,6 +40,7 @@ function New-UDAntdChartCard {
             total           = $Total
             bordered        = $Bordered.IsPresent
             footer          = $Footer
+            content         = $Content.Invoke()
             avatar          = $Avatar
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval

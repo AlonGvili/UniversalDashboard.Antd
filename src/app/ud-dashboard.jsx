@@ -55,7 +55,7 @@ function connectWebSocket(sessionId, location, history) {
 	connection.on("removeElement", json => {
 		var data = JSON.parse(json)
 
-		PubSub.publish(data.componentId, {
+		PubSub.publish(data.parentId, {
 			type: "removeElement",
 			componentId: data.componentId,
 			parentId: data.parentId,

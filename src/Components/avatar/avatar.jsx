@@ -3,9 +3,8 @@ import { Avatar } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 
-const AntdAvatar = props => {
-    const [state, reload] = useDashboardEvent(props.id, props);
-    const { content, attributes } = state;
+const AntdAvatar = ({id,...props}) => {
+    const [{ content, attributes }] = useDashboardEvent(id, props);
 
     const contentProps = {
         children: content

@@ -15,7 +15,7 @@ const AntdMenu = props => {
 
 	const renderMenuLink = item => (
 		<Menu.Item>
-			<Link to={item.to} style={{ color: "inherit", width: "100%" }}>
+			<Link to={`${window.baseUrl}${item.to}`} style={{ color: "inherit", width: "100%" }}>
 				<Menu.Item key={item.key} icon={item.icon && UniversalDashboard.renderComponent(item.icon)}>
 					{item.text && UniversalDashboard.renderComponent(item.text)}
 				</Menu.Item>

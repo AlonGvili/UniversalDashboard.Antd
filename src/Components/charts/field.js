@@ -3,6 +3,7 @@ import Field from "ant-design-pro/lib/Charts/Field"
 import { useQuery } from "react-query"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import { getMeta } from "../framework/meta"
+import { endpoint } from "../api/consts"
 
 const dashboardid = getMeta("ud-dashboard")
 
@@ -15,7 +16,7 @@ export default function AntdChartField({ id, ...props }) {
 	const { status, error } = useQuery(
 		id,
 		() =>
-			fetch(`${window.baseUrl}/api/internal/component/element/${id}`, {
+			fetch(endpoint(id), {
 				headers: { dashboardid, UDConnectionId: UniversalDashboard.connectionId },
 			})
 				.then(res => res.json())

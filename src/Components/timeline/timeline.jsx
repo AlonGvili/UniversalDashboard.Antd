@@ -1,18 +1,49 @@
 import React from "react"
-import ReactInterval from "react-interval"
 import { Timeline } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-const AntdTimeLine = props => {
-	const [state, reload] = useDashboardEvent(props.id, props)
-	const { content, attributes } = state
+const timelineContext = React.createContext()
 
-	return (
-		<Timeline {...attributes}>
-			{UniversalDashboard.renderComponent(content)}
-			<ReactInterval callback={reload} timeout={attributes.refreshInterval} enabled={attributes.autoRefresh} />
-		</Timeline>
-	)
+export function useTimeline() {
+	const dataRef = React.useRef([])
+
+	const api = {
+		dataRef,
+		timelineContext
+	}
+
+	const UDAntdTimeLine = useTimelineComponent(api)
+
+	return {
+		...api,
+		UDAntdTimeLine
+	}
 }
 
-export default AntdTimeLine
+function useTimelineComponent(api) {
+	const UDAntdTimeLine = React.useMemo(
+		() => ({ id, ...props }) => {
+			const { timelineContext } = UDAntdTimeLine.api
+			const [{ content, attributes }] = useDashboardEvent(id, props)
+
+			return (
+				<timelineContext.Provider value={UDAntdTimeLine.api}>
+					<Timeline {...attributes}>
+						{content.map(item => <Timeline.Item {...item} dot={item.dot && UniversalDashboard.renderComponent(item.dot)} >
+							{UniversalDashboard.renderComponent(item.content)}
+						</Timeline.Item>)}
+					</Timeline>
+				</timelineContext.Provider>
+			)
+		}, [])
+
+	UDAntdTimeLine.api = api
+
+	return UDAntdTimeLine
+
+}
+
+export default (props) => {
+	const { UDAntdTimeLine } = useTimeline()
+	return <UDAntdTimeLine {...props} />
+}

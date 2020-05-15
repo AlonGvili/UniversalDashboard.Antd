@@ -43,13 +43,13 @@ function usePageManagerComponent(api) {
 						{pages.map(page => (
 							<Route
 								key={page.dynamic ? page.id : page.name}
-								path={page.dynamic ? page.url : `/${page.name}`}
+								path={page.dynamic ? `${window.baseUrl}${page.url}` : `${window.baseUrl}/${page.name}`}
 							>
 								<Page {...page} />
 							</Route>
 						))}
-						<Redirect exact from="/" to={home} />
-						<Redirect from="/" to="/404" />
+						<Redirect exact from={`${window.baseUrl}`} to={`${window.baseUrl}/${home}`} />
+						<Redirect from={`${window.baseUrl}`} to="/404" />
 					</Switch>
 				</managerContext.Provider>
 			</Layout.Content>

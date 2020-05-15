@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { endpoint } from "../consts"
 
 const SET_STATE = "setState"
 const REQUEST_STATE = "requestState"
@@ -18,7 +19,7 @@ function useEndpointSubscription(endpointId, callback){
 	},[endpointId])
 
 }
-export default function useDashboardEvent(elementId, initialState) {
+export default function 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			useDashboardEvent(elementId, initialState) {
 	const { content, ...attributes } = initialState
 
 	const [state, setState] = useState({
@@ -55,8 +56,9 @@ export default function useDashboardEvent(elementId, initialState) {
 			// Remove-UDElement
 			case REMOVE_ELEMENT:
 				setState(state => {
-					let newStateContent = state.content
-					newStateContent.splice(-1, 1)
+					console.log("remove element event",event)
+					let newStateContent = state.content.filter(item => item.id !== event.componentId)
+					// newStateContent.splice(-1, 1)
 					return {
 						...state,
 						content: [...newStateContent],
@@ -85,7 +87,7 @@ export default function useDashboardEvent(elementId, initialState) {
 
 	useEndpointSubscription(elementId, events)
 	const reload = () => {
-		UniversalDashboard.get(`/api/internal/component/element/${elementId}`, data =>
+		UniversalDashboard.get(endpoint(elementId), data =>
 			setState(state => {
 				return {
 					...state,

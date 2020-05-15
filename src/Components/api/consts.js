@@ -69,7 +69,7 @@ export const endpoint = elementId => {
 	const query = `?${queryString.stringify(useParams())}`
 	const base = "/api/internal/component/element/"
 
-	let url = `${window.baseUrl}${base}${elementId}${query}`
+	let url = `${base}${elementId}${query}`
 
 	return url
 }

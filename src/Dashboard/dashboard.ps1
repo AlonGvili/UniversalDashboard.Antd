@@ -83,10 +83,11 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         }
        
     } -DefaultHomePage
-    New-UDPage -Title 'Dynamic' -Name Dynamic -Url "/counter" -Endpoint {
+    New-UDPage -Title 'Dynamic' -Name Dynamic -Endpoint {
         New-UDAntdNotification -Id "vv" -Title "Universal Dashboard" -Description "" -Preset "info" 
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 12 -Content {
+                # "test"
                 New-UDAntdCard -Content {
                     New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x )
                 } -Title "GitLab Stats" -BodyStyle @{padding = 24 }
@@ -121,7 +122,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 
             } 
             New-UDAntdColumn -span 8 -Content {
-                New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
+                New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Total "12%" -Content {
                     
                     if ($Cache:rx -eq 100) {
                         Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ autoRefresh = $false; refreshInterval = 50000 } }
@@ -151,9 +152,30 @@ New-UDDashboard -Title "Dashboard" -Pages @(
     }  
     New-UDPage -Url "/Demos/:demoId" -Endpoint {
         param($DemoId)
-        New-UDAntdCard -Title $DemoId -Bordered -Content {
+        # New-UDAntdCard -Title $DemoId -Bordered -Content {
             if ($DemoId -eq "Monitor") {
-                New-UDAntdIcon -Icon MonitorOutlined -Size 3x
+                New-UDAntdTimeLine -Mode alternate -Content {
+                    New-UDAntdTimeLineItem -Color "red" -Content {
+                        New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
+                    }
+                    New-UDAntdTimeLineItem -Color "red" -Content {
+                        New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
+                    }
+                } -Id "timeline" -IsEndpoint -AutoRefresh -RefreshInterval 8000
+
+                $Cache:Titem = 0
+                New-UDAntdButton -Label "Add Item" -OnClick {
+                    ++$Cache:Titem
+                    Add-UDElement -ParentId "timeline" -Content {
+                        New-UDAntdTimeLineItem -Id "demo_$Cache:Titem" -Color "pink" -Content {
+                            New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It. demo$Cache:Titem" -Bordered
+                        }
+                    }
+                }
+                New-UDAntdButton -Label "Remove Item" -OnClick {
+                    --$Cache:Titem
+                    Remove-UDElement -ParentId "timeline" -Id "demo_$Cache:Titem"
+                }
             }
             if ($DemoId -eq "UserSettings") {
                 New-UDAntdIcon -Icon SettingOutlined -Size 3x
@@ -161,7 +183,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             if ($DemoId -eq "GithubClone") {
                 New-UDAntdIcon -Icon GithubOutlined -Size 3x
             }
-        } 
+        # } 
     }  
 
 ) -Theme @{

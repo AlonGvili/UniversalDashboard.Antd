@@ -55,17 +55,17 @@ function New-UDAntdColumn {
 
     End {
 
-        if ($null -ne $Content) {
+        # if ($null -ne $Content) {
             
-            if ($Content -is [scriptblock]) {
-                $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
+        #     if ($Content -is [scriptblock]) {
+        #         $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
                     
-            }
-            elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "Content must be a script block or UDEndpoint"
-            }
+        #     }
+        #     elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
+        #         throw "Content must be a script block or UDEndpoint"
+        #     }
             
-        }
+        # }
         @{
             assetId         = $AssetId 
             isPlugin        = $true 
@@ -74,6 +74,7 @@ function New-UDAntdColumn {
             className       = $ClassName
             style           = $Style
             offset          = $Offset
+            content = $Content.Invoke()
             order           = $Order
             pull            = $Pull
             push            = $Push

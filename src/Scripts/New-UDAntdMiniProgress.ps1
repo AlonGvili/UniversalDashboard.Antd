@@ -18,7 +18,7 @@ function New-UDAntdChartMiniProgress {
         @{
             assetId     = $AssetId 
             isPlugin    = $true 
-            type        = "ud-antd-chart-mini-progress"
+            type        = "ud-antd-chart-mini-progress-bar"
             id          = $Id
             percent     = $Percent
             strokeWidth = $StrokeWidth

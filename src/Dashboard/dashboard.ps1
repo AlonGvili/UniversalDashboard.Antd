@@ -87,9 +87,10 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         New-UDAntdNotification -Id "vv" -Title "Universal Dashboard" -Description "" -Preset "info" 
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 12 -Content {
-                # "test"
                 New-UDAntdCard -Content {
-                    New-UDAntdStatistic -Value { 1..250 | Get-Random } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x )
+                    New-UDAntdStatistic -Value { 
+                        1..250 | Get-Random 
+                    } -Title Followers -Prefix ( New-UDAntdIcon -Icon GitlabOutlined -Size 2x ) -AutoRefresh 
                 } -Title "GitLab Stats" -BodyStyle @{padding = 24 }
             }
             New-UDAntdColumn -span 12 -Content {
@@ -140,7 +141,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             } 
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdCard -Id "mini_ring_progress" -Title "Mini Ring Progress" -Content {
-                    New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "#555")
+                    New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "#333")
                     New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "#555")
                     New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "#555")
                 } 
@@ -152,38 +153,60 @@ New-UDDashboard -Title "Dashboard" -Pages @(
     }  
     New-UDPage -Url "/Demos/:demoId" -Endpoint {
         param($DemoId)
-        # New-UDAntdCard -Title $DemoId -Bordered -Content {
-            if ($DemoId -eq "Monitor") {
-                New-UDAntdTimeLine -Mode alternate -Content {
-                    New-UDAntdTimeLineItem -Color "red" -Content {
-                        New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
-                    }
-                    New-UDAntdTimeLineItem -Color "red" -Content {
-                        New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
-                    }
-                } -Id "timeline" -IsEndpoint -AutoRefresh -RefreshInterval 8000
+      
+        if ($DemoId -eq "Monitor") {
+            New-UDAntdTimeLine -Mode alternate -Content {
+                New-UDAntdTimeLineItem -Color "red" -Content {
+                    New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
+                }
+                New-UDAntdTimeLineItem -Color "red" -Dot ( New-UDAntdIcon -Icon GithubOutlined -Size xs ) -Content {
+                    New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
+                }
+            } -Id "timeline" -IsEndpoint -AutoRefresh -RefreshInterval 8000
 
-                $Cache:Titem = 0
-                New-UDAntdButton -Label "Add Item" -OnClick {
-                    ++$Cache:Titem
-                    Add-UDElement -ParentId "timeline" -Content {
-                        New-UDAntdTimeLineItem -Id "demo_$Cache:Titem" -Color "pink" -Content {
-                            New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It. demo$Cache:Titem" -Bordered
+            $Cache:Titem = 0
+            New-UDAntdButton -Label "Add Item" -OnClick {
+                ++$Cache:Titem
+                Add-UDElement -ParentId "timeline" -Content {
+                    New-UDAntdTimeLineItem -Id "demo_$Cache:Titem" -Color "pink" -Content {
+                        New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It. demo$Cache:Titem" -Bordered
+                    }
+                }
+            }
+            New-UDAntdButton -Label "Remove Item" -OnClick {
+                --$Cache:Titem
+                Remove-UDElement -ParentId "timeline" -Id "demo_$Cache:Titem"
+            }
+        }
+        if ($DemoId -eq "UserSettings") {
+            New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
+                New-UDAntdColumn -Span 24 -Content {
+                    New-UDAntdCountdown -Id "demo_countdown" -Title "Demo Countdown" -ValueStyle @{fontSize = 64 } -Format "DD HH:mm:ss" -Value (
+                        [DateTimeOffset]::Now.AddDays(2).ToUnixTimeMilliseconds()
+                    ) 
+                }
+            }
+        }
+        if ($DemoId -eq "GithubClone") {
+            New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
+                New-UDAntdColumn -Span 24 -Content {
+                    New-UDAntdComment -Id 'main_comment' -Author "alon gvili" -Message { "Demo message for checking the comment component" } -Actions {
+                        New-UDAntdButton -Label 'Reply' -ButtonType link -Icon (
+                            New-UDAntdIcon -Icon RetweetOutlined -Size sm
+                        ) -OnClick {
+                            Add-UDElement -ParentId "main_comment" -content { New-UDAntdComment -Author "adam" -Message { "checking the comment component" } -Actions {
+                                    New-UDAntdButton -Label 'Reply' -ButtonType link -Icon (
+                                        New-UDAntdIcon -Icon RetweetOutlined -Size sm
+                                    )
+                                }
+                            }
+                            
                         }
                     }
                 }
-                New-UDAntdButton -Label "Remove Item" -OnClick {
-                    --$Cache:Titem
-                    Remove-UDElement -ParentId "timeline" -Id "demo_$Cache:Titem"
-                }
             }
-            if ($DemoId -eq "UserSettings") {
-                New-UDAntdIcon -Icon SettingOutlined -Size 3x
-            }
-            if ($DemoId -eq "GithubClone") {
-                New-UDAntdIcon -Icon GithubOutlined -Size 3x
-            }
-        # } 
+        }
+        
     }  
 
 ) -Theme @{

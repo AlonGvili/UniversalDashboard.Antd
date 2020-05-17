@@ -1,6 +1,3 @@
-import React, { Suspense } from "react"
-
-
 export function internalRenderComponent(component, history) {
 	if (!component) return null
 

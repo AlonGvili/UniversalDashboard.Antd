@@ -1,5 +1,5 @@
 import React from "react"
-import RingProgress from "@ant-design/charts/es/ringProgress"
+import { RingProgress } from "@ant-design/charts"
 
 const Context = React.createContext()
 

@@ -8,31 +8,30 @@ import { endpoint } from "../api/consts"
 const dashboardid = getMeta("ud-dashboard")
 
 export default function AntdChartField({ id, ...props }) {
-	const [{ content, attributes }] = useDashboardEvent(id, props)
+	const [{ attributes }] = useDashboardEvent(id, props)
 	const { label, autoRefresh, refreshInterval } = attributes
 
-	const [returnValue, setReturnValue] = React.useState(content)
-
-	const { status, error } = useQuery(
+	const url = endpoint(id)
+	const { data, status, error } = useQuery(
 		id,
 		() =>
-			fetch(endpoint(id), {
+			fetch(url, {
 				headers: { dashboardid, UDConnectionId: UniversalDashboard.connectionId },
 			})
 				.then(res => res.json())
-				.then(res => setReturnValue(res)),
+				.then(res => res),
 		{
 			refetchInterval: autoRefresh && refreshInterval,
 			refetchIntervalInBackground: autoRefresh,
-			refetchOnMount: false,
+			refetchOnMount: true,
 			refetchOnWindowFocus: false,
 		}
 	)
 
 	if (status === "loading") return null
 	if (status === "error") return <p>{`Error: ${error.message}`}</p>
-		
-	return <Field id={id} label={UniversalDashboard.renderComponent(label)} value={UniversalDashboard.renderComponent(returnValue)} />
+
+	return <Field id={id} label={UniversalDashboard.renderComponent(label)} value={UniversalDashboard.renderComponent(data)} />
 }
 
 AntdChartField.displayName = "AntdChartField"

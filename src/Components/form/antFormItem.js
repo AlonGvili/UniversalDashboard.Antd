@@ -1,6 +1,5 @@
 import React from "react"
 import { Form } from "antd"
-// import "antd/lib/form/style/index.css"
 
 export default ({ id, label, name, rules, content, ...rest }) => {
 	return (

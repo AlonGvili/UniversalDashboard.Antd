@@ -19,7 +19,7 @@ function useEndpointSubscription(endpointId, callback){
 	},[endpointId])
 
 }
-export default function 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			useDashboardEvent(elementId, initialState) {
+export default function useDashboardEvent(elementId, initialState) {
 	const { content, ...attributes } = initialState
 
 	const [state, setState] = useState({

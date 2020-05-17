@@ -1,41 +1,91 @@
-import React,{useState, useEffect, useContext} from "react";
-import { Comment, Avatar, Button } from "antd";
-import moment from 'moment'
+import React from "react";
+import { Comment, Button } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
+import {RetweetOutlined, DeleteOutlined} from "@ant-design/icons"
+const commentContext = React.createContext()
 
-const UDAntdComment = props => {
-    const [state, reload, setState] = useDashboardEvent(props.id, props);
-    const { content, attributes } = state;
-    const { author, id, key, className, style, avatar, actions, message, datetime} = attributes
+export function useComment() {
+    const dataRef = React.useRef()
+    const [replys, setReplys] = React.useState([])
 
-    useEffect(() => {
-        const pubSubToken = UniversalDashboard.subscribe('dashboardContext-context', (ctx) => {
-            const alon = useContext(ctx)
-            console.log('context: ', alon)
-        })
-        return () => UniversalDashboard.unsubscribe(pubSubToken);
-    })
-
-    const removeComment = id => {
-        let demo = document.getElementById(id)
-        let parent = demo.parentElement
-        parent.removeChild(demo)
+    const addReply = (newReply) => {
+        setReplys(old => old.concat(newReply))
     }
 
-    const commentProps = {
-        author: author && author.type && UniversalDashboard.renderComponent(author) || author,
-        avatar: avatar && avatar.type && UniversalDashboard.renderComponent(avatar) || <Avatar size="large" icon="user" />,
-        datetime: datetime || moment().fromNow(),
-        content: message && message.map(item => item.type ? UniversalDashboard.renderComponent(item) : item && !item.type ? item : null),
-        style: {...style}
+    const removeReply = id => {
+        newReplysArray = replys.filter(reply => reply.id !== id)
+        return setReplys([...newReplysArray])
     }
 
-    const commentActions = () => {
-        let buttons = actions ? actions.map(item => item.type ? UniversalDashboard.renderComponent(item) : item) : []
-        buttons.push(<Button type="link" icon="delete" block onClick={() => removeComment(id)} />)
-        return buttons
+    const api = {
+        commentContext,
+        dataRef,
+        replys,
+        addReply,
+        removeReply
     }
-    return <Comment id={id} key={key} className={`ud-antd-comment ${className}`} children={UniversalDashboard.renderComponent(content)} {...commentProps} actions={commentActions()} />
-};
 
-export default UDAntdComment;
+    const UDAntdComment = useCommentComponent(api)
+
+    return {
+        ...api,
+        UDAntdComment,
+    }
+}
+
+function useCommentComponent(api) {
+    const UDAntdComment = React.useMemo(
+        () => ({ id, ...props }) => {
+            const { replys, commentContext, addReply, removeReply } = UDAntdComment.api
+            const [{content, attributes}] = useDashboardEvent(id, props)
+            
+            const ReplyButton = (
+                <Button icon={<RetweetOutlined />} onClick={() => addReply(Math.random())}/>
+            )
+            return (
+                <commentContext.Provider value={UDAntdComment.api}>
+                    <Comment
+                        id={id}
+                        datetime={attributes.datetime}
+                        actions={attributes.actions && [...UniversalDashboard.renderComponent(attributes.actions), ReplyButton]}
+                        avatar={attributes.avatar && UniversalDashboard.renderComponent(attributes.avatar)}
+                        author={attributes.author && UniversalDashboard.renderComponent(attributes.author)}
+                        content={attributes.message && UniversalDashboard.renderComponent(attributes.message)}
+                        style={attributes.style}
+                    >
+                        {UniversalDashboard.renderComponent(replys)}
+                    </Comment>
+                </commentContext.Provider>
+            )
+        },
+        []
+    )
+
+    UDAntdComment.api = api
+
+    return UDAntdComment
+}
+
+export default props => {
+    const { UDAntdComment } = useComment()
+    return <UDAntdComment {...props} />
+}
+// export default function AntdComment({ id, ...props }) {
+//     const [{ content, attributes }] = useDashboardEvent(id, props);
+
+//     console.log("comment content", content)
+
+//     return <Comment
+//         id={id}
+//         datetime={attributes.datetime}
+//         actions={attributes.actions && UniversalDashboard.renderComponent(attributes.actions)}
+//         avatar={attributes.avatar && UniversalDashboard.renderComponent(attributes.avatar)}
+//         author={attributes.author && UniversalDashboard.renderComponent(attributes.author)}
+//         content={attributes.message && UniversalDashboard.renderComponent(attributes.message)}
+//         style={attributes.style}
+//     >
+//         {UniversalDashboard.renderComponent(content)}
+//     </Comment>
+// };
+
+// AntdComment.displayName = "AntdComment"

@@ -2,38 +2,34 @@ import React, { useState } from "react";
 import { Switch } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
-const AntdSwitch = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-  const [checked, setChecked] = useState(attributes.checked);
+export default function AntdSwitch({ id, ...props }) {
+  const [{ attributes }] = useDashboardEvent(id, props);
+  const { checkedChildren, unCheckedChildren, checked } = attributes
+  const [isChecked, setIsChecked] = useState(checked);
 
   const onChange = event => {
-    setChecked(event)
+    setIsChecked(event)
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
-      eventId: attributes.id + "onChange",
+      eventId: id + "onChange",
       eventName: "onChange",
       eventData: event
     });
   };
 
   const customIcons = {
-    checkedChildren: UniversalDashboard.renderComponent(
-      attributes.checkedChildren
-    ),
-    unCheckedChildren: UniversalDashboard.renderComponent(
-      attributes.unCheckedChildren
-    )
-  };
+    checkedChildren: checkedChildren && UniversalDashboard.renderComponent(checkedChildren),
+    unCheckedChildren: unCheckedChildren && UniversalDashboard.renderComponent(unCheckedChildren)
+  }
 
   return (
     <Switch
       {...attributes}
       {...customIcons}
-      checked={checked}
+      checked={isChecked}
       onChange={onChange}
     />
   );
 };
 
-export default AntdSwitch;
+AntdSwitch.displayName = "AntdSwitch"

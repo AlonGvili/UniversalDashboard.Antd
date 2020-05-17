@@ -1,63 +1,43 @@
 import React from 'react';
-import {getApiPath} from './../config.jsx'
+import { getApiPath } from './../config.jsx'
 import renderComponent from './../services/render-service.jsx';
+import { Alert, Spin } from 'antd';
+import { useHistory } from 'react-router-dom';
 
-export default class LazyElement extends React.Component {
-    constructor() {
-        super();
+const importJavascript = (component, setLoading) => {
+    let script = document.createElement('script');
+    script.onload = () => setLoading(false)
+    script.src = getApiPath() + "/api/internal/javascript/" + component.assetId;
+    document.head.appendChild(script);
+}
 
-        this.state = {
-            loading: true,
-            error: ""
+export default function LazyElement({ component }) {
+    const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState(null)
+    const componentRef = React.useRef()
+    const history = useHistory()
+
+    React.useEffect(() => {
+        try {
+            importJavascript(component, setLoading)
+
+            if (loading) {
+                return <Spin spinning={!element} size="small" />
+            }
         }
+        catch (err) {
+            setError(err)
+            return <Alert.ErrorBoundary ref={componentRef} message={
+                `There was an error rendering component of type ${component.type}. ${error}`
+            } description={error.message} />
+        }
+    }, [setLoading])
+
+    let element = renderComponent(component, history, true)
+
+    if (element == null) {
+        return <Alert.ErrorBoundary ref={componentRef} message={`Component not registered: ${component.type}`} />
     }
-    componentWillMount() {
 
-        if (this.props.component.type === 'error')
-        {
-            return;
-        }
-
-        var script = document.createElement('script');
-        script.onload = function() {
-            this.setState({loading:false});
-        }.bind(this)
-        script.src = getApiPath() + "/api/internal/javascript/" + this.props.component.assetId;
-        document.head.appendChild(script); 
-    }
-
-    componentDidCatch(e) {
-        this.setState({
-            error: e
-        })
-    }
-
-    render() {
-        if (this.state.loading) {
-            return <div></div>;
-        }
-
-        if (this.props.component.type === 'error')
-        {
-            return <div>{this.props.component.message}</div>
-        }
-
-        if (this.state.error !== "") {
-            return renderComponent({
-                type: 'error', 
-                message: `There was an error rendering component of type ${this.props.component.type}. ${this.state.error}`
-            });
-        }
-
-        var element = renderComponent(this.props.component, this.props.history, true);
-
-        if (element == null) {
-            return renderComponent({
-                type: 'error', 
-                message: `Component not registered: ${this.props.component.type}`
-            });
-        }
-
-        return element;
-    }
+    return element
 }

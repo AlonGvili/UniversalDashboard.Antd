@@ -1,92 +1,197 @@
 /* eslint-disable react/display-name */
 import React, { Suspense, lazy } from "react"
-const AntdMenu = lazy(() => import(/* webpackChunkName: 'AntdMenu' */ "./menu/menu"))
-const AntdMenuItem = lazy(() => import(/* webpackChunkName: 'AntdMenuItem' */ "./menu-item/menu-item"))
-const AntdSubMenu = lazy(() => import(/* webpackChunkName: 'AntdSubMenu' */ "./menu-sub-menu/menu-sub-menu"))
-const AntdMenuItemGroup = lazy(() =>
-	import(/* webpackChunkName: 'AntdMenuItemGroup' */ "./menu-item-group/menu-item-group")
+import { ReactQueryConfigProvider } from "react-query"
+
+const AntdMenu = lazy(
+	() => import(/* webpackChunkName: 'AntdMenu' */ "./menu/menu")
 )
-const AntdMenuDivider = lazy(() => import(/* webpackChunkName: 'AntdMenuDivider' */ "./menu-divider/menu-divider"))
-const AntdRow = lazy(() => import(/* webpackChunkName: 'AntdRow' */ "./Grid/row"))
-const AntdColumn = lazy(() => import(/* webpackChunkName: 'AntdColumn' */ "./Grid/column"))
-const AntdButton = lazy(() => import(/* webpackChunkName: 'AntdButton' */ "./button/button"))
-const AntdButtonGroup = lazy(() => import(/* webpackChunkName: 'AntdButtonGroup' */ "./button-group/button-group"))
-const AntdSwitch = lazy(() => import(/* webpackChunkName: 'AntdSwitch' */ "./switch/switch"))
-const AntdTimeLine = lazy(() => import(/* webpackChunkName: 'AntdTimeLine' */ "./timeline/timeline"))
-const AntdTimeLineItem = lazy(() => import(/* webpackChunkName: 'AntdTimeLineItem' */ "./timeline/timelineItem"))
-const AntdDrawer = lazy(() => import(/* webpackChunkName: 'AntdDrawer' */ "./drawer/drawer"))
-const AntdCard = lazy(() => import(/* webpackChunkName: 'AntdCard' */ "./card/card"))
-const AntdDescriptionList = lazy(() =>
-	import(/* webpackChunkName: 'AntdDescriptionList' */ "./description/description")
+const AntdMenuItem = lazy(
+	() => import(/* webpackChunkName: 'AntdMenuItem' */ "./menu-item/menu-item")
 )
-const AntdDescListItem = lazy(() =>
-	import(/* webpackChunkName: 'AntdDescriptionListItem' */ "./description-item/description-item")
+const AntdSubMenu = lazy(
+	() => import(/* webpackChunkName: 'AntdSubMenu' */ "./menu-sub-menu/menu-sub-menu")
 )
-const AntdBadge = lazy(() => import(/* webpackChunkName: 'AntdBadge' */ "./badge/antdBadge"))
-const AntdDropDown = lazy(() => import(/* webpackChunkName: 'AntdDropDown' */ "./dropdown/dropdown"))
-const AntdPopover = lazy(() => import(/* webpackChunkName: 'AntdPopover' */ "./popover/popover"))
-const AntdLayout = lazy(() => import(/* webpackChunkName: 'AntdLayout' */ "./Layout/Layout"))
-const AntdHeader = lazy(() => import(/* webpackChunkName: 'AntdHeader' */ "./Layout/Header"))
-const AntdContent = lazy(() => import(/* webpackChunkName: 'AntdContent' */ "./Layout/Content"))
-const AntdAutoComplete = lazy(() => import(/* webpackChunkName: 'AntdAutoComplete' */ "./autocomplete/autocomplete"))
-const AntdList = lazy(() => import(/* webpackChunkName: 'AntdHeader' */ "./list/list"))
-const AntdListItem = lazy(() => import(/* webpackChunkName: 'AntdHeader' */ "./listItem/listItem"))
-const AntdStatistic = lazy(() => import(/* webpackChunkName: 'AntdStatistic' */ "./statistic/statistic"))
-const AntdCarousel = lazy(() => import(/* webpackChunkName: 'AntdCarousel' */ "./carousel/carousel"))
-const AntdInput = lazy(() => import(/* webpackChunkName: 'AntdInput' */ "./input/input"))
-const AntdInputTextArea = lazy(() => import(/* webpackChunkName: 'AntdInputTextArea' */ "./input/textArea"))
-const AntdInputPassword = lazy(() => import(/* webpackChunkName: 'AntdInputPassword' */ "./input/password"))
-const AntdIcon = lazy(() => import(/* webpackChunkName: 'AntdIcon' */ "./icon/antdIcon"))
-const AntdRadio = lazy(() => import(/* webpackChunkName: 'AntdRadio' */ "./radio/radio"))
-const AntdRadioButton = lazy(() => import(/* webpackChunkName: 'AntdRadioButton' */ "./radio/radio-button"))
-const AntdRadioGroup = lazy(() => import(/* webpackChunkName: 'AntdRadioGroup' */ "./radio/radio-group"))
-const AntdCopyToClipboard = lazy(() =>
-	import(/* webpackChunkName: 'AntdCopyToClipboard' */ "./copy-to-clipboard/copy-to-clipboard")
+const AntdMenuItemGroup = lazy(
+	() => import(/* webpackChunkName: 'AntdMenuItemGroup' */ "./menu-item-group/menu-item-group")
 )
-const AntdAvatar = lazy(() => import(/* webpackChunkName: 'AntdAvatar' */ "./avatar/avatar"))
-const AntdSlider = lazy(() => import(/* webpackChunkName: 'AntdSlider' */ "./slider/slider"))
-const AntdNotification = lazy(() => import(/* webpackChunkName: 'AntdNotification' */ "./notification/notification"))
-const AntdMessage = lazy(() => import(/* webpackChunkName: 'AntdMessage' */ "./message/message"))
-const AntdSider = lazy(() => import(/* webpackChunkName: 'AntdSider' */ "./Layout/Sider"))
-const AntdComment = lazy(() => import(/* webpackChunkName: 'AntdComment' */ "./comment/comment"))
-const AntdSteps = lazy(() => import(/* webpackChunkName: 'AntdSteps' */ "./steps/steps"))
-const AntdStep = lazy(() => import(/* webpackChunkName: 'AntdStep' */ "./steps/step"))
-const AntdFooter = lazy(() => import(/* webpackChunkName: 'AntdFooter' */ "./footer/footer"))
-const AntdTable = lazy(() => import(/* webpackChunkName: 'AntdTable' */ "./table/table"))
-import AntdForm from "./form/antForm"
-import AntdFormItem from "./form/antFormItem"
-const AntdResultPage = lazy(() => import(/* webpackChunkName: 'AntdResultPage' */ "./framework/pages/ResultPage"))
-const AntdPageHeader = lazy(() =>
-	import(/* webpackChunkName: 'AntdPageHeader' */ "./framework/pages/components/PageHeader")
+const AntdMenuDivider = lazy(
+	() => import(/* webpackChunkName: 'AntdMenuDivider' */ "./menu-divider/menu-divider")
 )
-const AntdTag = lazy(() => import(/* webpackChunkName: 'AntdTag' */ "./tags/tags"))
-const AntdCheckableTag = lazy(() => import(/* webpackChunkName: 'AntdCheckableTag' */ "./tags/checkableTag"))
-const AntdNavigationItem = lazy(() =>
-	import(/* webpackChunkName: 'AntdNavigationItem' */ "./framework/core/navigation/navigationItem")
+const AntdRow = lazy(
+	() => import(/* webpackChunkName: 'AntdRow' */ "./Grid/row")
 )
-const HeaderAccountSettings = lazy(() =>
-	import(/* webpackChunkName: 'HeaderAccountSettings' */ "./framework/core/members/headerMemberAccount")
+const AntdColumn = lazy(
+	() => import(/* webpackChunkName: 'AntdColumn' */ "./Grid/column")
 )
-const AntdAppBar = lazy(() => import(/* webpackChunkName: 'AntdAppBar' */ "./appbar/appbar"))
-const AntdChartCard = lazy(() => import(/* webpackChunkName: 'AntdChartCard' */ "./card/chartCard"))
-const AntdMiniRingProgress = lazy(() =>
-	import(/* webpackChunkName: 'AntdMiniRingProgress' */ "./charts/miniCircle")
+const AntdButton = lazy(
+	() => import(/* webpackChunkName: 'AntdButton' */ "./button/button")
 )
-const AntdChartField = lazy(() => import(/* webpackChunkName: 'AntdChartField' */ "./charts/field"))
-const AntdChartTrend = lazy(() => import(/* webpackChunkName: 'AntdChartTrend' */ "./charts/trand"))
-const AntdDarkModeToggle = lazy(() =>
-	import(/* webpackChunkName: 'AntdDarkModeToggle' */ "./framework/core/DarkModeToggle")
+const AntdButtonGroup = lazy(
+	() => import(/* webpackChunkName: 'AntdButtonGroup' */ "./button-group/button-group")
+)
+const AntdSwitch = lazy(
+	() => import(/* webpackChunkName: 'AntdSwitch' */ "./switch/switch")
+)
+const AntdTimeLine = lazy(
+	() => import(/* webpackChunkName: 'AntdTimeLine' */ "./timeline/timeline")
+)
+// const AntdTimeLineItem = lazy(() => import(/* webpackChunkName: 'AntdTimeLineItem' */ "./timeline/timelineItem"))
+const AntdDrawer = lazy(
+	() => import(/* webpackChunkName: 'AntdDrawer' */ "./drawer/drawer")
+)
+const AntdCard = lazy(
+	() => import(/* webpackChunkName: 'AntdCard' */ "./card/card")
+)
+const AntdDescriptionList = lazy(
+	() => import(/* webpackChunkName: 'AntdDescriptionList' */ "./description/description")
+)
+const AntdDescListItem = lazy(
+	() => import(/* webpackChunkName: 'AntdDescriptionListItem' */ "./description-item/description-item")
+)
+const AntdBadge = lazy(
+	() => import(/* webpackChunkName: 'AntdBadge' */ "./badge/antdBadge")
+)
+const AntdDropDown = lazy(
+	() => import(/* webpackChunkName: 'AntdDropDown' */ "./dropdown/dropdown")
+)
+const AntdPopover = lazy(
+	() => import(/* webpackChunkName: 'AntdPopover' */ "./popover/popover")
+)
+const AntdLayout = lazy(
+	() => import(/* webpackChunkName: 'AntdLayout' */ "./Layout/Layout")
+)
+const AntdHeader = lazy(
+	() => import(/* webpackChunkName: 'AntdHeader' */ "./Layout/Header")
+)
+const AntdContent = lazy(
+	() => import(/* webpackChunkName: 'AntdContent' */ "./Layout/Content")
+)
+const AntdAutoComplete = lazy(
+	() => import(/* webpackChunkName: 'AntdAutoComplete' */ "./autocomplete/autocomplete")
+)
+const AntdList = lazy(
+	() => import(/* webpackChunkName: 'AntdHeader' */ "./list/list")
+)
+const AntdListItem = lazy(
+	() => import(/* webpackChunkName: 'AntdHeader' */ "./listItem/listItem")
+)
+const AntdStatistic = lazy(
+	() => import(/* webpackChunkName: 'AntdStatistic' */ "./statistic/statistic")
+)
+const AntdCarousel = lazy(
+	() => import(/* webpackChunkName: 'AntdCarousel' */ "./carousel/carousel")
+)
+const AntdInput = lazy(
+	() => import(/* webpackChunkName: 'AntdInput' */ "./input/input")
+)
+const AntdInputTextArea = lazy(
+	() => import(/* webpackChunkName: 'AntdInputTextArea' */ "./input/textArea")
+)
+const AntdInputPassword = lazy(
+	() => import(/* webpackChunkName: 'AntdInputPassword' */ "./input/password")
+)
+const AntdIcon = lazy(
+	() => import(/* webpackChunkName: 'AntdIcon' */ "./icon/antdIcon")
+)
+const AntdRadio = lazy(
+	() => import(/* webpackChunkName: 'AntdRadio' */ "./radio/radio")
+)
+const AntdRadioButton = lazy(
+	() => import(/* webpackChunkName: 'AntdRadioButton' */ "./radio/radio-button")
+)
+const AntdRadioGroup = lazy(
+	() => import(/* webpackChunkName: 'AntdRadioGroup' */ "./radio/radio-group")
+)
+const AntdCopyToClipboard = lazy(
+	() => import(/* webpackChunkName: 'AntdCopyToClipboard' */ "./copy-to-clipboard/copy-to-clipboard")
+)
+const AntdAvatar = lazy(
+	() => import(/* webpackChunkName: 'AntdAvatar' */ "./avatar/avatar")
+)
+const AntdSlider = lazy(
+	() => import(/* webpackChunkName: 'AntdSlider' */ "./slider/slider")
+)
+const AntdNotification = lazy(
+	() => import(/* webpackChunkName: 'AntdNotification' */ "./notification/notification")
+)
+const AntdMessage = lazy(
+	() => import(/* webpackChunkName: 'AntdMessage' */ "./message/message")
+)
+const AntdSider = lazy(
+	() => import(/* webpackChunkName: 'AntdSider' */ "./Layout/Sider")
+)
+const AntdComment = lazy(
+	() => import(/* webpackChunkName: 'AntdComment' */ "./comment/comment")
+)
+const AntdSteps = lazy(
+	() => import(/* webpackChunkName: 'AntdSteps' */ "./steps/steps")
+)
+const AntdStep = lazy(
+	() => import(/* webpackChunkName: 'AntdStep' */ "./steps/step")
+)
+const AntdFooter = lazy(
+	() => import(/* webpackChunkName: 'AntdFooter' */ "./footer/footer")
+)
+const AntdTable = lazy(
+	() => import(/* webpackChunkName: 'AntdTable' */ "./table/table")
+)
+const AntdForm = lazy(
+	() => import( /* webpackChunkName: 'AntdForm' */ "./form/antForm")
+)
+const AntdFormItem = lazy(
+	() => import( /* webpackChunkName: 'AntdFormItem' */ "./form/antFormItem")
+)
+const AntdResultPage = lazy(
+	() => import(/* webpackChunkName: 'AntdResultPage' */ "./framework/pages/ResultPage")
+)
+const AntdPageHeader = lazy(
+	() => import(/* webpackChunkName: 'AntdPageHeader' */ "./framework/pages/components/PageHeader")
+)
+const AntdTag = lazy(
+	() => import(/* webpackChunkName: 'AntdTag' */ "./tags/tags")
+)
+const AntdCheckableTag = lazy(
+	() => import(/* webpackChunkName: 'AntdCheckableTag' */ "./tags/checkableTag")
+)
+const AntdNavigationItem = lazy(
+	() => import(/* webpackChunkName: 'AntdNavigationItem' */ "./framework/core/navigation/navigationItem")
+)
+const HeaderAccountSettings = lazy(
+	() => import(/* webpackChunkName: 'HeaderAccountSettings' */ "./framework/core/members/headerMemberAccount")
+)
+const AntdAppBar = lazy(
+	() => import(/* webpackChunkName: 'AntdAppBar' */ "./appbar/appbar")
+)
+const AntdChartCard = lazy(
+	() => import(/* webpackChunkName: 'AntdChartCard' */ "./card/chartCard")
+)
+const AntdMiniRingProgress = lazy(
+	() => import(/* webpackChunkName: 'AntdMiniRingProgress' */ "./charts/miniCircle")
+)
+const AntdMiniProgressBar = lazy(
+	() => import(/* webpackChunkName: 'AntdMiniProgressBar' */ "./charts/miniProgress")
+)
+const AntdChartField = lazy(
+	() => import(/* webpackChunkName: 'AntdChartField' */ "./charts/field")
+)
+const AntdChartTrend = lazy(
+	() => import(/* webpackChunkName: 'AntdChartTrend' */ "./charts/trand")
+)
+const AntdDarkModeToggle = lazy(
+	() => import(/* webpackChunkName: 'AntdDarkModeToggle' */ "./framework/core/DarkModeToggle")
+)
+const AntdCountdown = lazy(
+	() => import(/* webpackChunkName: 'AntdCountdown' */ "./statistic/countdown")
 )
 
-export default function registerComponents() {
-	[
+export default function registerComponents() {[
 			{ type: "ud-antd-row", component: AntdRow },
 			{ type: "ud-antd-col", component: AntdColumn },
 			{ type: "ud-antd-button", component: AntdButton },
 			{ type: "ud-antd-button-group", component: AntdButtonGroup },
 			{ type: "ud-antd-switch", component: AntdSwitch },
 			{ type: "ud-antd-timeline", component: AntdTimeLine },
-			{ type: "ud-antd-timeline-item", component: AntdTimeLineItem },
+			// { type: "ud-antd-timeline-item", component: AntdTimeLineItem },
 			{ type: "ud-antd-drawer", component: AntdDrawer },
 			{ type: "ud-antd-card", component: AntdCard },
 			{ type: "ud-antd-descriptionlist", component: AntdDescriptionList },
@@ -137,18 +242,27 @@ export default function registerComponents() {
 			{ type: "ud-antd-darkmode-toggle", component: AntdDarkModeToggle },
 			{ type: "ud-antd-chart-card", component: AntdChartCard },
 			{ type: "ud-antd-chart-mini-ring-progress", component: AntdMiniRingProgress },
+			{ type: "ud-antd-chart-mini-progress-bar", component: AntdMiniProgressBar },
 			{ type: "ud-antd-chart-field", component: AntdChartField },
 			{ type: "ud-antd-chart-trend", component: AntdChartTrend },
-		].forEach(({ type, component }) => UniversalDashboard.register(type, component))
+			{ type: "ud-antd-countdown", component: AntdCountdown },
+		].forEach(
+			({ type, component }) => UniversalDashboard.register(type, component)
+		)
 }
 
 registerComponents()
 import AntDesign from "./api/dashboard"
-import { ReactQueryConfigProvider } from "react-query"
+
 
 UniversalDashboard.renderDashboard = ({ dashboard: { appbar } }) => {
 	return (
-		<ReactQueryConfigProvider config={{refetchAllOnWindowFocus: false, refetchOnWindowFocus: false, refetchIntervalInBackground:false}}>
+		<ReactQueryConfigProvider 
+			config={{
+				refetchAllOnWindowFocus: false, 
+				refetchOnWindowFocus: false, 
+				refetchIntervalInBackground:false
+			}}>
 			<Suspense fallback={null}>
 				<AntDesign appbar={appbar} />
 			</Suspense>

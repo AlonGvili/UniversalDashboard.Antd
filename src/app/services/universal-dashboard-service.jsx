@@ -52,7 +52,7 @@ const renderComponent = (component, history, dynamicallyLoaded) => {
             history
         });
     } else if (component.isPlugin && !dynamicallyLoaded) {
-        return <LazyElement component={component} key={component.id} history={history} />
+        return <LazyElement component={component} key={component.id}/>
     }
 
     return internalRenderComponent(component, history);

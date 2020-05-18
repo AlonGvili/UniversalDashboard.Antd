@@ -66,13 +66,11 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                     visible     = $true 
                     preset      = "error"
                     duration    = 3
-                    # description = (ConvertFrom-Json -InputObject $EventData | ConvertTo-Json)
                 }
             }
         }
     }
     New-UDPage -Title 'Profile' -Name Profile -Endpoint {
-       
         New-UDAntdNotification -Id "userInfo" -Title "Universal Dashboard" -Description "The UserID is:and its name is:" -Preset "info" 
         New-UDAntdButton -Label Demo -ButtonType primary -OnClick {
             Set-UDElement -Id "userInfo" -Properties @{
@@ -103,47 +101,50 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         
         } -Gutter @(16, 16)
         New-UDAntdRow -Content {
-            $Cache:rx = 0
-            $Cache:FieldData = $null
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
-                    
-                    if ($Cache:rx -eq 100) {
-                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ autoRefresh = $false; refreshInterval = 50000 } }
+                    New-UDAntdChartMiniProgress -Value {20..100 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 4000 -OnChange {
+                        Set-UDElement -Id "vv" -Properties @{
+                            attributes = @{
+                                visible     = $true 
+                                description = ConvertFrom-Json $EventData | ConvertTo-Json
+                            }
+                        }
                     }
-                    else {
-                        $Cache:rx = $Cache:rx + 1
-                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
-                    }
-                    
-                    New-UDAntdChartMiniProgress -Id "miniProgress" -Percent $Cache:rx -StrokeWidth 5 -Target 100 -TargetLabel "demo"
-                } -AutoRefresh -RefreshInterval 5000 -Footer (
+                } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
                 )
                 
             } 
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Total "12%" -Content {
-                    
-                    if ($Cache:rx -eq 100) {
-                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ autoRefresh = $false; refreshInterval = 50000 } }
+                    "Test"
+                    New-UDAntdChartMiniProgress -Value {20..99 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 2000 -OnChange {
+                        Set-UDElement -Id "vv" -Properties @{
+                            attributes = @{
+                                visible     = $true 
+                                description = ConvertFrom-Json $EventData | ConvertTo-Json
+                            }
+                        }
                     }
-                    else {
-                        $Cache:rx = $Cache:rx + 1
-                        Set-UDElement -Id "miniChart" -Properties @{ attributes = @{ total = "$($Cache:rx)%" } }
-                    }
-                    
-                    New-UDAntdChartMiniProgress -Id "miniProgress1" -Percent $Cache:rx -StrokeWidth 5 -Target 100 -TargetLabel "demo"
-                } -AutoRefresh -RefreshInterval 5000 -Footer (
+                } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh
                 )
                 
             } 
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdCard -Id "mini_ring_progress" -Title "Mini Ring Progress" -Content {
-                    New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "#333")
-                    New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "#555")
-                    New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "#555")
+                    New-UDAntdRow -Content {
+                        New-UDAntdColumn -Span 8 -Content {
+                            New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "transparent")
+                        } -Style @{ padding = 16}
+                        New-UDAntdColumn -Span 8 -Content {
+                            New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "transparent")
+                        } -Style @{ padding = 16}
+                        New-UDAntdColumn -Span 8 -Content {
+                            New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "transparent")
+                        } -Style @{ padding = 16}
+                    } -Gutter @(24)
                 } 
             } 
         } -Gutter @(16, 16)  

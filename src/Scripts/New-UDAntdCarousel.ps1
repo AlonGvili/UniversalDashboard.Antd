@@ -22,7 +22,7 @@ function New-UDAntdCarousel {
         [Parameter()]
         [string]$ClassName,
         [Parameter()]
-        [ValidateSet('top','bottom','left','right')]
+        [ValidateSet('top', 'bottom', 'left', 'right')]
         [string]$DotPosition,
 
         [Parameter()]
@@ -81,35 +81,35 @@ function New-UDAntdCarousel {
                     throw "Content must be a script block or UDEndpoint"
                 }
             }
-            else{
+            else {
                 $CarouselContent = $Content.Invoke()
             }
         }
 
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-carousel"
-            id = $Id
-            className = $ClassName
-            speed = $Speed
-            dotPosition = $DotPosition
-            dots = $Dots.IsPresent
-            infinite = $Infinite.IsPresent
-            arrows = $Arrows.IsPresent
-            autoplay = $Autoplay.IsPresent
-            adaptiveHeight = $AdaptiveHeight.IsPresent
-            slidesToShow = $SlidesToShow
-            slidesToScroll = $SlidesToScroll
-            content = $CarouselContent
-            centerMode = $CenterMode.IsPresent
-            centerPadding = $CenterPadding
-            vertical = $Vertical.IsPresent
-            slideWidth = $SlideWidth
-            slideHeight = $SlideHeight
-            prevArrow = $PrevArrow
-            nextArrow = $NextArrow
-            style = $Style
+            assetId         = $AssetId 
+            isPlugin        = $true 
+            type            = "ud-antd-carousel"
+            id              = $Id
+            className       = $ClassName
+            speed           = $Speed
+            dotPosition     = $DotPosition
+            dots            = $Dots.IsPresent
+            infinite        = $Infinite.IsPresent
+            arrows          = $Arrows.IsPresent
+            autoplay        = $Autoplay.IsPresent
+            adaptiveHeight  = $AdaptiveHeight.IsPresent
+            slidesToShow    = $SlidesToShow
+            slidesToScroll  = $SlidesToScroll
+            content         = $CarouselContent
+            centerMode      = $CenterMode.IsPresent
+            centerPadding   = $CenterPadding
+            vertical        = $Vertical.IsPresent
+            slideWidth      = $SlideWidth
+            slideHeight     = $SlideHeight
+            prevArrow       = $PrevArrow
+            nextArrow       = $NextArrow
+            style           = $Style
             isEndpoint      = $IsEndpoint.IsPresent
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval

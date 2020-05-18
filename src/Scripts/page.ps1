@@ -15,7 +15,7 @@ function New-UDPage
         [Parameter()]
         [Switch]$Blank,
         [Parameter()]
-        [string]$Id = [Guid]::NewGuid(),
+        [string]$Id = [Guid]::NewGuid().ToString(),
         [Parameter()]
         [ScriptBlock]$OnLoading,
         [Parameter()]

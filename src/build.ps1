@@ -34,16 +34,16 @@ Copy-Item $BuildFolder\UniversalDashboard.Antd.psm1 $OutputPath
 
 Remove-Item -Path "$BuildFolder\public" -Force -ErrorAction SilentlyContinue -Recurse
 
-$Version = "0.50.0"
+$Version = "1.0.0"
 
 $manifestParameters = @{
-    Path              = "$OutputPath\UniversalDashboard.Antd.psd1"
+    Path              = "D:\GPM\github.com\AlonGvili\UniversalDashboard.Antd\src\output\UniversalDashboard.Antd\UniversalDashboard.Antd.psd1"
     Author            = "Alon Gvili"
     CompanyName       = "Alon gvili"
     Copyright         = "2019 AlonGvili"
     RootModule        = "UniversalDashboard.Antd.psm1"
     Description       = "Ant-Desig module for universal-dashboard"
-    ModuleVersion     = $Version
+    ModuleVersion     = "1.0.0"
     Tags              = @("universaldashboard")
     ReleaseNotes      = "First release"
     FunctionsToExport = @(

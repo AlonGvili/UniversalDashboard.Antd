@@ -5,7 +5,7 @@ task Clean {
 
 task Stage {
     $OutputPath = "$PSScriptRoot\output\UniversalDashboard.Antd"
-    New-Item $OutputPath -Type Directory 
+    New-Item $OutputPath -Type Directory -Force
 }
 
 task BuildJS {
@@ -19,6 +19,91 @@ task MergePsm1 {
     Get-ChildItem "$PSScriptRoot\Scripts" -File -Recurse -Filter "*.ps1" | ForEach-Object {
         Get-Content $_.FullName -Raw | Out-File  "$PSScriptRoot\output\UniversalDashboard.Antd\UniversalDashboard.Antd.psm1" -Append -Encoding UTF8
     }
+    $manifestParameters = @{
+        Path              = "$PSScriptRoot\output\UniversalDashboard.Antd\UniversalDashboard.Antd.psd1"
+        Author            = "Alon Gvili"
+        CompanyName       = "Alon gvili"
+        Copyright         = "2020 AlonGvili"
+        RootModule        = "UniversalDashboard.Antd.psm1"
+        Description       = "Ant-Desig module for universal-dashboard"
+        ModuleVersion     = "1.0.0"
+        Tags              = @("universaldashboard")
+        ReleaseNotes      = "First release"
+        FunctionsToExport = @(
+            "New-UDAntdColumn"
+            "New-UDAntdRow"
+            "New-UDAntdButton"
+            "New-UDAntdButtonGroup"
+            "New-UDAntdSwitch"
+            "New-UDAntdTimeLine"
+            "New-UDAntdTimeLineItem"
+            "New-UDAntdDrawer"
+            "New-UDAntdCard"
+            "New-UDAntdDescriptionList"
+            "New-UDAntdDescriptionListItem"
+            "New-UDAntdBadge"
+            "New-UDAntdDropdown"
+            "New-UDAntdMenu"
+            "New-UDAntdMenuItem"
+            "New-UDAntdSubMenu"
+            "New-UDAntdMenuItemGroup"
+            "New-UDAntdMenuDivider"
+            "New-UDAntdPopover"
+            "New-UDAntdLayout"
+            "New-UDAntdHeader"
+            "New-UDAntdContent"
+            "New-UDAntdAutoComplete"
+            "New-UDAntdList"
+            "New-UDAntdListItem"
+            "New-UDAntdStatistic"
+            "New-UDAntdCarousel"
+            "New-UDAntdInput"
+            "New-UDAntdInputTextArea"
+            "New-UDAntdInputPassword"
+            "New-UDAntdIcon"
+            "New-UDAntdRadio"
+            "New-UDAntdRadioButton"
+            "New-UDAntdRadioGroup"
+            "New-UDAntdCopyToClipboard"
+            "New-UDAntdAvatar"
+            "New-UDAntdSlider"
+            "New-UDAntdNotification"
+            "New-UDAntdMessage"
+            "New-UDAntdSider"
+            "New-UDAntdComment"
+            "New-UDAntdSteps"
+            "New-UDAntdStep"
+            "New-UDAntdFooter"
+            "New-UDAntdFooterColumn"
+            "New-UDAntdFooterColumnItem"
+            "New-UDAntdTable"
+            "New-UDAntdTableColumn"
+            "New-UDAntdForm"
+            "New-UDAntdFormItem"
+            "Show-UDAntdThemeButton"
+            "New-UDAntdPage"
+            "New-UDAntdRoute"
+            "New-UDAntdResult"
+            "Get-UDAntdPageHeader"
+            "Get-UDAntdTag"
+            "Get-UDAntdTagCheckable"
+            "New-UDAntdConfiguration"
+            "New-UDAntdHeaderAccountSettings"
+            "New-UDAntdNavigationItem"
+            "New-UDAntdAppBar"
+            "New-AntdDarkModeToggle"
+            "New-UDAntdChartCard"
+            "New-UDAntdChartMiniProgress"
+            "New-UDAntdChartField"
+            "New-UDAntdChartTrend"
+            "New-UDAntdMiniRingProgress"
+            "New-UDDashboard"
+            "New-UDPage"
+        )
+    }
+    
+    New-ModuleManifest @manifestParameters
+    
 }
 
 task . Clean, Stage, BuildJS, MergePsm1

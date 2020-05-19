@@ -103,14 +103,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
-                    New-UDAntdChartMiniProgress -Value {20..100 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 4000 -OnChange {
-                        Set-UDElement -Id "vv" -Properties @{
-                            attributes = @{
-                                visible     = $true 
-                                description = ConvertFrom-Json $EventData | ConvertTo-Json
-                            }
-                        }
-                    }
+                    New-UDAntdChartMiniProgress -Value {20..100 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 4000 
                 } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
                 )
@@ -119,14 +112,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Total "12%" -Content {
                     "Test"
-                    New-UDAntdChartMiniProgress -Value {20..99 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 2000 -OnChange {
-                        Set-UDElement -Id "vv" -Properties @{
-                            attributes = @{
-                                visible     = $true 
-                                description = ConvertFrom-Json $EventData | ConvertTo-Json
-                            }
-                        }
-                    }
+                    New-UDAntdChartMiniProgress -Value {20..99 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 2000 
                 } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh
                 )
@@ -136,20 +122,41 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 New-UDAntdCard -Id "mini_ring_progress" -Title "Mini Ring Progress" -Content {
                     New-UDAntdRow -Content {
                         New-UDAntdColumn -Span 8 -Content {
-                            New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "transparent")
+                            New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "transparent") -AutoRefresh
                         } -Style @{ padding = 16}
                         New-UDAntdColumn -Span 8 -Content {
-                            New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "transparent")
+                            New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "transparent") -AutoRefresh
                         } -Style @{ padding = 16}
                         New-UDAntdColumn -Span 8 -Content {
-                            New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "transparent")
+                            New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "transparent") -AutoRefresh
                         } -Style @{ padding = 16}
                     } -Gutter @(24)
                 } 
             } 
         } -Gutter @(16, 16)  
+        New-UDAntdRow -Content {
+            New-UDAntdColumn -Span 6 -Content {
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "line" -StrokeColor "gold"
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "circle" -StrokeColor "gold"
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "dashboard" -StrokeColor "gold"
+            }
+            New-UDAntdColumn -Span 6 -Content {
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "line" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "circle" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "dashboard" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -StrokeColor "gold" -Step 10 -ShowInfo
+
+            }
+            New-UDAntdColumn -Span 6 -Content {
+
+            }
+            New-UDAntdColumn -Span 6 -Content {
+
+            }
+        } -Gutter @(16)
     }
-    New-UDPage -Title 'Not Found' -Name "404" -Url "/404" -Endpoint {
+    New-UDPage -Title 'Not Found' -Name "404"  -Endpoint {
         New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "Try again the url is not exsists" 
     }  
     New-UDPage -Url "/Demos/:demoId" -Endpoint {
@@ -173,8 +180,12 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It. demo$Cache:Titem" -Bordered
                     }
                 }
+
             }
-            New-UDAntdButton -Label "Remove Item" -OnClick {
+            New-UDAntdPopConfirm -Id 'demo_popconfirm' -Title "Are you shure you wanna delete this item ?" -Content (
+                @(New-UDAntdButton -Label "Remove Item" 
+                "demo me")
+            ) -OnConfirm {
                 --$Cache:Titem
                 Remove-UDElement -ParentId "timeline" -Id "demo_$Cache:Titem"
             }
@@ -238,7 +249,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             } 
             New-UDAntdMenuItem -Icon (
                 New-UDAntdIcon -Icon ReadOutlined
-            ) -Text "Docs" -To "/Badge/colors"
+            ) -Text "Docs" -To "/Badges"
             New-UDAntdMenuItem -Content (
                 New-UDAntdHeaderAccountSettings -Name "Alon Gvili" -Image "https://avatars1.githubusercontent.com/u/34351424?s=400&u=1af0f32562a8f68850c736e3fca838c5ed022203&v=4" -Menu (
                     New-UDAntdMenu -Content {

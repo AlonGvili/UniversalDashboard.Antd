@@ -13,7 +13,11 @@ const AntdButton = props => {
 	}
 
 	return (
-		<Button {...props} icon={props.icon && UniversalDashboard.renderComponent(props.icon)} htmlType={props.htmlType} type={props.buttonType} onClick={props.hasCallback && onClick}>
+		<Button {...props} 
+			icon={props.icon && UniversalDashboard.renderComponent(props.icon)} 
+			htmlType={props.htmlType} 
+			type={props.buttonType} 
+			onClick={props.hasCallback && onClick}>
 			{props.label}
 		</Button>
 	)

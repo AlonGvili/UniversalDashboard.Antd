@@ -3,27 +3,17 @@ import { Popover } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
 const AntdPopover = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-
+  const [{ content, attributes }] = useDashboardEvent(props.id, props);
   const title = (
     <span>
-      {attributes.title ? attributes.title.map(
-          popTitle => popTitle.type === "icon" ? UniversalDashboard.renderComponent(popTitle) : popTitle
-      ): null}
+      {attributes.title && UniversalDashboard.renderComponent(attributes.title)}
     </span>
   )
-
-  const popContent = (
-      content.map(
-        item => item.type ?  UniversalDashboard.renderComponent(item) : <div key={item}>{item}</div>
-      )
-  )
-
+  
   return <Popover
       {...attributes}
       title={title}
-      content={popContent}
+      content={UniversalDashboard.renderComponent(content)}
       autoAdjustOverflow={true}
     >
       {attributes.children.map(item =>

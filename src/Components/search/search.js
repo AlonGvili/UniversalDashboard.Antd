@@ -63,7 +63,7 @@ function useSearchComponent(api) {
 
 			return (
 				<searchContext.Provider value={Search.api}>
-					<HeaderSearch placeholder={placeholder} dataSource={[...data]} onPressEnter={onPressEnter} />
+					<HeaderSearch placeholder={placeholder} dataSource={[...data]} onPressEnter={onPressEnter}  />
 				</searchContext.Provider>
 			)
 		},

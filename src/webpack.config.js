@@ -112,7 +112,7 @@ module.exports = {
 						options: {
 							 lessOptions:{
 								 modifyVars: {
-									 ...darkTheme.default
+									//  ...darkTheme.default
 								},
 								javascriptEnabled: true,
 							 },

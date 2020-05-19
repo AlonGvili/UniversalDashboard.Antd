@@ -1,5 +1,5 @@
 import React from "react";
-import { Statistic, Spin } from "antd";
+import { Statistic, Spin, Alert, Typography } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 import { getMeta } from "../framework/meta";
 import { useQuery } from "react-query";
@@ -31,16 +31,21 @@ const AntdStatistic = ({id, ...props }) => {
 
   
   if (status === "loading") return <Spin spinning={isFetching} size="small" />
-  if (status === "error") return <p>{`Error: ${error.message}`}</p>
+  if (status === "error") return <Alert.ErrorBoundary message="Error in AntdProgress component" description={
+    <Typography.Text code copyable title="Error Information">
+        {error.message}
+        {`component id: ${id}`}
+        {`component props: ${{ ...props }}`}
+    </Typography.Text>
+} />
   
-  console.log("stats data", data)
-
   return (
       <Statistic 
         {...attributes} 
         prefix={attributes.prefix && UniversalDashboard.renderComponent(attributes.prefix)} 
         suffix={attributes.suffix && UniversalDashboard.renderComponent(attributes.suffix)} 
-        value={data}/>
+        value={data}
+      />
   )
 }
 

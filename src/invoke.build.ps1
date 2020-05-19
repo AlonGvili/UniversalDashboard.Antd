@@ -93,12 +93,14 @@ task MergePsm1 {
             "New-UDAntdAppBar"
             "New-AntdDarkModeToggle"
             "New-UDAntdChartCard"
-            "New-UDAntdChartMiniProgress"
+            # "New-UDAntdChartMiniProgress"
             "New-UDAntdChartField"
             "New-UDAntdChartTrend"
-            "New-UDAntdMiniRingProgress"
+            # "New-UDAntdMiniRingProgress"
             "New-UDDashboard"
             "New-UDPage"
+            "New-AntdProgress"
+            "New-UDAntdPopConfirm"
         )
     }
     

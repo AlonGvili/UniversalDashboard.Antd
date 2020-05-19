@@ -165,12 +165,12 @@ const AntdAppBar = lazy(
 const AntdChartCard = lazy(
 	() => import(/* webpackChunkName: 'AntdChartCard' */ "./card/chartCard")
 )
-const AntdMiniRingProgress = lazy(
-	() => import(/* webpackChunkName: 'AntdMiniRingProgress' */ "./charts/miniCircle")
-)
-const AntdMiniProgressBar = lazy(
-	() => import(/* webpackChunkName: 'AntdMiniProgressBar' */ "./charts/miniProgress")
-)
+// const AntdMiniRingProgress = lazy(
+// 	() => import(/* webpackChunkName: 'AntdMiniRingProgress' */ "./charts/miniCircle")
+// )
+// const AntdMiniProgressBar = lazy(
+// 	() => import(/* webpackChunkName: 'AntdMiniProgressBar' */ "./charts/miniProgress")
+// )
 const AntdChartField = lazy(
 	() => import(/* webpackChunkName: 'AntdChartField' */ "./charts/field")
 )
@@ -182,6 +182,12 @@ const AntdDarkModeToggle = lazy(
 )
 const AntdCountdown = lazy(
 	() => import(/* webpackChunkName: 'AntdCountdown' */ "./statistic/countdown")
+)
+const AntdProgress = lazy(
+	() => import(/* webpackChunkName: 'AntdProgress' */ "./progress/progress")
+)
+const AntdPopConfirm = lazy(
+	() => import(/* webpackChunkName: 'AntdPopConfirm' */ "./popconfirm/popconfirm")
 )
 
 export default function registerComponents() {[
@@ -241,11 +247,13 @@ export default function registerComponents() {[
 			{ type: "ud-antd-appbar", component: AntdAppBar },
 			{ type: "ud-antd-darkmode-toggle", component: AntdDarkModeToggle },
 			{ type: "ud-antd-chart-card", component: AntdChartCard },
-			{ type: "ud-antd-chart-mini-ring-progress", component: AntdMiniRingProgress },
-			{ type: "ud-antd-chart-mini-progress-bar", component: AntdMiniProgressBar },
+			// { type: "ud-antd-chart-mini-ring-progress", component: AntdMiniRingProgress },
+			// { type: "ud-antd-chart-mini-progress-bar", component: AntdMiniProgressBar },
 			{ type: "ud-antd-chart-field", component: AntdChartField },
 			{ type: "ud-antd-chart-trend", component: AntdChartTrend },
 			{ type: "ud-antd-countdown", component: AntdCountdown },
+			{ type: "ud-antd-progress", component: AntdProgress },
+			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
 		)

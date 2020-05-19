@@ -49,7 +49,7 @@ function usePageManagerComponent(api) {
 							</Route>
 						))}
 						<Redirect exact from={`${window.baseUrl}`} to={`${window.baseUrl}/${home}`} />
-						<Redirect from={`${window.baseUrl}`} to="/404" />
+						<Redirect from={`${window.baseUrl}`} to={`${window.baseUrl}/404`} />
 					</Switch>
 				</managerContext.Provider>
 			</Layout.Content>

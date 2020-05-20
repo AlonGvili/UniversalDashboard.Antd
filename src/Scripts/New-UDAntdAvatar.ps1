@@ -34,25 +34,25 @@ function New-UDAntdAvatar {
             }
         }
 
-        if($PSCmdlet.ParameterSetName.Contains('Icon')){
+        if ($PSCmdlet.ParameterSetName.Contains('Icon')) {
             $Content = $Icon
         }
 
         $UDAntdAvatar = @{
-            assetId     = $AssetId 
-            isPlugin    = $true 
-            type        = "ud-antd-avatar"
-            id          = $Id
-            className   = $ClassName
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-avatar"
+            id           = $Id
+            className    = $ClassName
             style        = $Style
-            size        = $Size
-            src         = $Src
-            srcSet      = $SrcSet
-            shape       = $Shape
-            alt         = $Alt
-            content     = $Content
+            size         = $Size
+            src          = $Src
+            srcSet       = $SrcSet
+            shape        = $Shape
+            alt          = $Alt
+            content      = $Content
             parameterSet = $PSCmdlet.ParameterSetName
-            hasCallBack = $null -ne $OnError
+            hasCallBack  = $null -ne $OnError
         }
         $UDAntdAvatar.PSTypeNames.Insert(0, 'Ant.Design.Avatar')
         $UDAntdAvatar

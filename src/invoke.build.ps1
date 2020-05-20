@@ -101,6 +101,8 @@ task MergePsm1 {
             "New-UDPage"
             "New-AntdProgress"
             "New-UDAntdPopConfirm"
+            "New-UDAntdAvatarList"
+            "New-UDAntdAvatarListItem"
         )
     }
     

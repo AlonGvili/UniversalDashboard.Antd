@@ -103,7 +103,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
         New-UDAntdRow -Content {
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Content {
-                    New-UDAntdChartMiniProgress -Value {20..100 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 4000 
+                    New-UDAntdChartMiniProgress -Value { 20..100 | Get-Random } -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 4000 
                 } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh  
                 )
@@ -112,7 +112,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             New-UDAntdColumn -span 8 -Content {
                 New-UDAntdChartCard -Id "miniChart" -Title "UDAntd Info" -ContentHeight 45 -Total "12%" -Content {
                     "Test"
-                    New-UDAntdChartMiniProgress -Value {20..99 | Get-Random} -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 2000 
+                    New-UDAntdChartMiniProgress -Value { 20..99 | Get-Random } -StrokeWidth 3 -Target 100 -AutoRefresh -RefreshInterval 2000 
                 } -Footer (
                     New-UDAntdChartField -Label "Just testing for demo" -Content { 20..154 | Get-Random } -AutoRefresh
                 )
@@ -123,29 +123,29 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                     New-UDAntdRow -Content {
                         New-UDAntdColumn -Span 8 -Content {
                             New-UDAntdMiniRingProgress -Percent 30 -Color @("red", "transparent") -AutoRefresh
-                        } -Style @{ padding = 16}
+                        } -Style @{ padding = 16 }
                         New-UDAntdColumn -Span 8 -Content {
                             New-UDAntdMiniRingProgress -Percent 80 -Color @("lime", "transparent") -AutoRefresh
-                        } -Style @{ padding = 16}
+                        } -Style @{ padding = 16 }
                         New-UDAntdColumn -Span 8 -Content {
                             New-UDAntdMiniRingProgress -Percent 40 -Color @("pink", "transparent") -AutoRefresh
-                        } -Style @{ padding = 16}
+                        } -Style @{ padding = 16 }
                     } -Gutter @(24)
                 } 
             } 
         } -Gutter @(16, 16)  
         New-UDAntdRow -Content {
             New-UDAntdColumn -Span 6 -Content {
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "line" -StrokeColor "gold"
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "circle" -StrokeColor "gold"
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "dashboard" -StrokeColor "gold"
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "line" -StrokeColor "gold"
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "circle" -StrokeColor "gold"
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "dashboard" -StrokeColor "gold"
             }
             New-UDAntdColumn -Span 6 -Content {
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "line" -StrokeColor "gold" -ShowInfo
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "circle" -StrokeColor "gold" -ShowInfo
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -Type "dashboard" -StrokeColor "gold" -ShowInfo
-                New-UDAntdProgress -Percent {1..100 | Get-Random} -AutoRefresh -StrokeColor "gold" -Step 10 -ShowInfo
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "line" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "circle" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -Type "dashboard" -StrokeColor "gold" -ShowInfo
+                New-UDAntdProgress -Percent { 1..100 | Get-Random } -AutoRefresh -StrokeColor "gold" -Step 10 -ShowInfo
 
             }
             New-UDAntdColumn -Span 6 -Content {
@@ -184,7 +184,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             }
             New-UDAntdPopConfirm -Id 'demo_popconfirm' -Title "Are you shure you wanna delete this item ?" -Content (
                 @(New-UDAntdButton -Label "Remove Item" 
-                "demo me")
+                    "demo me")
             ) -OnConfirm {
                 --$Cache:Titem
                 Remove-UDElement -ParentId "timeline" -Id "demo_$Cache:Titem"
@@ -214,6 +214,23 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                             }
                             
                         }
+                    }
+                }
+            }
+            New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
+                New-UDAntdColumn -Span 24 -Content {
+                    # $Cach:Forks.Foreach({ Get-GitHubUser -User })
+                    New-UDAntdAvatarList -Size large -MaxLength 6 -Content {
+                        $Cache:Forks = (Get-GitHubRepositoryFork -OwnerName AlonGvili -RepositoryName UniversalDashboard.Markdown).owner 
+                        $Cache:Forks | % {
+                            $user = Get-GithubUser -User $_.login
+                            New-UDAntdAvatarListItem -Source $_.avatar_url -Tips (
+                                "{0} Followers {1} | Following {2}" -f $user.name, $user.followers, $user.following
+                            ) -OnClick {
+                                Invoke-UDRedirect -Url $_.html_url -OpenInNewWindow
+                            } 
+                        }
+                        
                     }
                 }
             }

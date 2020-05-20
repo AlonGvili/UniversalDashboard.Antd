@@ -98,6 +98,7 @@ function connectWebSocket(sessionId, location, history) {
 	connection.on("redirect", json => {
 		var data = JSON.parse(json)
 
+		console.log("redirect", data)
 		if (data.url.startsWith("/")) {
 			history.push(url)
 		} else if (data.openInNewWindow) {

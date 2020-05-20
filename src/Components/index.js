@@ -189,6 +189,9 @@ const AntdProgress = lazy(
 const AntdPopConfirm = lazy(
 	() => import(/* webpackChunkName: 'AntdPopConfirm' */ "./popconfirm/popconfirm")
 )
+const AntdAvatarList = lazy(
+	() => import(/* webpackChunkName: 'AntdAvatarList' */ "./avatar/avatarList")
+)
 
 export default function registerComponents() {[
 			{ type: "ud-antd-row", component: AntdRow },
@@ -254,6 +257,7 @@ export default function registerComponents() {[
 			{ type: "ud-antd-countdown", component: AntdCountdown },
 			{ type: "ud-antd-progress", component: AntdProgress },
 			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
+			{ type: "ud-antd-avatar-list", component: AntdAvatarList },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
 		)

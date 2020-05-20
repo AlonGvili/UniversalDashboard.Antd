@@ -217,21 +217,31 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                     }
                 }
             }
+            # New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
+            #     New-UDAntdColumn -Span 24 -Content {
+            #         # $Cach:Forks.Foreach({ Get-GitHubUser -User })
+            #         New-UDAntdAvatarList -Size large -MaxLength 6 -Content {
+            #             $Cache:Forks = (Get-GitHubRepositoryFork -OwnerName AlonGvili -RepositoryName UniversalDashboard.Markdown).owner 
+            #             $Cache:Forks | % {
+            #                 $user = Get-GithubUser -User $_.login
+            #                 New-UDAntdAvatarListItem -Source $_.avatar_url -Tips (
+            #                     "{0} Followers {1} | Following {2}" -f $user.name, $user.followers, $user.following
+            #                 ) -OnClick {
+            #                     Invoke-UDRedirect -Url $_.html_url -OpenInNewWindow
+            #                 } 
+            #             }
+                        
+            #         }
+            #     }
+            # }
             New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
                 New-UDAntdColumn -Span 24 -Content {
-                    # $Cach:Forks.Foreach({ Get-GitHubUser -User })
-                    New-UDAntdAvatarList -Size large -MaxLength 6 -Content {
-                        $Cache:Forks = (Get-GitHubRepositoryFork -OwnerName AlonGvili -RepositoryName UniversalDashboard.Markdown).owner 
-                        $Cache:Forks | % {
-                            $user = Get-GithubUser -User $_.login
-                            New-UDAntdAvatarListItem -Source $_.avatar_url -Tips (
-                                "{0} Followers {1} | Following {2}" -f $user.name, $user.followers, $user.following
-                            ) -OnClick {
-                                Invoke-UDRedirect -Url $_.html_url -OpenInNewWindow
-                            } 
-                        }
-                        
-                    }
+                    New-UDAntdCarousel -Content {
+                        New-UDAntdCard -MetaTitle "card 1" -MetaDescription "card 1 desc" -BodyStyle @{backgroundColor = "red"; height = 350}
+                        New-UDAntdCard -MetaTitle "card 2" -MetaDescription "card 2 desc" -BodyStyle @{backgroundColor = "blue"; height = 350}
+                        New-UDAntdCard -MetaTitle "card 3" -MetaDescription "card 3 desc" -BodyStyle @{backgroundColor = "green"; height = 350}
+                        New-UDAntdCard -MetaTitle "card 4" -MetaDescription "card 4 desc" -BodyStyle @{backgroundColor = "yellow"; height = 350}
+                    } -Dots -DotPosition bottom -AutoPlay
                 }
             }
         }

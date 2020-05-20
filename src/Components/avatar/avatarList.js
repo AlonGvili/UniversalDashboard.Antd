@@ -5,7 +5,7 @@ import useDashboardEvent from '../api/Hooks/useDashboardEvent'
 import { endpoint } from '../api/consts'
 import { useQuery } from 'react-query'
 import { getMeta } from '../framework/meta'
-import { Statistic } from 'antd'
+import { Skeleton, Space } from 'antd'
 
 
 const dashboardid = getMeta("ud-dashboard")
@@ -29,11 +29,10 @@ export default function AntdAvatarList({ id, ...props }) {
             refetchIntervalInBackground: autoRefresh,
             refetchOnMount: true,
             refetchOnWindowFocus: false,
-            initialData: []
         }
     )
 
-
+    if(status === "loading") return <Space direction="horizontal" size="small"> {[1,2,3,4].map(item => <Skeleton avatar active title={false} paragraph={false} loading={isFetching} />)}</Space>
     if (status === "error") return <Alert.ErrorBoundary message="Error in AntdAvatarList component" description={
         <Typography.Text code copyable title="Error Information">
             {error.message}
@@ -41,16 +40,6 @@ export default function AntdAvatarList({ id, ...props }) {
             {`component props: ${{ ...props }}`}
         </Typography.Text>
     } />
-
-    // const onClick = item => {
-    //     UniversalDashboard.publish("element-event", {
-    //         type: "clientEvent",
-    //         eventId: item.id + "onClick",
-    //         eventName: "onClick",
-    //         eventData: JSON.stringify(item),
-    //     })
-    // }
-
 
     return (
         <AvatarList {...restOfProps}>

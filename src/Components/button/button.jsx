@@ -1,26 +1,31 @@
 import React from "react"
 import { Button } from "antd"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-const AntdButton = props => {
+export default function AntdButton ({ id, ...props }) {
+	const [{ attributes }] = useDashboardEvent(id, props)
+	const { icon, htmlType, buttonType, hasCallback, label} = attributes
 
 	const onClick = () => {
 		UniversalDashboard.publish("element-event", {
 			type: "clientEvent",
-			eventId: props.id + "onClick",
+			eventId: id + "onClick",
 			eventName: "onClick",
 			eventData: "",
 		})
 	}
 
 	return (
-		<Button {...props} 
-			icon={props.icon && UniversalDashboard.renderComponent(props.icon)} 
-			htmlType={props.htmlType} 
-			type={props.buttonType} 
-			onClick={props.hasCallback && onClick}>
-			{props.label}
+		<Button 
+			{...attributes}
+			icon={icon && UniversalDashboard.renderComponent(icon)}
+			htmlType={htmlType}
+			type={buttonType}
+			onClick={hasCallback && onClick}
+		>
+			{label}
 		</Button>
 	)
 }
 
-export default AntdButton
+AntdButton.displayName = "AntdButton"

@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "antd";
-const AntdButtonGroup = props => {
-  const { content, ...attributes } = props;
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
+
+export default function AntdButtonGroup ({id, ...props}) {
+  const [{ content, attributes }] = useDashboardEvent(id, props);
 
   return (
     <Button.Group {...attributes}>
@@ -10,4 +12,4 @@ const AntdButtonGroup = props => {
   );
 };
 
-export default AntdButtonGroup;
+AntdButtonGroup.displayName = "AntdButtonGroup"

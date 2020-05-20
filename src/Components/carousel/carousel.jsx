@@ -1,29 +1,57 @@
-import React, { Fragment } from "react";
-import { Carousel } from "antd";
+import React from "react";
+import { Carousel, Alert, Typography } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
-import ReactInterval from "react-interval";
+import { endpoint } from "../api/consts";
+import { useQuery } from "react-query";
+import { getMeta } from "../framework/meta";
 
-const AntdCarousel = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+const dashboardid = getMeta("ud-dashboard")
 
-  const carouselProps = {
-    prevArrow: UniversalDashboard.renderComponent(attributes.prevArrow),
-    nextArrow: UniversalDashboard.renderComponent(attributes.nextArrow)
-  };
+export default function AntdCarousel({ id, ...props }) {
+  const [{ attributes }] = useDashboardEvent(props.id, props);
+  const { autoRefresh, refreshInterval } = attributes
+
+  let url = endpoint(id)
+
+  const { data, status, error } = useQuery(
+    ["carousel", { id: id }],
+    () =>
+      fetch(url, {
+        headers: { dashboardid, UDConnectionId: UniversalDashboard.connectionId },
+      })
+        .then(res => res.json())
+        .then(res => res),
+    {
+      refetchInterval: autoRefresh && refreshInterval,
+      refetchIntervalInBackground: autoRefresh,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+    }
+  )
+
+  if (status === "loading") return null
+  if (status === "error") return <Alert.ErrorBoundary message="Error in Carousel component" description={
+    <Typography.Text code copyable title="Error Information">
+      {error.message}
+      {`component id: ${id}`}
+      {`component props: ${{ ...props }}`}
+    </Typography.Text>
+  } />
+
+  const afterChange = current => {
+    UniversalDashboard.publish("element-event", {
+      type: "clientEvent",
+      eventId: id + "afterChange",
+      eventName: "afterChange",
+      eventData: JSON.stringify(current),
+    })
+  }
 
   return (
-    <Fragment>
-      <Carousel {...attributes} {...carouselProps}>
-        {UniversalDashboard.renderComponent(content)}
-      </Carousel>
-      <ReactInterval
-        callback={reload}
-        timeout={attributes.refreshInterval}
-        enabled={attributes.autoRefresh}
-      />
-    </Fragment>
+    <Carousel {...attributes} afterChange={afterChange}>
+      {UniversalDashboard.renderComponent(data)}
+    </Carousel>
   );
 };
 
-export default AntdCarousel;
+AntdCarousel.displayName = "AntdCarousel"

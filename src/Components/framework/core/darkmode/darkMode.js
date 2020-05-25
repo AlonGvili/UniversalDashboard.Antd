@@ -1,7 +1,7 @@
-import store from "../../api/store"
+import store from "../../../api/store"
 
 export const useIsDarkMode = () => {
-	const [{ darkMode = true }] = store.useStore()
+	const [{ darkMode = false }] = store.useStore()
 	return darkMode
 }
 

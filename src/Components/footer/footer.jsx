@@ -1,11 +1,9 @@
 import React from 'react'
 import Footer from 'rc-footer'
-// import 'rc-footer/assets/index.css'
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
-export default function UDAntdFooter({id, ...props}){
-    const [state] = useDashboardEvent(id, props)
-    const {content ,attributes} = state
+export default function AntdFooter({ id, ...props }) {
+    const [{ content, attributes }] = useDashboardEvent(id, props)
 
     const footerColumns = content.map(column => {
         return {
@@ -19,7 +17,13 @@ export default function UDAntdFooter({id, ...props}){
             ...column
         }
     })
-    return <Footer {...attributes} bottom={attributes.bottom && UniversalDashboard.renderComponent(attributes.bottom)} columns={footerColumns}/>
+    return (
+        <Footer
+            {...attributes}
+            columns={footerColumns}
+            bottom={attributes.bottom && UniversalDashboard.renderComponent(attributes.bottom)}
+        />
+    )
 }
 
-UDAntdFooter.displayName = "UDAntdFooter"
+AntdFooter.displayName = "AntdFooter"

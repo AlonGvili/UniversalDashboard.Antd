@@ -4,8 +4,6 @@ var TerserPlugin = require("terser-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const darkTheme = require("@ant-design/dark-theme")
 const lightTheme = require("@ant-design/aliyun-theme").default
-const { getThemeVariables } = require('antd/dist/theme')
-const mc = require('./Components/api/antdtheme').default
 // const AntDesignThemePlugin = require("antd-theme-webpack-plugin")
 
 // const options = {
@@ -115,7 +113,8 @@ module.exports = {
 						options: {
 							lessOptions: {
 								modifyVars: {
-									...darkTheme.default,
+									// ...darkTheme.default,
+									
 									"@primary-color": "#642ab5"
 								},
 								javascriptEnabled: true,

@@ -1,20 +1,21 @@
-import React, { Suspense } from "react";
-import { Row, Skeleton, Spin } from "antd";
-import ReactInterval from 'react-interval'
+import React from "react";
+import { Row, Skeleton } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
+import useRow from './useRow'
 
-const AntdRow = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+export default function AntdRow({ id, ...props }) {
+  const [{ attributes }] = useDashboardEvent(id, props);
+  const { autoRefresh, refreshInterval, ...restOfProps } = attributes
+  const { data, error, status, isFetching } = useRow(id, autoRefresh, refreshInterval)
+
+  if (status === "loading") return <Skeleton loading={isFetching} avatar={false} paragraph={{ rows: 4 }} title={false} active />
+  if (status === "error") return <Alert message="Error in AntdProgress component" description={error.message} type="error" />
 
   return (
-    <Suspense fallback={<Skeleton loading avatar={false} paragraph={{rows: 6}} title active />}>
-        <Row {...attributes}>
-          {UniversalDashboard.renderComponent(content)}
-        </Row>
-      <ReactInterval callback={reload} enabled={attributes.autoRefresh} timeout={attributes.refreshInterval} />
-    </Suspense>
-  );
-};
+    <Row {...restOfProps}>
+      {UniversalDashboard.renderComponent(data)}
+    </Row>
+  )
+}
 
-export default AntdRow;
+AntdRow.displayName = "AntdRow"

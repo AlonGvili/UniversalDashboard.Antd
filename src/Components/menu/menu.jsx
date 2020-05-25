@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { Menu, Space } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import { Link, useLocation } from "react-router-dom"
-import { useIsDarkMode } from "../framework/core/darkMode"
+import { useIsDarkMode } from "../framework/core/darkmode/darkMode"
 
 const AntdMenu = props => {
 	const [state] = useDashboardEvent(props.id, props)

@@ -16,6 +16,8 @@
     General notes
 #>
 function New-UDAntdColumn {
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Column")]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -27,7 +29,7 @@ function New-UDAntdColumn {
         [scriptblock]$Content,
         [Parameter()]
         [string]$Offset,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [string]$Span,
         [Parameter()]
         [string]$Pull,
@@ -50,23 +52,16 @@ function New-UDAntdColumn {
         [Parameter()]
         [switch]$AutoRefresh,
         [Parameter()]
-        [int]$RefreshInterval = 5
+        [int]$RefreshInterval = 5000
     )
 
     End {
 
-        # if ($null -ne $Content) {
+        if ($null -ne $Content) {            
+            $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
+        }
             
-        #     if ($Content -is [scriptblock]) {
-        #         $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
-                    
-        #     }
-        #     elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
-        #         throw "Content must be a script block or UDEndpoint"
-        #     }
-            
-        # }
-        @{
+        $AntdColumn = @{
             assetId         = $AssetId 
             isPlugin        = $true 
             type            = "ud-antd-col"
@@ -74,7 +69,6 @@ function New-UDAntdColumn {
             className       = $ClassName
             style           = $Style
             offset          = $Offset
-            content = $Content.Invoke()
             order           = $Order
             pull            = $Pull
             push            = $Push
@@ -88,6 +82,7 @@ function New-UDAntdColumn {
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
         }
-
+        $AntdColumn.PSTypeNames.Insert(0, "Ant.Design.Column")
+        $AntdColumn
     }
 }

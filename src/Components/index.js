@@ -120,7 +120,7 @@ const AntdSider = lazy(
 	() => import(/* webpackChunkName: 'AntdSider' */ "./Layout/Sider")
 )
 const AntdSideBar = lazy(
-	() => import(/* webpackChunkName: 'AntdSider' */ "./framework/core/SideBar")
+	() => import(/* webpackChunkName: 'AntdSider' */ "./framework/core/navigation/SideBar")
 )
 const AntdComment = lazy(
 	() => import(/* webpackChunkName: 'AntdComment' */ "./comment/comment")
@@ -144,7 +144,7 @@ const AntdFormItem = lazy(
 	() => import( /* webpackChunkName: 'AntdFormItem' */ "./form/antFormItem")
 )
 const AntdResultPage = lazy(
-	() => import(/* webpackChunkName: 'AntdResultPage' */ "./framework/pages/ResultPage")
+	() => import(/* webpackChunkName: 'AntdResultPage' */ "./framework/pages/components/ResultPage")
 )
 const AntdPageHeader = lazy(
 	() => import(/* webpackChunkName: 'AntdPageHeader' */ "./framework/pages/components/PageHeader")
@@ -174,7 +174,7 @@ const AntdChartTrend = lazy(
 	() => import(/* webpackChunkName: 'AntdChartTrend' */ "./charts/trand")
 )
 const AntdDarkModeToggle = lazy(
-	() => import(/* webpackChunkName: 'AntdDarkModeToggle' */ "./framework/core/DarkModeToggle")
+	() => import(/* webpackChunkName: 'AntdDarkModeToggle' */ "./framework/core/darkmode/DarkModeToggle")
 )
 const AntdCountdown = lazy(
 	() => import(/* webpackChunkName: 'AntdCountdown' */ "./statistic/countdown")
@@ -187,9 +187,6 @@ const AntdPopConfirm = lazy(
 )
 const AntdAvatarList = lazy(
 	() => import(/* webpackChunkName: 'AntdAvatarList' */ "./avatar/avatarList")
-)
-const AntdAddPage = lazy(
-	() => import(/* webpackChunkName: 'AntdAddPage' */ "./framework/pages/components/AddPageForm")
 )
 const AntdCalendar = lazy(
 	() => import(/* webpackChunkName: 'AntdCalendar' */ "./charts/calendar")
@@ -258,7 +255,6 @@ export default function registerComponents() {[
 			{ type: "ud-antd-progress", component: AntdProgress },
 			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
 			{ type: "ud-antd-avatar-list", component: AntdAvatarList },
-			{ type: "ud-antd-add-page", component: AntdAddPage },
 			{ type: "ud-antd-charts-calendar", component: AntdCalendar },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
@@ -269,7 +265,7 @@ registerComponents()
 import AntDesign from "./api/dashboard"
 
 
-UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, theme } }) => {
+UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, footer } }) => {
 	return (
 		<ReactQueryConfigProvider 
 			config={{
@@ -278,7 +274,7 @@ UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, theme } })
 				refetchIntervalInBackground:true
 			}}>
 			<Suspense fallback={null}>
-				<AntDesign appbar={appbar} sidebar={sidebar} theme={theme}/>
+				<AntDesign appbar={appbar} sidebar={sidebar} footer={footer}/>
 			</Suspense>
 		</ReactQueryConfigProvider>
 	)

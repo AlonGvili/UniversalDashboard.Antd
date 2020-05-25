@@ -14,7 +14,9 @@ function New-UDDashboard{
         [Parameter()]
         [hashtable[]]$Theme = @(),
         [Parameter()]
-        [object]$AppBar
+        [object]$AppBar,
+        [Parameter()]
+        [object]$SideBar
 
     )   
 
@@ -27,8 +29,10 @@ function New-UDDashboard{
     $Cache:Pages = $Pages 
     $Cache:Configuration = $Configuration 
     $Cache:Theme = $Theme
+    $Cache:AppBar = $AppBar
+    $Cache:SideBar = $SideBar
 
-    New-UDEndpoint -Id "pages" -Endpoint {
+    New-UDEndpoint -Id "pages" -Method GET -Url "/pages" -Endpoint {
         $Cache:Pages
     } | Out-Null
 
@@ -40,11 +44,16 @@ function New-UDDashboard{
         $Cache:Theme
     } | Out-Null
 
+    New-UDEndpoint -Id "appbar" -Endpoint {
+        $Cache:Appbar
+    } | Out-Null
+
     @{
         title = $Title 
         pages = $Pages
         configuration = $Configuration
         theme = $Theme
         appbar = $AppBar
+        sidebar = $SideBar
     }
 }

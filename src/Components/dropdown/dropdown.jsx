@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Dropdown } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
-const AntdDropDown = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
-  const [visible, setVisible] = useState(attributes.visible);
+const AntdDropDown = ({id, ...props}) => {
+  const [{ attributes }] = useDashboardEvent(id, props);
+  const { autoRefresh, refreshInterval, targetOffset, overlay, visible: isVisible,...restOfProps } = attributes;
+  const [visible, setVisible] = useState(isVisible);
 
 
   const onVisibleChangeEvent = event => {
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
-      eventId: attributes.id + "onVisibleChange",
+      eventId: id + "onVisibleChange",
       eventName: "onVisibleChange",
       eventData: ""
     });
@@ -20,16 +20,14 @@ const AntdDropDown = props => {
   
   return (
     <Dropdown
-      {...attributes}
+      {...restOfProps}
       align={{ targetOffset: targetOffset }}
-      overlay={UniversalDashboard.renderComponent(attributes.overlay)}
+      overlay={UniversalDashboard.renderComponent(overlay)}
       visible={visible}
       onVisibleChange={setVisible(!visible)}
     >
       <span>
-        {content.map(item =>
-          item.type ? UniversalDashboard.renderComponent(item) : item
-        )}
+        {UniversalDashboard.renderComponent(data)}
       </span>
     </Dropdown>
   );

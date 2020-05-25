@@ -1,17 +1,14 @@
-function Get-UDAntdPage{
+function Add-UDAntdPage{
     param(
         [Parameter()]
-        [string]$Id = (New-Guid).guid,
-        [Parameter()]
-        [string]$Name
+        [string]$Id = (New-Guid).guid
     )
     end{
         @{
             assetId   = $AssetId
             id = $Id
             isPlugin  = $true
-            name      = $Name
-            type      = "ud-antd-utils-getPage"
+            type      = "ud-antd-add-page"
         }
     }
 }

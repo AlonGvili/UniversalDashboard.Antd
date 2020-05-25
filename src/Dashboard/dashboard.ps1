@@ -5,11 +5,11 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 New-UDAntdIcon -Icon $_ -Size 4x
             })
     }
-    New-UDPage -Title 'Bages' -Name Badges -url '/Badge/colors' -Endpoint {
+    New-UDPage -Title 'Bages' -Name Badges -Content {
         New-UDAntdPageHeader -SubTitle "this is the badges color page" -Tags @(
             New-UDAntdTag -Color "pink" -Content "ud v.3"
             New-UDAntdTag -Color "lime" -Content "ud v.2"
-            New-UDAntdTag -Color "#cd201f" -Content "Youtube" -Closable -Icon "😂🤣"
+            New-UDAntdTag -Color "#cd201f" -Content "Youtube" -Closable -Icon "🤣"
             New-UDAntdTag -Color "#55acee" -Content "Twitter" -Closable -Icon ( New-UDAntdIcon -Icon TwitterOutlined -Size xs)
         )
         (Get-Command -Name New-UDAntdBadge).Parameters["PresetColor"].Attributes.ValidValues | ForEach-Object {
@@ -79,7 +79,31 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 }
             }
         }
+        New-UDAntdStatistic -Value { 
+           $Cache:Pages.Count
+        } -Title Pages -AutoRefresh 
        
+        New-UDAntdList -bordered -itemLayout vertical -Content {
+            New-UDAntdListItem -Avatar (New-UDAntdAvatar -Shape circle -Size small -Content "AG") -Title "Alon Gvili" -Description "User profile item" -Extra {
+                New-UDAntdButtonGroup -Content {
+                    New-UDAntdButton -Label 01 
+                    New-UDAntdButton -Label 02 
+                    New-UDAntdButton -Label 03 
+                }
+            } -Actions {
+                New-UDAntdButtonGroup -Content {
+                    New-UDAntdButton -Label 01 
+                    New-UDAntdButton -Label 02 
+                    New-UDAntdButton -Label 03 
+                }
+            } -Content {
+                New-UDAntdListItem -Avatar (New-UDAntdAvatar -Shape circle -Size small -Content "AD") -Title "Adam Driscoll" -Description "User profile item"
+            }
+            New-UDAntdListItem -Avatar (New-UDAntdAvatar -Shape circle -Size small -Content "AD") -Title "Adam Driscoll" -Description "User profile item"
+            New-UDAntdListItem -Avatar (New-UDAntdAvatar -Shape circle -Size small -Content "IL") -Title "Israel" -Description "User profile item"
+        }
+
+
     } -DefaultHomePage
     New-UDPage -Title 'Dynamic' -Name Dynamic -Endpoint {
         New-UDAntdNotification -Id "vv" -Title "Universal Dashboard" -Description "" -Preset "info" 
@@ -215,6 +239,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                             
                         }
                     }
+
                 }
             }
             # New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
@@ -244,12 +269,19 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                     } -Dots -DotPosition bottom -AutoPlay
                 }
             }
+            New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
+                New-UDAntdColumn -Span 24 -Content {
+                    New-UDAntdCalendar -Data {
+                        Get-Content -Path D:\GPM\github.com\AlonGvili\UniversalDashboard.Antd\src\Dashboard\data\data2.json -Raw 
+                    } -DateRange @("2019-05-01","2019-10-31") -Width 1200 -Height 600
+                }
+            }
         }
         
     }  
 
 ) -Theme @{
-    color = "light"
+    primaryColor = "#642ab5"
 } -AppBar (
     New-UDAntdAppBar -Visible -Content {
         New-UDAntdMenu -Mode horizontal -Content {
@@ -283,23 +315,36 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         New-UDAntdMenuItem -Icon (
                             New-UDAntdIcon -Icon ReadOutlined
                         ) -Text "Docs" -To "#"
-                        New-UDAntdMenuItem -Icon (
-                            New-UDAntdIcon -Icon BgColorsOutlined
-                        ) -Content (New-AntdDarkModeToggle -Size "small") -Text "Dark Mode"
-                        # New-UDAntdMenuDivider 
                         New-UDAntdMenuItem -Icon (  
                             New-UDAntdIcon -Icon SettingOutlined
                         ) -Text "Settings"  -To "#"
                         New-UDAntdMenuItem -Icon (
                             New-UDAntdIcon -Icon UserOutlined
                         ) -Text "Profile"  -To "#"
-                        # New-UDAntdMenuDivider
                         New-UDAntdMenuItem -Icon (
                             New-UDAntdIcon -Icon LockOutlined
                         ) -Text "Security"  -To "#" 
                     }
                 )
             )
+        }
+    }
+) -SideBar (
+    New-UDAntdSideBar -Visible -Theme dark -Content {
+        New-UDAntdMenu -Mode inline -Content {
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon ReadOutlined
+            ) -Text "Docs" -To "#"
+            New-UDAntdMenuItem -Icon (  
+                New-UDAntdIcon -Icon SettingOutlined
+            ) -Text "Settings"  -To "#"
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon UserOutlined
+            ) -Text "Profile"  -To "#"
+            New-UDAntdMenuDivider
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon LockOutlined
+            ) -Text "Security"  -To "#" 
         }
     }
 )

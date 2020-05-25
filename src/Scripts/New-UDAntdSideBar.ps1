@@ -1,6 +1,6 @@
-function New-UDAntdSider {
+function New-UDAntdSideBar {
     [CmdletBinding()]
-    [OutputType('Ant.Design.Sider')]
+    [OutputType('Ant.Design.SideBar')]
     param(
         [Parameter(HelpMessage = "The id of the control if not specified it will auto generate a guid.")]
         [string]$Id = (New-Guid).ToString(),
@@ -31,7 +31,7 @@ function New-UDAntdSider {
 
         if ($null -ne $Content) {
             if ($Content -is [scriptblock]) {
-                $ContentEndpoint = New-UDEndpoint -Endpoint $Content -Id ($Id + "Content") 
+                $ContentEndpoint = New-UDEndpoint -Endpoint $Content -Id $Id
             }
             elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
                 throw "Content must be a script block or UDEndpoint"
@@ -41,7 +41,7 @@ function New-UDAntdSider {
         $UDAntdSider = @{
             assetId        = $AssetId 
             isPlugin       = $true 
-            type           = "ud-antd-sider"
+            type           = "ud-antd-sidebar"
             id             = $Id
             key            = $Key
             # trigger        = $Trigger
@@ -55,7 +55,7 @@ function New-UDAntdSider {
             content = $Content.Invoke()
             visible = $Visible.IsPresent
         }
-        $UDAntdSider.PSTypeNames.Insert(0, 'Ant.Design.Sider')
+        $UDAntdSider.PSTypeNames.Insert(0, 'Ant.Design.SideBar')
         $UDAntdSider
     }
 }

@@ -11,13 +11,12 @@ const dashboardId = getMeta("ud-dashboard")
 
 var connection
 
-function connectWebSocket(sessionId, location, history) {
-	if (connection) {
-	}
+function connectWebSocket(sessionId, history) {
 
 	connection = new HubConnectionBuilder()
 		.withUrl(getApiPath() + `/dashboardhub?dashboardId=${dashboardId}`)
 		.configureLogging(LogLevel.Information)
+		.withAutomaticReconnect([15000,30000,60000,300000])
 		.build()
 
 	connection.on("reload", data => {
@@ -126,7 +125,6 @@ function connectWebSocket(sessionId, location, history) {
 
 	connection.on("setConnectionId", id => {
 		UniversalDashboard.connectionId = id
-		// setLoading(false)
 	})
 
 	PubSub.subscribe("element-event", function (e, data) {
@@ -170,20 +168,14 @@ function loadJavascript(url, onLoad) {
 }
 
 const loadData = (setDashboard, history, location) => {
-	UniversalDashboard.get(
-		"/api/internal/dashboard",
-		function (json) {
-			var dashboard = json.dashboard
-			
-			queryCache.setQueryData("pages", dashboard.pages)
-
-			connectWebSocket(json.sessionId, location, history)
-			UniversalDashboard.sessionId = json.sessionId
-
-			UniversalDashboard.design = dashboard.design
-
-			setDashboard(dashboard)
-		},
+	UniversalDashboard.get("/api/internal/dashboard", json => {
+		var dashboard = json.dashboard
+		// queryCache.setQueryData("pages", dashboard.pages)
+		connectWebSocket(json.sessionId, location, history)
+		UniversalDashboard.sessionId = json.sessionId
+		UniversalDashboard.design = dashboard.design
+		setDashboard(dashboard)
+	},
 		history
 	)
 }
@@ -192,16 +184,10 @@ function Dashboard() {
 	const [dashboard, setDashboard] = React.useState(null)
 	let history = useHistory()
 	let location = useLocation()
-
-	const dashboardRef = React.useRef()
 	React.useEffect(() => {
-
-			loadData(setDashboard, history, location)
-
+		loadData(setDashboard, history, location)
 	}, [dashboardId])
-
 	if (!dashboard) return null
-	
 	return UniversalDashboard.renderDashboard({
 		dashboard,
 		history,

@@ -61,6 +61,7 @@ function New-UDAntdCarousel {
             style           = $Style
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
+            hasCallback = $null -ne $AfterChange
         }
         $AntdCarousel.PSTypeNames.Insert(0, "Ant.Design.Carousel")
         $AntdCarousel

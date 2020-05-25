@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react"
 import { Form, Button, Input, Switch, InputNumber, Modal } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
-import { DashboardContext } from "../../../api/appReducer"
 import { guid } from "../../../Utils/utils"
+import useAddPage from "../useAddPage"
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 	const [form] = Form.useForm()
@@ -51,17 +51,15 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 
 const AddPageForm = () => {
 	const [visible, setVisible] = useState(false)
-	const { addPage } = useContext(DashboardContext)
+	const [addPage,{data,error,status}] = useAddPage()
 	const onCreate = values => {
-		UniversalDashboard.publish("element-event", {
-			type: "clientEvent",
-			eventId: "pageValues",
-			eventName: values.id,
-			eventData: JSON.stringify(values),
-		})
-		console.log(values)
 		addPage(values)
-		setVisible(false)
+		if(status === "loading") return console.log("loading pages after post")
+		if(status === "error") return console.log("Error", error.message)
+		if(status === "success") {
+			console.log("Success", data)
+			setVisible(false)
+		}
 	}
 	return (
 		<div>

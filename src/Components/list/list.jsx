@@ -1,50 +1,38 @@
-import React, { Fragment } from "react";
-import { List } from "antd";
+import React from "react";
+import { List, Alert } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
-import ReactInterval from "react-interval";
+import useList from "./useList";
 
-const AntdList = props => {
-  const [state, reload] = useDashboardEvent(props.id, props);
-  const { content, attributes } = state;
+export default function AntdList({ id, ...props }) {
+  const [{ attributes }] = useDashboardEvent(id, props);
+  const { autoRefresh, refreshInterval, header, ...restOfProps } = attributes;
+  const { data, status, error } = useList(id, autoRefresh, refreshInterval)
+
+  if (status === "error") return <Alert message="Error in AntdProgress component" description={error.message} type="error" />
 
   return (
-    <Fragment>
-      <List
-        {...attributes}
-        header={UniversalDashboard.renderComponent(attributes.header)}
-        dataSource={content}
-        renderItem={item => {
-          const {
-            title,
-            description,
-            avatar,
-            extra,
-            actions,
-            ...itemProps
-          } = item;
-          return (
-            <List.Item
-              {...itemProps}
-              actions={UniversalDashboard.renderComponent(actions)}
-              extra={UniversalDashboard.renderComponent(extra)}
-            >
-              <List.Item.Meta
-                avatar={UniversalDashboard.renderComponent(avatar)}
-                title={title}
-                description={description}
-              />
-              {UniversalDashboard.renderComponent(item.content)}
-            </List.Item>
-          );
-        }}
-      />
-      <ReactInterval
-        callback={reload}
-        enabled={attributes.autoRefresh}
-        timeout={attributes.refreshInterval}
-      />
-    </Fragment>
+    <List
+      {...restOfProps}
+      header={UniversalDashboard.renderComponent(header)}
+      dataSource={data}
+      renderItem={item => {
+        const { title, description, avatar, extra, actions, ...itemProps } = item
+        return (
+          <List.Item
+            {...itemProps}
+            actions={UniversalDashboard.renderComponent(actions)}
+            extra={UniversalDashboard.renderComponent(extra)}
+          >
+            <List.Item.Meta
+              avatar={UniversalDashboard.renderComponent(avatar)}
+              title={title}
+              description={description}
+            />
+            {UniversalDashboard.renderComponent(item.content)}
+          </List.Item>
+        );
+      }}
+    />
   );
 };
 
-export default AntdList;

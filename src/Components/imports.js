@@ -1,6 +1,4 @@
-/* eslint-disable react/display-name */
-import React, { Suspense, lazy } from "react"
-import { ReactQueryConfigProvider } from "react-query"
+import React, {lazy} from 'react'
 
 const AntdMenu = lazy(
 	() => import(/* webpackChunkName: 'AntdMenu' */ "./menu/menu")
@@ -188,12 +186,6 @@ const AntdPopConfirm = lazy(
 const AntdAvatarList = lazy(
 	() => import(/* webpackChunkName: 'AntdAvatarList' */ "./avatar/avatarList")
 )
-const AntdAddPage = lazy(
-	() => import(/* webpackChunkName: 'AntdAddPage' */ "./framework/pages/components/AddPageForm")
-)
-const AntdCalendar = lazy(
-	() => import(/* webpackChunkName: 'AntdCalendar' */ "./charts/calendar")
-)
 
 export default function registerComponents() {[
 			{ type: "ud-antd-row", component: AntdRow },
@@ -258,28 +250,7 @@ export default function registerComponents() {[
 			{ type: "ud-antd-progress", component: AntdProgress },
 			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
 			{ type: "ud-antd-avatar-list", component: AntdAvatarList },
-			{ type: "ud-antd-add-page", component: AntdAddPage },
-			{ type: "ud-antd-charts-calendar", component: AntdCalendar },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
 		)
-}
-
-registerComponents()
-import AntDesign from "./api/dashboard"
-
-
-UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, theme } }) => {
-	return (
-		<ReactQueryConfigProvider 
-			config={{
-				refetchAllOnWindowFocus: false, 
-				refetchOnWindowFocus: false, 
-				refetchIntervalInBackground:true
-			}}>
-			<Suspense fallback={null}>
-				<AntDesign appbar={appbar} sidebar={sidebar} theme={theme}/>
-			</Suspense>
-		</ReactQueryConfigProvider>
-	)
 }

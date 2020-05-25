@@ -91,22 +91,24 @@ task MergePsm1 {
             "New-UDAntdHeaderAccountSettings"
             "New-UDAntdNavigationItem"
             "New-UDAntdAppBar"
-            "New-AntdDarkModeToggle"
+            "New-UDAntdDarkModeToggle"
             "New-UDAntdChartCard"
-            # "New-UDAntdChartMiniProgress"
             "New-UDAntdChartField"
             "New-UDAntdChartTrend"
-            # "New-UDAntdMiniRingProgress"
             "New-UDDashboard"
             "New-UDPage"
-            "New-AntdProgress"
+            "New-UDAntdProgress"
             "New-UDAntdPopConfirm"
             "New-UDAntdAvatarList"
             "New-UDAntdAvatarListItem"
+            "New-UDAntdSpin"
+            "New-UDAntdSideBar"
+            "Add-UDAntdPage"
+            "New-UDAntdCalendar"
         )
     }
     
-    New-ModuleManifest @manifestParameters
+    New-ModuleManifest @manifestParameters 
     
 }
 

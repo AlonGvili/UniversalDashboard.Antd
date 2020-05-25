@@ -30,7 +30,7 @@ function New-UDAntdList {
         [Parameter()]
         [object]$header,
         [Parameter()]
-        [ValidateSet('horizontal','vertical')]
+        [ValidateSet('horizontal', 'vertical')]
         [string]$itemLayout,
         [Parameter()]
         [string]$rowKey,
@@ -61,7 +61,7 @@ function New-UDAntdList {
 
     End {
 
-        if ($IsEndpoint.IsPresent) {
+        if ($null -ne $Content) {
             if ($Content -is [scriptblock]) {
                 $dataSourceEndpoint = New-UDEndpoint -Endpoint $Content -Id $Id
             }
@@ -77,22 +77,21 @@ function New-UDAntdList {
             type            = "ud-antd-list"
             id              = $Id
             className       = $ClassName
-            style = $Style
-            bordered = $bordered.IsPresent
-            footer = $footer
-            grid = $grid
-            header = $header
-            itemLayout = $itemLayout
-            rowKey = $rowKey
-            loading = $loading.IsPresent
-            loadMore = $loadMore.IsPresent
-            # locale = $locale
-            pagination = $pagination.IsPresent
-            split = $split.IsPresent
-            content = $Content.Invoke()
-            renderItem = $renderItem
-            isEndpoint = $IsEndpoint.IsPresent
-            autoRefresh = $AutoRefresh.IsPresent
+            style           = $Style
+            bordered        = $bordered.IsPresent
+            footer          = $footer
+            grid            = $grid
+            header          = $header
+            itemLayout      = $itemLayout
+            rowKey          = $rowKey
+            loading         = $loading.IsPresent
+            loadMore        = $loadMore.IsPresent
+            pagination      = $pagination.IsPresent
+            split           = $split.IsPresent
+            content         = $Content.Invoke()
+            renderItem      = $renderItem
+            isEndpoint      = $IsEndpoint.IsPresent
+            autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
         }
 

@@ -1,6 +1,7 @@
 import React from "react"
 import Icon from "@ant-design/icons-react"
 import * as AntdIcons from "@ant-design/icons-svg/"
+import { queryCache } from "react-query"
 
 export function useIcon() {
 	const fontSize = React.useMemo(
@@ -37,7 +38,7 @@ export function useIcon() {
 		fontSize,
 		onClick,
 	}
-
+	Icon.setTwoToneColors({primaryColor: queryCache.getQueryData("theme")})
 	const AntdIcon = useIconComponent(api)
 
 	return {
@@ -56,6 +57,7 @@ function useIconComponent(api) {
 					onClick={(event) => hasCallback && onClick(event,id)}
 					type={AntdIcons[name] || AntdIcons.QuestionCircleOutlined}
 					style={{ fontSize: fontSize[size] }}
+					{...(AntdIcons[name] && AntdIcons[name].theme === "twotone" && Icon.getTwoToneColors())}
 				/>
 			)
 		},

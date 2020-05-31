@@ -1,4 +1,4 @@
-
+$root = $PSScriptRoot
 New-UDDashboard -Title "Dashboard" -Pages @(
     New-UDPage -Title 'Icons' -Name 'Icons' -Icon (New-UDAntdIcon -Icon GithubOutlined) -Content {
         (Get-Command -Name New-UDAntdIcon).parameters["Icon"].Attributes.ValidValues.foreach( {
@@ -183,6 +183,15 @@ New-UDDashboard -Title "Dashboard" -Pages @(
     New-UDPage -Title 'Not Found' -Name "404"  -Endpoint {
         New-UDAntdResult -Status 404 -Title "Page not found" -SubTitle "Try again the url is not exsists" 
     }  
+    New-UDPage -Title 'AutoComplete' -Name "AutoComplete"  -Endpoint {
+        $Repos = Get-Content -Path "$Root\data\data.json" -Raw | ConvertFrom-Json
+        [System.Collections.ArrayList]$filters = @()
+        $null = $filters.AddRange($Repos[0].psobject.Properties.name)
+        $null = $filters.Add('owner.id')
+        New-UDAntdAutoComplete -FilterKeys $filters.ToArray() -dataSource {
+            $Repos | ConvertTo-Json 
+        }
+    }  
     New-UDPage -Url "/Demos/:demoId" -Endpoint {
         param($DemoId)
       
@@ -272,7 +281,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             New-UDAntdRow -Align middle -Justify center -Gutter @(24, 24) -Content {
                 New-UDAntdColumn -Span 24 -Content {
                     New-UDAntdCalendar -Data {
-                        Get-Content -Path D:\GPM\github.com\AlonGvili\UniversalDashboard.Antd\src\Dashboard\data\data2.json -Raw 
+                        Get-Content -Path "$PSScriptRoot\data\data2.json" -Raw 
                     } -DateRange @("2019-05-01","2019-10-31") -Width 1200 -Height 600
                 }
             }
@@ -345,6 +354,9 @@ New-UDDashboard -Title "Dashboard" -Pages @(
             New-UDAntdMenuItem -Icon (
                 New-UDAntdIcon -Icon LockOutlined
             ) -Text "Security"  -To "#" 
+            New-UDAntdMenuItem -Icon (
+                New-UDAntdIcon -Icon FileSearchOutlined
+            ) -Text "AutoComplete"  -To "/AutoComplete" 
         }
     }
 )

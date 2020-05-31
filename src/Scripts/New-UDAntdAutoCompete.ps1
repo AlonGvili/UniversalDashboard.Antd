@@ -6,8 +6,6 @@ function New-UDAntdAutoComplete {
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
         [hashtable]$Style,
         [Parameter()]
         [hashtable]$InputStyle,
@@ -23,7 +21,7 @@ function New-UDAntdAutoComplete {
         [switch]$autoFocus,
         [Parameter()]
         [switch]$backfill,
-        [Parameter()]
+        [Parameter(Mandatory)]
         [scriptblock]$dataSource,
         [Parameter()]
         [switch]$defaultActiveFirstOption,
@@ -32,11 +30,12 @@ function New-UDAntdAutoComplete {
         [Parameter()]
         [switch]$disabled,
         [Parameter()]
-        [string[]]$filterOption,
+        [string[]]$FilterKeys,
         [Parameter()]
         [string]$optionLabelProp,
         [Parameter()]
-        [string]$placeholder,
+        [ValidateSet("small","middle","large")]
+        [string]$Size = "middle",
         [Parameter()]
         [scriptblock]$onSelect,
         [Parameter()]
@@ -44,7 +43,7 @@ function New-UDAntdAutoComplete {
         [Parameter()]
         [switch]$open,
         [Parameter()]
-        [switch]$IsEndpoint,
+        [string]$Placeholder = "Enter your search",
         [Parameter()]
         [switch]$AutoRefresh,
         [Parameter()]
@@ -54,27 +53,11 @@ function New-UDAntdAutoComplete {
     End {
 
         if ($null -ne $DataSource) {
-            if ($IsEndpoint) {
-                if ($DataSource -is [scriptblock]) {
-                    $DataSourceEndpoint = New-UDEndpoint -Endpoint $DataSource -Id $Id 
-                    $DataSourceContent = $DataSource.Invoke()
-                }
-                elseif ($DataSource -isnot [UniversalDashboard.Models.Endpoint]) {
-                    throw "DataSource must be a script block or UDEndpoint"
-                }
-            }
-            else {
-                $DataSourceContent = $DataSource.Invoke()
-            }
+            $DataSourceEndpoint = New-UDEndpoint -Endpoint $DataSource -Id $Id     
         }
         
         if ($null -ne $onSelect) {
-            if ($onSelect -is [scriptblock]) {
-                $OnSelectEndpoint = New-UDEndpoint -Endpoint $onSelect  -Id ( $Id + "OnSelect")
-            }
-            elseif ($onSelect -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "OnSelect must be a script block or UDEndpoint"
-            }
+            $OnSelectEndpoint = New-UDEndpoint -Endpoint $onSelect  -Id ( $Id + "OnSelect")
         }
 
         $UDAntdAutoComplete = @{
@@ -82,7 +65,6 @@ function New-UDAntdAutoComplete {
             isPlugin                 = $true
             type                     = "ud-antd-autocomplete"
             id                       = $Id
-            className                = $ClassName
             style                    = $Style
             inputStyle               = $InputStyle
             dropDownStyle            = $DropDownStyle
@@ -95,8 +77,10 @@ function New-UDAntdAutoComplete {
             defaultValue             = $defaultValue
             disabled                 = $disabled.IsPresent
             customInput              = $CustomInput
+            filterKeys               = $FilterKeys
+            placeholder              = $Placeholder
             optionLabelProp          = $optionLabelProp
-            placeholder              = $placeholder
+            size                     = $Size
             defaultOpen              = $defaultOpen.IsPresent
             open                     = $open.IsPresent
             autoRefresh              = $AutoRefresh.IsPresent
@@ -104,6 +88,5 @@ function New-UDAntdAutoComplete {
         }
         $UDAntdAutoComplete.PSTypeNames.Insert(0, 'Ant.Design.AutoComplete')
         $UDAntdAutoComplete
-
     }
 }

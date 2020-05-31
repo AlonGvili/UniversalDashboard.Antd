@@ -2,8 +2,8 @@ var webpack = require("webpack")
 var path = require("path")
 var TerserPlugin = require("terser-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const darkTheme = require("@ant-design/dark-theme")
-const lightTheme = require("@ant-design/aliyun-theme").default
+// const darkTheme = require("@ant-design/dark-theme")
+// const lightTheme = require("@ant-design/aliyun-theme").default
 // const AntDesignThemePlugin = require("antd-theme-webpack-plugin")
 
 // const options = {

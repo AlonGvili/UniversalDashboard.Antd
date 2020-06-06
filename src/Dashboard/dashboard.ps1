@@ -333,10 +333,18 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                         New-UDAntdMenuItem -Icon (
                             New-UDAntdIcon -Icon LockOutlined
                         ) -Text "Security"  -To "#" 
+                        New-UDAntdMenuItem -Content (
+                            New-UDAntdTogglePrimaryColor
+                        )
+                        New-UDAntdMenuItem -Content (
+                            New-UDAntdToggleColorMode
+                        )
                     }
                 )
             )
         }
+        
+        
     }
 ) -SideBar (
     New-UDAntdSideBar -Visible -Theme dark -Content {
@@ -358,6 +366,5 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 New-UDAntdIcon -Icon FileSearchOutlined
             ) -Text "AutoComplete"  -To "/AutoComplete" 
         }
-        New-UDAntdThemeChanger
     }
 )

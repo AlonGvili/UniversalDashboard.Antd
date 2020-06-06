@@ -197,8 +197,11 @@ const AntdSpace = lazy(
 const AntdDivider = lazy(
 	() => import(/* webpackChunkName: 'AntdDivider' */ "./divider/divider")
 )
-const AntdThemeColorChanger = lazy(
-	() => import(/* webpackChunkName: 'AntdThemeColorChanger' */ "./framework/core/theme/themeColorChanger")
+const ToggleColorMode = lazy(
+	() => import(/* webpackChunkName: 'ToggleColorMode' */ "./framework/core/theme/toggleColorMode")
+)
+const TogglePrimaryColor = lazy(
+	() => import(/* webpackChunkName: 'TogglePrimaryColor' */ "./framework/core/theme/togglePrimaryColor")
 )
 
 export default function registerComponents() {[
@@ -267,7 +270,8 @@ export default function registerComponents() {[
 			{ type: "ud-antd-charts-calendar", component: AntdCalendar },
 			{ type: "ud-antd-space", component: AntdSpace },
 			{ type: "ud-antd-divider", component: AntdDivider },
-			{ type: "ud-antd-theme-color-changer", component: AntdThemeColorChanger },
+			{ type: "ud-antd-toggle-color-mode", component: ToggleColorMode },
+			{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
 		)

@@ -118,7 +118,8 @@ task MergePsm1 {
             "New-UDAntdCalendar"
             "New-UDAntdSpace"
             "New-UDAntdDivider"
-            "New-UDAntdThemeChanger"
+            "New-UDAntdToggleColorMode"
+            "New-UDAntdTogglePrimaryColor"
             "New-UDAntdCountdown"
         )
     }

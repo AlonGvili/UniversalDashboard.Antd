@@ -32,5 +32,3 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
         
-    - name:  psake task
-      uses: devblackops/psake-github-action@v1.3.0

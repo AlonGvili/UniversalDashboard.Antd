@@ -21,22 +21,18 @@ function New-UDAntdColumn {
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
-        [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
-        [hashtable]$Style,
         [Parameter(mandatory)]
         [scriptblock]$Content,
         [Parameter()]
-        [string]$Offset,
+        [int]$Offset,
         [Parameter()]
-        [string]$Span,
+        [int]$Span,
         [Parameter()]
-        [string]$Pull,
+        [int]$Pull,
         [Parameter()]
-        [string]$Push,
+        [int]$Push,
         [Parameter()]
-        [string]$Order,
+        [int]$Order,
         [Parameter()]
         [string]$Xs,
         [Parameter()]
@@ -50,37 +46,28 @@ function New-UDAntdColumn {
         [Parameter()]
         [string]$Xxl,
         [Parameter()]
-        [switch]$AutoRefresh,
-        [Parameter()]
-        [int]$RefreshInterval = 5000
+        [string]$Flex = "auto"
     )
 
     End {
-
-        if ($null -ne $Content) {            
-            $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
-        }
-            
         $AntdColumn = @{
-            assetId         = $AssetId 
-            isPlugin        = $true 
-            type            = "ud-antd-col"
-            id              = $Id
-            className       = $ClassName
-            style           = $Style
-            offset          = $Offset
-            order           = $Order
-            pull            = $Pull
-            push            = $Push
-            span            = $Span
-            xs              = $Xs
-            sm              = $Sm
-            md              = $Md
-            lg              = $Lg
-            xl              = $Xl
-            xxl             = $Xxl
-            autoRefresh     = $AutoRefresh.IsPresent
-            refreshInterval = $RefreshInterval
+            assetId  = $AssetId 
+            isPlugin = $true 
+            type     = "ud-antd-col"
+            id       = $Id
+            offset   = $Offset
+            order    = $Order
+            pull     = $Pull
+            push     = $Push
+            span     = $Span
+            xs       = $Xs
+            sm       = $Sm
+            md       = $Md
+            lg       = $Lg
+            xl       = $Xl
+            xxl      = $Xxl
+            flex     = $Flex
+            content  = $Content.Invoke()
         }
         $AntdColumn.PSTypeNames.Insert(0, "Ant.Design.Column")
         $AntdColumn

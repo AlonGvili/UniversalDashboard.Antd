@@ -2,9 +2,8 @@ import React, { useState, Fragment } from "react";
 import { Radio } from "antd";
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
-const AntdRadioButton = props => {
-    const [state, reload] = useDashboardEvent(props.id, props);
-    const { content, attributes } = state;
+const AntdRadioButton = ({ id, ...props }) => {
+    const [{ content, attributes }] = useDashboardEvent(id, props);
     const [checked, setChecked] = useState(attributes.defaultChecked);
 
     const onChange = event => {
@@ -16,13 +15,9 @@ const AntdRadioButton = props => {
             value={attributes.value}
             onChange={onChange}
             checked={checked}
-            key={attributes.id}
+            key={id}
         >
-            <Fragment>
-                {content.map(item =>
-                    item.type ? UniversalDashboard.renderComponent(item) : item
-                )}
-            </Fragment>
+            {UniversalDashboard.renderComponent(content)}
         </Radio.Button>
     );
 };

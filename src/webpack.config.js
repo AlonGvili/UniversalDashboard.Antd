@@ -1,29 +1,13 @@
-var webpack = require("webpack")
-var path = require("path")
-var TerserPlugin = require("terser-webpack-plugin")
+const webpack = require("webpack")
+const path = require("path")
+const TerserPlugin = require("terser-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
+const AntdThemePlugin = require('antd-theme/plugin')
 const darkTheme = require("@ant-design/dark-theme")
-// const lightTheme = require("@ant-design/aliyun-theme").default
-// const AntDesignThemePlugin = require("antd-theme-webpack-plugin")
-
-// const options = {
-// 	antDir: path.join(__dirname, "./node_modules/antd"),
-// 	stylesDir: path.join(__dirname, "./components/styles"),
-// 	varFile: path.join(__dirname, "./components/styles/variables.less"),
-// 	mainLessFile: path.join(__dirname, "./components/styles/index.less"),
-// 	themeVariables: ["@primary-color"],
-// 	indexFileName: "index.html",
-// 	generateOnce: false,
-// 	lessUrl: "less.js",
-// 	publicPath: "",
-// 	customColorRegexArray: [], // An array of regex codes to match your custom color variable values so that code can identify that it's a valid color. Make sure your regex does not adds false positives.
-// }
-
-// const themePlugin = new AntDesignThemePlugin(options)
-
-var BUILD_DIR = path.resolve(__dirname, "public")
-var SRC_DIR = path.resolve(__dirname)
-var APP_DIR = path.resolve(__dirname, "src/app")
+const BUILD_DIR = path.resolve(__dirname, "public")
+const SRC_DIR = path.resolve(__dirname)
+const APP_DIR = path.resolve(__dirname, "src/app")
 
 module.exports = {
 	mode: "production",
@@ -49,18 +33,7 @@ module.exports = {
 			maxInitialRequests: 2,
 			automaticNameDelimiter: "-",
 			automaticNameMaxLength: 15,
-			name: true,
-			cacheGroups: {
-				vendors: {
-					test: /[\\/]node_modules[\\/]/,
-					priority: -10,
-				},
-				default: {
-					minChunks: 2,
-					priority: -20,
-					reuseExistingChunk: true,
-				},
-			},
+			name: true
 		},
 		removeEmptyChunks: true,
 		noEmitOnErrors: false,
@@ -103,22 +76,17 @@ module.exports = {
 				test: /\.less$/,
 				use: [
 					{
-						loader: "style-loader",
+						loader: AntdThemePlugin.loader,
 					},
 					{
-						loader: "css-loader",
+						loader: 'css-loader',
 					},
 					{
-						loader: "less-loader",
+						loader: 'less-loader',
 						options: {
 							lessOptions: {
-								modifyVars: {
-									...darkTheme.default,
-									
-									"@primary-color": "#642ab5"
-								},
 								javascriptEnabled: true,
-							},
+							}
 						},
 					},
 				],
@@ -136,7 +104,21 @@ module.exports = {
 			template: path.resolve(SRC_DIR, "index.html"),
 			chunksSortMode: "none",
 		}),
-		// themePlugin,
+		new AntdDayjsWebpackPlugin(),
+		new AntdThemePlugin({
+			// Variables declared here can be modified at runtime
+			variables: ['primary-color'],
+			themes: [
+			  {
+				name: 'dark',
+				filename: require.resolve('antd/lib/style/themes/dark.less'),
+			  },
+			  {
+				name: 'compact',
+				filename: require.resolve('antd/lib/style/themes/compact.less'),
+			  },
+			],
+		  })
 	],
 	externals: {
 		UniversalDashboard: "UniversalDashboard",

@@ -13,9 +13,8 @@ export default function AntdCarousel({ id, ...props }) {
       eventData: JSON.stringify(current),
     })
   }
-
   const [{ attributes }] = useDashboardEvent(props.id, props);
-  const { autoRefresh, refreshInterval, hasCallback } = attributes
+  const { autoRefresh, refreshInterval, hasCallback } = attributes 
   const { data, status, error } = useCarousel(id, autoRefresh, refreshInterval)
 
   if (status === "error") return <Alert message={error.message} type="error"  />

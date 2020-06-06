@@ -1,5 +1,4 @@
 import { Button, Result, Space } from "antd";
-
 import React from "react";
 import { useHistory } from "react-router-dom";
 

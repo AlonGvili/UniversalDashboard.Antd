@@ -9,7 +9,7 @@ export default function AntdButton ({ id, ...props }) {
 	const onClick = () => {
 		UniversalDashboard.publish("element-event", {
 			type: "clientEvent",
-			eventId: id + "onClick",
+			eventId: id ,
 			eventName: "onClick",
 			eventData: "",
 		})

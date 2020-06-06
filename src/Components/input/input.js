@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Input } from "antd";
 // import 'antd/es/input/style/index.css'
 
-const UDAntdInput = ({prefix,suffix,addonAfter,addonBefore, ...props}) => {
+const UDAntdInput = ({ prefix, suffix, addonAfter, addonBefore, ...props }) => {
 
   const prefix_suffix = {
     prefix: prefix && UniversalDashboard.renderComponent(prefix),
@@ -19,7 +19,7 @@ const UDAntdInput = ({prefix,suffix,addonAfter,addonBefore, ...props}) => {
       {...props}
       {...addons}
       {...prefix_suffix}
-      type="text"
+      className={`custom-input`}
     />
   );
 };

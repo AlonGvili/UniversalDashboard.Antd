@@ -8,7 +8,7 @@ export default function AntdList({ id, ...props }) {
   const { autoRefresh, refreshInterval, header, ...restOfProps } = attributes;
   const { data, status, error } = useList(id, autoRefresh, refreshInterval)
 
-  if (status === "error") return <Alert message="Error in AntdProgress component" description={error.message} type="error" />
+  if (status === "error") return <Alert message={error.message} type="error" />
 
   return (
     <List

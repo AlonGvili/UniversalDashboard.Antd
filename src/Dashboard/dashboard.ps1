@@ -203,7 +203,7 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 New-UDAntdTimeLineItem -Color "red" -Dot ( New-UDAntdIcon -Icon GithubOutlined -Size xs ) -Content {
                     New-UDAntdCard -MetaTitle "Time line card" -MetaDescription "Just Do It." -Bordered
                 }
-            } -Id "timeline" -IsEndpoint -AutoRefresh -RefreshInterval 8000
+            } -Id "timeline" -IsEndpoint 
 
             $Cache:Titem = 0
             New-UDAntdButton -Label "Add Item" -OnClick {
@@ -358,5 +358,6 @@ New-UDDashboard -Title "Dashboard" -Pages @(
                 New-UDAntdIcon -Icon FileSearchOutlined
             ) -Text "AutoComplete"  -To "/AutoComplete" 
         }
+        New-UDAntdThemeChanger
     }
 )

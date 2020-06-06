@@ -1,9 +1,11 @@
 import React from "react";
 import { Space } from 'antd'
+import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 
-export default ({ size, direction, content }) => {
+export default ({ id, ...props }) => {
+  const [{ content, attributes }] = useDashboardEvent(id, props)
   return (
-    <Space  direction={direction} size={size}>
+    <Space {...attributes}>
       {UniversalDashboard.renderComponent(content)}
     </Space>
   );

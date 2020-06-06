@@ -90,7 +90,7 @@ const AntdInputPassword = lazy(
 	() => import(/* webpackChunkName: 'AntdInputPassword' */ "./input/password")
 )
 const AntdIcon = lazy(
-	() => import(/* webpackChunkName: 'AntdIcon' */ "./icon/antdIcon")
+	() => import(/* webpackChunkName: 'AntdIcon' */ "./icon/icon")
 )
 const AntdRadio = lazy(
 	() => import(/* webpackChunkName: 'AntdRadio' */ "./radio/radio")
@@ -191,6 +191,15 @@ const AntdAvatarList = lazy(
 const AntdCalendar = lazy(
 	() => import(/* webpackChunkName: 'AntdCalendar' */ "./charts/calendar")
 )
+const AntdSpace = lazy(
+	() => import(/* webpackChunkName: 'AntdSpace' */ "./space/space")
+)
+const AntdDivider = lazy(
+	() => import(/* webpackChunkName: 'AntdDivider' */ "./divider/divider")
+)
+const AntdThemeColorChanger = lazy(
+	() => import(/* webpackChunkName: 'AntdThemeColorChanger' */ "./framework/core/theme/themeColorChanger")
+)
 
 export default function registerComponents() {[
 			{ type: "ud-antd-row", component: AntdRow },
@@ -256,6 +265,9 @@ export default function registerComponents() {[
 			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
 			{ type: "ud-antd-avatar-list", component: AntdAvatarList },
 			{ type: "ud-antd-charts-calendar", component: AntdCalendar },
+			{ type: "ud-antd-space", component: AntdSpace },
+			{ type: "ud-antd-divider", component: AntdDivider },
+			{ type: "ud-antd-theme-color-changer", component: AntdThemeColorChanger },
 		].forEach(
 			({ type, component }) => UniversalDashboard.register(type, component)
 		)
@@ -265,16 +277,17 @@ registerComponents()
 import AntDesign from "./api/dashboard"
 
 
-UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, footer } }) => {
+UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, footer, theme } }) => {
 	return (
 		<ReactQueryConfigProvider 
 			config={{
-				refetchAllOnWindowFocus: false, 
 				refetchOnWindowFocus: false, 
-				refetchIntervalInBackground:true
+				refetchIntervalInBackground:true,
+				useErrorBoundary: true,
+				suspense: true
 			}}>
 			<Suspense fallback={null}>
-				<AntDesign appbar={appbar} sidebar={sidebar} footer={footer}/>
+				<AntDesign appbar={appbar} sidebar={sidebar} footer={footer} theme={theme}/>
 			</Suspense>
 		</ReactQueryConfigProvider>
 	)

@@ -741,7 +741,9 @@ function New-UDAntdIcon {
         [Parameter()]
         [object]$OnClick,
         [Parameter()]
-        [string]$Id = (New-Guid).ToString()
+        [string]$Id = (New-Guid).ToString(),
+        [Parameter()]
+        [string]$PrimaryColor
     )
 
     End {
@@ -756,13 +758,15 @@ function New-UDAntdIcon {
         }
 
         $AntDesignIcon = @{
-            assetId     = $AssetId 
-            isPlugin    = $true 
-            type        = "ud-antd-icon"
-            id          = $Id
-            name        = $Icon
-            size        = $Size
-            hasCallback = $null -ne $OnClick
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-icon"
+            id           = $Id
+            name         = $Icon
+            isTwoTone    = $Icon.Contains("TwoTone")
+            size         = $Size
+            hasCallback  = $null -ne $OnClick
+            primaryColor = $PrimaryColor
         }
         $AntDesignIcon.PSTypeNames.Insert(0, 'Ant.Design.Icon')
         $AntDesignIcon

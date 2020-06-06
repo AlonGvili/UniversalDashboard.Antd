@@ -14,29 +14,25 @@ const importJavascript = (component, setLoading) => {
 export default function LazyElement({ component }) {
     const [loading, setLoading] = React.useState(true)
     const [error, setError] = React.useState(null)
-    const componentRef = React.useRef()
     const history = useHistory()
 
     React.useEffect(() => {
         try {
             importJavascript(component, setLoading)
-
             if (loading) {
-                return <Spin spinning={!element} size="small" />
+                return <Spin spinning={!element} size="default" tip={`Loading component ${component.type}`}/>
             }
         }
         catch (err) {
             setError(err)
-            return <Alert.ErrorBoundary ref={componentRef} message={
-                `There was an error rendering component of type ${component.type}. ${error}`
-            } description={error.message} />
+            return <Alert description={`There was an error rendering component of type ${component.type}. ${error}`} type="error" />
         }
     }, [setLoading])
 
     let element = renderComponent(component, history, true)
 
-    if (element == null) {
-        return <Alert.ErrorBoundary ref={componentRef} message={`Component not registered: ${component.type}`} />
+    if (element === null) {
+        return <Alert description={`Component not registered: ${component.type}`} type="error"/>
     }
 
     return element

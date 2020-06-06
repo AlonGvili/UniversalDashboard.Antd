@@ -6,8 +6,7 @@ import useProgress from "./useProgress"
 export default function AntdProgress({ id, ...props }) {
     const [{ attributes }] = useDashboardEvent(id, props)
     const { autoRefresh, refreshInterval, variant: type, type: udType, ...rest } = attributes
-    const {data, status, error} = useProgress(id, autoRefresh, refreshInterval)
-
-    if (status === "error") return <Alert message="Error in AntdProgress component" description={error.message} type="error" />
+    const { data, status, error } = useProgress(id, autoRefresh, refreshInterval)
+    if (status === "error") return <Alert message={error.message} type="error" />
     return <Progress id={id} {...rest} type={type} percent={data} />
 }

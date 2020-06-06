@@ -3,38 +3,64 @@ import { Input, Empty, AutoComplete } from "antd";
 import matchSorter from 'match-sorter'
 import useDashboardEvent from "../api/Hooks/useDashboardEvent";
 import useAutoComplete from "./useAutoComplete";
+import { useDebounce } from '@umijs/hooks';
 
 export default function AntdAutoComplete({ id, ...props }) {
   const [dataSource, setDataSource] = React.useState([])
   const [{ attributes }] = useDashboardEvent(id, props)
-  const { autoRefresh, refreshInterval, filterKeys, placeholder, size, ...restOfProps } = attributes
-  const { data, error, status } = useAutoComplete(id, autoRefresh, refreshInterval)
+  const { autoRefresh, refreshInterval, filterKeys, customInput, suffixIcon, ...restOfProps } = attributes
+  const { data, error, status, isFetching } = useAutoComplete(id, autoRefresh, refreshInterval)
+  const debouncedData = useDebounce(dataSource, 500)
 
-  const onSelect = (value, option) => {
-    console.log("selected", { value: value, option:{ ...option, children: data[option.key] } })
+  // callback to run on item select.
+  const onSelect = (value) => {
+    let selectedOption = filterKeys.map(fk => data.find(i => i[fk] === value))[0]
     UniversalDashboard.publish("element-event", {
       type: "clientEvent",
       eventId: id + "OnSelect",
       eventName: "onSelect",
-      eventData: JSON.stringify({ value, option: data[option.key] })
+      eventData: JSON.stringify(selectedOption)
     });
   };
 
   // filter the options base on the input text and return new array of the results.
   const onChange = value => {
-    let filtered = filterOptions(value).map((item,index) => <AutoComplete.Option title={item.name} value={item.name} children={item.name} key={index}/>)
-    setDataSource(filtered)
-  }
-  // basic filter function using matchSorter module, this need more work.
-  const filterOptions = value => {
-    return value && matchSorter(data, value, { keys: filterKeys }) || data
+    let filtered = filterOptions(value)
+    let options = filtered.map(
+      (item) => ({
+        value: item.name,
+        text: item.name
+      })
+    )
+    UniversalDashboard.publish("element-event", {
+      type: "clientEvent",
+      eventId: id + "OnChange",
+      eventName: "onChange",
+      eventData: JSON.stringify(filtered)
+    })
+    setDataSource(options)
   }
 
+  // basic filter function using matchSorter module, this need more work.
+  const filterOptions = value => {
+    let results = value && matchSorter(data, value, { keys: filterKeys }) 
+    if(results.length < 1) return data
+    else return results
+  }
+
+  // testing for errors in the react-query part from useAutoComplete function.
   if (status === "error") return <Alert message={error.message} type="error" />
 
   return (
-    <AutoComplete onChange={onChange} onSelect={onSelect} dataSource={dataSource} dropdownMatchSelectWidth={true}>
-      <Input.Search placeholder={placeholder} size={size} enterButton/>
+    <AutoComplete
+      {...restOfProps}
+      suffixIcon={suffixIcon && UniversalDashboard.renderComponent(suffixIcon)}
+      loading={isFetching}
+      onChange={onChange}
+      onSelect={onSelect}
+      dataSource={debouncedData}
+    >
+      {customInput && UniversalDashboard.renderComponent(customInput) || <Input />}
     </AutoComplete>
   )
 }

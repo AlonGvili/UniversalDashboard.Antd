@@ -4,14 +4,13 @@ import React, { useState } from "react"
 import { Menu, Space } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import { Link, useLocation } from "react-router-dom"
-import { useIsDarkMode } from "../framework/core/darkmode/darkMode"
+import { useTheme } from 'antd-theme';
 
 const AntdMenu = props => {
+	const [{ name }] = useTheme();
 	const [state] = useDashboardEvent(props.id, props)
 	const { content, attributes } = state
 	const [current, setCurrent] = useState([])
-	let location = useLocation()
-	const darkMode = useIsDarkMode()
 
 	const renderMenuLink = item => (
 		<Menu.Item>
@@ -44,14 +43,18 @@ const AntdMenu = props => {
 			: (item.to && renderMenuLink(item)) || renderMenuContent(item)
 	)
 
+	const onClick = (key, item) => {
+		setCurrent(key)
+	}
+
 	return (
 		<Menu
 			mode={attributes.mode}
 			id={attributes.id}
 			defaultOpenKeys={[attributes.defaultOpenKeys]}
 			selectedKeys={[current]}
-			onClick={({ key }) => setCurrent(key)}
-			theme={darkMode ? "dark" : "light"}
+			onClick={({ key, item }) => onClick(key, item)}
+			theme={name === "dark" ? "dark" : "light"}
 			forceSubMenuRender={true}
 		>
 			{items}

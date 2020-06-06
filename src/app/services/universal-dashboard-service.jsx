@@ -19,8 +19,8 @@ function isString (obj) {
 }
 
 const renderComponent = (component, history, dynamicallyLoaded) => {
-    if (component == null) return <React.Fragment />;
-    if (isEmpty(component)) return <React.Fragment />;
+    if (component == null) return null;
+    if (isEmpty(component)) return null;
 
     if (component.$$typeof === Symbol.for('react.element'))
     {
@@ -42,7 +42,7 @@ const renderComponent = (component, history, dynamicallyLoaded) => {
         }
     }
 
-    if (component.type == null) return <React.Fragment />;
+    if (component.type == null) return null;
 
     var existingComponent = components.find(x => x.type === component.type);
     if (existingComponent != null) {

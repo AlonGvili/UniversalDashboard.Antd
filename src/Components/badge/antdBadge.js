@@ -1,11 +1,13 @@
 import React from "react"
 import { Badge } from "antd"
+import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-function AntdBadge({ content, color }) {
+function AntdBadge({ id, ...props }) {
+	const [{ content, attributes }] = useDashboardEvent(id, props)
 	return (
-		<div>
-			<Badge color={color}>{UniversalDashboard.renderComponent(content)}</Badge>
-		</div>
+		<Badge {...attributes}>
+			{content && UniversalDashboard.renderComponent(content)}
+		</Badge>
 	)
 }
 AntdBadge.displayName = "AntdBadge"

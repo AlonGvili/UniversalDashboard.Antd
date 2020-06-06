@@ -5,48 +5,44 @@ function New-UDAntdAutoComplete {
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
-        [Parameter()]
+        [Parameter(HelpMessage = "style for the autocomplete component")]
         [hashtable]$Style,
-        [Parameter()]
+        [Parameter(HelpMessage = "style of the default input component")]
         [hashtable]$InputStyle,
-        [Parameter()]
+        [Parameter(HelpMessage = "Custom input component instad of the default")]
         [object]$CustomInput,
-        [Parameter()]
+        [Parameter(HelpMessage = "style of dropdown menu")]
         [hashtable]$DropDownStyle,
+        [Parameter(HelpMessage = "Show clear button")]
+        [switch]$AllowClear,
         [Parameter()]
-        [hashtable]$DropDownMenuStyle,
-        [Parameter()]
-        [switch]$allowClear,
-        [Parameter()]
-        [switch]$autoFocus,
-        [Parameter()]
-        [switch]$backfill,
-        [Parameter(Mandatory)]
-        [scriptblock]$dataSource,
-        [Parameter()]
-        [switch]$defaultActiveFirstOption,
-        [Parameter()]
-        [string]$defaultValue,
-        [Parameter()]
-        [switch]$disabled,
-        [Parameter()]
+        [switch]$AutoFocus,
+        [Parameter(HelpMessage = "backfill selected item the input when using keyboard")]
+        [switch]$Backfill,
+        [Parameter(Mandatory, HelpMessage = "An array of objects, DataSource is a UDEndpoint and NOT static scriptblock, you Can Not change this and every object in the dataSource array must have a name property")]
+        [scriptblock]$DataSource,
+        [Parameter(HelpMessage = "Whether the component is disabled")]
+        [switch]$Disabled,
+        [Parameter(HelpMessage = "Determine whether the dropdown menu and the select input are the same width")]
+        [switch]$DropdownMatchSelectWidth,
+        [Parameter(HelpMessage = "An array of words that will be used to filter the data when you type")]
         [string[]]$FilterKeys,
-        [Parameter()]
-        [string]$optionLabelProp,
-        [Parameter()]
-        [ValidateSet("small","middle","large")]
+        [Parameter(HelpMessage = "The custom suffix icon")]
+        [object]$Suffix,
+        [Parameter(HelpMessage = "whether has border style")]
+        [switch]$Bordered,
+        [Parameter(HelpMessage = "Size of Select input")]
+        [ValidateSet("small", "middle", "large")]
         [string]$Size = "middle",
-        [Parameter()]
-        [scriptblock]$onSelect,
-        [Parameter()]
-        [switch]$defaultOpen,
-        [Parameter()]
-        [switch]$open,
-        [Parameter()]
+        [Parameter(HelpMessage = "Called when a option is selected, the return data is in EventData variable and it contain only the selected object")]
+        [scriptblock]$OnSelect,
+        [Parameter(HelpMessage = "Called when value of input is changed, the return data is in EventData variable and it contain only the filtered results")]
+        [scriptblock]$OnChange,
+        [Parameter(HelpMessage = "The placeholder text")]
         [string]$Placeholder = "Enter your search",
-        [Parameter()]
+        [Parameter(HelpMessage = "Whether the DataSource scriptblock should auto-refresh. The default interval is every 5 seconds")]
         [switch]$AutoRefresh,
-        [Parameter()]
+        [Parameter(HelpMessage = "How often the DataSource scriptblock refreshes")]
         [int]$RefreshInterval = 5000
     )
 
@@ -60,6 +56,10 @@ function New-UDAntdAutoComplete {
             $OnSelectEndpoint = New-UDEndpoint -Endpoint $onSelect  -Id ( $Id + "OnSelect")
         }
 
+        if ($null -ne $onChange) {
+            $OnChangeEndpoint = New-UDEndpoint -Endpoint $onChange  -Id ( $Id + "OnChange")
+        }
+
         $UDAntdAutoComplete = @{
             assetId                  = $AssetId
             isPlugin                 = $true
@@ -67,24 +67,24 @@ function New-UDAntdAutoComplete {
             id                       = $Id
             style                    = $Style
             inputStyle               = $InputStyle
-            dropDownStyle            = $DropDownStyle
-            dropdownMenuStyle        = $DropDownMenuStyle
+            dropDownStyle            = $DropDownStyle   
             allowClear               = $allowClear.IsPresent
             autoFocus                = $autoFocus.IsPresent
             backfill                 = $backfill.IsPresent
-            content                  = $DataSourceContent
-            defaultActiveFirstOption = $defaultActiveFirstOption.IsPresent
-            defaultValue             = $defaultValue
             disabled                 = $disabled.IsPresent
-            customInput              = $CustomInput
             filterKeys               = $FilterKeys
             placeholder              = $Placeholder
-            optionLabelProp          = $optionLabelProp
             size                     = $Size
-            defaultOpen              = $defaultOpen.IsPresent
-            open                     = $open.IsPresent
+            suffixIcon               = $Suffix
+            virtual                  = $true
+            bordered                 = $Bordered.IsPresent
+            dropdownMatchSelectWidth = $DropdownMatchSelectWidth
             autoRefresh              = $AutoRefresh.IsPresent
             refreshInterval          = $RefreshInterval
+        }
+
+        if ($PSBoundParameters.ContainsKey("CustomInput")) {
+            $UDAntdAutoComplete.Add("customInput", $CustomInput)
         }
         $UDAntdAutoComplete.PSTypeNames.Insert(0, 'Ant.Design.AutoComplete')
         $UDAntdAutoComplete

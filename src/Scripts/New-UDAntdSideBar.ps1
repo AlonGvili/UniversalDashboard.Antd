@@ -52,8 +52,8 @@ function New-UDAntdSideBar {
             className      = $ClassName
             style          = $Style
             hasCallback    = $null -ne $Content
-            content = $Content.Invoke()
-            visible = $Visible.IsPresent
+            content        = $Content.Invoke()
+            visible        = $Visible.IsPresent
         }
         $UDAntdSider.PSTypeNames.Insert(0, 'Ant.Design.SideBar')
         $UDAntdSider

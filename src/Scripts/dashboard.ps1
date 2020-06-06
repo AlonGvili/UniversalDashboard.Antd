@@ -12,7 +12,7 @@ function New-UDDashboard{
         [Parameter(ParameterSetName = "Configuration")]
         [Hashtable[]]$Configuration = @(),
         [Parameter()]
-        [hashtable[]]$Theme = @(),
+        [hashtable[]]$Theme = @{primaryColor = "#13c2c2"},
         [Parameter()]
         [object]$AppBar,
         [Parameter()]
@@ -32,16 +32,16 @@ function New-UDDashboard{
     $Cache:AppBar = $AppBar
     $Cache:SideBar = $SideBar
 
-    New-UDEndpoint -Id "pages" -Method GET -Url "/pages" -Endpoint {
+    New-UDEndpoint -Id "pages" -Endpoint {
         $Cache:Pages
-    } | Out-Null
-
-    New-UDEndpoint -Id "configuration" -Endpoint {
-        $Cache:Configuration
     } | Out-Null
 
     New-UDEndpoint -Id "theme" -Endpoint {
         $Cache:Theme
+    } | Out-Null
+
+    New-UDEndpoint -Id "config" -Endpoint {
+        $Cache:Configuration
     } | Out-Null
 
     New-UDEndpoint -Id "appbar" -Endpoint {

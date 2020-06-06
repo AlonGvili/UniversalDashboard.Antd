@@ -12,23 +12,23 @@ function New-UDAntdButton {
         [Parameter()]
         [switch]$Ghost,
         [Parameter()]
-        [ValidateSet("button","submit","reset")]
+        [ValidateSet("button", "submit", "reset")]
         [string]$HtmlType,
         [Parameter()]
         [object]$Icon,
         [Parameter()]
         [switch]$Loading,
         [Parameter()]
-        [ValidateSet("circle","round")]
+        [ValidateSet("circle", "round")]
         [string]$Shape,
         [Parameter()]
-        [ValidateSet("small","large")]
+        [ValidateSet("small", "large")]
         [string]$Size,
         [Parameter()]
-        [ValidateSet("primary","ghost","dashed","danger","link")]
+        [ValidateSet("primary", "ghost", "dashed", "danger", "link")]
         [string]$ButtonType,
         [Parameter()]
-        [object]$OnClick,
+        [scriptblock]$OnClick,
         [Parameter()]
         [switch]$FullWidth,
         [Parameter()]
@@ -38,32 +38,27 @@ function New-UDAntdButton {
     )
     End {
         if ($null -ne $OnClick) {
-            if ($OnClick -is [scriptblock]) {
-                $OnClick = New-UDEndpoint -Endpoint $OnClick -Id ($Id + "onClick")
-            }
-            elseif ($OnClick -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "OnClick must be a script block or UDEndpoint"
-            }
+            New-UDEndpoint -Endpoint $OnClick -Id $Id | Out-Null
         }
 
         $UDAntdButton = @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-button"
-            id = $Id
-            className = $ClassName
-            disabled = $Disabled.IsPresent
-            ghost = $Ghost.IsPresent
-            htmlType = $HtmlType
-            icon = $Icon
-            loading = $Loading.IsPresent
-            shape = $Shape
-            size = $Size
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-button"
+            id          = $Id
+            className   = $ClassName
+            disabled    = $Disabled.IsPresent
+            ghost       = $Ghost.IsPresent
+            htmlType    = $HtmlType
+            icon        = $Icon
+            loading     = $Loading.IsPresent
+            shape       = $Shape
+            size        = $Size
             hasCallback = $null -ne $OnClick
-            buttonType = $ButtonType
-            block = $FullWidth.IsPresent
-            label = $Label
-            style = $Style
+            buttonType  = $ButtonType
+            block       = $FullWidth.IsPresent
+            label       = $Label
+            style       = $Style
         }
         $UDAntdButton.PSTypeNames.Insert(0, 'Ant.Design.Button')
         $UDAntdButton

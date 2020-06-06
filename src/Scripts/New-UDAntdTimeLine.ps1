@@ -23,7 +23,7 @@ function New-UDAntdTimeLine {
         [string]$ClassName,
         [Parameter()]
         [switch]$Reverse,
-        [Parameter()]
+        [Parameter(Mandatory)]
         [scriptblock]$Content,
         [Parameter()]
         [switch]$IsEndpoint,
@@ -32,7 +32,7 @@ function New-UDAntdTimeLine {
         [Parameter()]
         [int]$RefreshInterval = 5000,
         [Parameter()]
-        [ValidateSet("left","alternate","right")]
+        [ValidateSet("left", "alternate", "right")]
         [string]$Mode,
         [Parameter()]
         [hashtable]$Style
@@ -41,29 +41,23 @@ function New-UDAntdTimeLine {
 
     End {
 
-        if ($IsEndpoint.IsPresent) {
-            if ($Content -is [scriptblock]) {
-                $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id
-            }
-            elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "Content must be a script block or UDEndpoint"
-            }
+        if ($IsEndpoint.IsPresent -and $null -ne $Content) {
+            New-UDEndpoint -Endpoint $Content -Id $Id  | Out-Null
         }
         
 
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-timeline"
-            id = $Id
-            className = $ClassName
-            isEndpoint = $IsEndpoint
-            autoRefresh = $AutoRefresh.IsPresent
+            assetId         = $AssetId 
+            isPlugin        = $true 
+            type            = "ud-antd-timeline"
+            id              = $Id
+            isEndpoint      = $IsEndpoint.IsPresent
+            autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
-            mode = $Mode
-            content = $Content.Invoke()
-            reverse = $Reverse
-            style = $Style
+            mode            = $Mode
+            content         = $Content.Invoke()
+            reverse         = $Reverse
+            style           = $Style
         }
 
     }

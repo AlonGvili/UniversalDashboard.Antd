@@ -5,15 +5,15 @@ function New-UDAntdBadge {
     param(
         [Parameter()]
         [ValidateSet('success', 'processing', 'default', 'error', 'warning')]
-        [string]$Status,
+        [string]$Status = "default",
         [Parameter()]
         [string]$Text,  
         [Parameter()]
         [int]$OverflowCount = 9999,
         [Parameter()]
-        [object]$Count,
+        [object]$Count = 0,
         [Parameter()]
-        [string]$Variant,
+        [hashtable]$Style,
         [Parameter()]
         [switch]$ShowZero,
         [Parameter()]
@@ -24,8 +24,6 @@ function New-UDAntdBadge {
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
         [int[]]$OffSet,
         [Parameter()]
         [object]$Content
@@ -34,25 +32,49 @@ function New-UDAntdBadge {
     End {
             
         $UDAntdBadge = @{
-            assetId          = $AssetId 
-            isPlugin         = $true 
-            type             = "ud-antd-badge"
-            id               = $Id
-            # className        = $ClassName
-            # offset           = $OffSet
-            # showZero         = $ShowZero.IsPresent
-            dot              = $Dot.IsPresent
-            # overflowCount    = $OverflowCount
-            # count            = $Count
-            # status           = $Status
-            color            = $PresetColor
-            # variant            = $Variant
-            # title            = $Title
-            text             = $Text   
-            content          = $Content
+            assetId  = $AssetId 
+            isPlugin = $true 
+            type     = "ud-antd-badge"
+            id       = $Id
+            content  = $Content
+            offset   = $Offset
         }
+    
+        if ($PSBoundParameters.ContainsKey("Count") -and $PSBoundParameters.ContainsKey("Content")) {
+            $UDAntdBadge.Add("count", $Count)
+            $UDAntdBadge.Add("style", $Style)
+            $UDAntdBadge.Add("showZero", $ShowZero.IsPresent)
+            $UDAntdBadge.Add("overflowCount", $OverflowCount)
+        }
+        if ($PSBoundParameters.ContainsKey("Status")) {
+            $UDAntdBadge.Remove("Content") 
+            $UDAntdBadge.Add("text", $Text)
+            $UDAntdBadge.Add("status", $Status)
+        }
+        if ($PSBoundParameters.ContainsKey("Text") -and $PSBoundParameters.ContainsKey("PresetColor")) {
+            $UDAntdBadge.Remove("Content") 
+            $UDAntdBadge.Add("text", $Text)
+            $UDAntdBadge.Add("color", $PresetColor)
+        }
+        if ($PSBoundParameters.ContainsKey("Text") -and $PSBoundParameters.ContainsKey("Color")) {
+            $UDAntdBadge.Remove("Content") 
+            $UDAntdBadge.Add("text", $Text)
+            $UDAntdBadge.Add("color", $Color)
+        }
+        if ($PSBoundParameters.ContainsKey("Content") -and $PSBoundParameters.ContainsKey("Dot")) {
+            $UDAntdBadge.Add("dot", $Dot.IsPresent)
+            $UDAntdBadge.Add("count", $Count)
+        }
+        if ($PSBoundParameters.ContainsKey("Content") -and $PSBoundParameters.ContainsKey("PresetColor")) {
+            $UDAntdBadge.Add("color", $PresetColor)
+        }
+        if ($PSBoundParameters.ContainsKey("Count") -and (-not($PSBoundParameters.ContainsKey("Content")))) {
+            $UDAntdBadge.Add("count", $Count)
+            $UDAntdBadge.Add("style", $Style)
+            $UDAntdBadge.Remove("Content")
+        }
+
         $UDAntdBadge.PSTypeNames.Insert(0, 'Ant.Design.Badge')
         $UDAntdBadge
-
     }
 }

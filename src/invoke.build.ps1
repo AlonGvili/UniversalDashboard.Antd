@@ -30,6 +30,17 @@ task MergePsm1 {
         Tags              = @("universaldashboard")
         ReleaseNotes      = "First release"
         FunctionsToExport = @(
+            # UD Basic functions
+            "New-UDElement"
+            "Get-UDElement"
+            "Add-UDElement"
+            "Set-UDElement"
+            "Clear-UDElement"
+            "Remove-UDElement"
+            "Select-UDElement"
+            "Sync-UDElement"
+
+            # AntDesign functions
             "New-UDAntdColumn"
             "New-UDAntdRow"
             "New-UDAntdButton"
@@ -84,9 +95,9 @@ task MergePsm1 {
             "New-UDAntdPage"
             "New-UDAntdRoute"
             "New-UDAntdResult"
-            "Get-UDAntdPageHeader"
-            "Get-UDAntdTag"
-            "Get-UDAntdTagCheckable"
+            "New-UDAntdPageHeader"
+            "New-UDAntdTag"
+            "New-UDAntdTagCheckable"
             "New-UDAntdConfiguration"
             "New-UDAntdHeaderAccountSettings"
             "New-UDAntdNavigationItem"
@@ -105,6 +116,10 @@ task MergePsm1 {
             "New-UDAntdSideBar"
             "Add-UDAntdPage"
             "New-UDAntdCalendar"
+            "New-UDAntdSpace"
+            "New-UDAntdDivider"
+            "New-UDAntdThemeChanger"
+            "New-UDAntdCountdown"
         )
     }
     

@@ -1,11 +1,11 @@
 import React from "react"
-
 import { getApiPath } from "./config.jsx"
 import PubSub from "pubsub-js"
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
+import { HubConnectionBuilder, LogLevel, Subject, HubConnection } from "@microsoft/signalr"
 import { useLocation, useHistory } from "react-router-dom"
 import { getMeta } from "../Components/framework/meta.js"
 import { queryCache } from "react-query"
+import { getPages } from "../Components/framework/pages/usePages.js"
 
 const dashboardId = getMeta("ud-dashboard")
 
@@ -16,7 +16,7 @@ function connectWebSocket(sessionId, history) {
 	connection = new HubConnectionBuilder()
 		.withUrl(getApiPath() + `/dashboardhub?dashboardId=${dashboardId}`)
 		.configureLogging(LogLevel.Information)
-		.withAutomaticReconnect([15000,30000,60000,300000])
+		.withAutomaticReconnect([0,0,60000,300000])
 		.build()
 
 	connection.on("reload", data => {
@@ -170,7 +170,7 @@ function loadJavascript(url, onLoad) {
 const loadData = (setDashboard, history, location) => {
 	UniversalDashboard.get("/api/internal/dashboard", json => {
 		var dashboard = json.dashboard
-		// queryCache.setQueryData("pages", dashboard.pages)
+		queryCache.setQueryData("pages",dashboard.pages)
 		connectWebSocket(json.sessionId, location, history)
 		UniversalDashboard.sessionId = json.sessionId
 		UniversalDashboard.design = dashboard.design
@@ -186,7 +186,7 @@ function Dashboard() {
 	let location = useLocation()
 	React.useEffect(() => {
 		loadData(setDashboard, history, location)
-	}, [dashboardId])
+	},[UniversalDashboard.sessionId])
 	if (!dashboard) return null
 	return UniversalDashboard.renderDashboard({
 		dashboard,

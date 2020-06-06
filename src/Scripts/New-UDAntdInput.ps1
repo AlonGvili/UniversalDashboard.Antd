@@ -32,8 +32,6 @@ function New-UDAntdInput {
             assetId = $AssetId 
             isPlugin = $true 
             type = "ud-antd-input"
-            id = $Id
-            className = $ClassName
             disabled = $Disabled.IsPresent
             allowClear = $AllowClear.IsPresent
             size = $Size

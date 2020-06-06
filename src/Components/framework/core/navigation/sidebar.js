@@ -2,15 +2,17 @@ import React from "react"
 import { Layout, Alert } from "antd"
 import { useIsOpen, useCollapsed } from "./sidebarStore"
 import useSidebar from "./useSidebar"
-import { useIsDarkMode } from "../darkmode/darkMode"
 import useDashboardEvent from "../../../api/Hooks/useDashboardEvent"
+import { useTheme } from 'antd-theme';
 
 export default function AntdSideBar({ id, ...props }) {
+	const [{ name }] = useTheme();
 	const { data, status, error } = useSidebar(id)
 	const [{ attributes }] = useDashboardEvent(id, props)
 	const isOpen = useIsOpen()
 	const collapsed = useCollapsed()
-	const darkMode = useIsDarkMode()
+
+	
 
 	const { visible, ...restOfProps } = attributes
 
@@ -19,7 +21,7 @@ export default function AntdSideBar({ id, ...props }) {
 
 	return (
 		visible && (
-			<Layout.Sider {...restOfProps} theme={darkMode ? "dark" : "light"} collapsible collapsed={!isOpen} onCollapse={() => collapsed()}>
+			<Layout.Sider {...restOfProps} theme={name === "dark" ? "dark" : "light"} collapsible collapsed={!isOpen} onCollapse={() => collapsed()}>
 				{UniversalDashboard.renderComponent(data)}
 			</Layout.Sider>
 		)

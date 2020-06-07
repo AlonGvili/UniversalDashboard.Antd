@@ -1,15 +1,17 @@
 function New-UDAntdToggleColorMode {
     param(
         [Parameter()]
-        [string]$Id = (New-Guid).ToString()
+        [ValidateSet("default", "dark", "compact")]
+        [string]$ColorMode
     )
 
     End {
 
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-toggle-color-mode"
+            assetId   = $AssetId 
+            isPlugin  = $true 
+            type      = "ud-antd-toggle-color-mode"
+            colorMode = $ColorMode
         }
 
     }

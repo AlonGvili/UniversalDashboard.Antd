@@ -5,6 +5,8 @@ function New-UDAntdMenuItem {
         [Parameter()]
         [object]$Icon,
         [Parameter()]
+        [hashtable]$Style,
+        [Parameter()]
         [string]$Title,
         [Parameter()]
         [string]$Key,
@@ -33,24 +35,24 @@ function New-UDAntdMenuItem {
             }
         }
 
-        if($null -eq $Key){
+        if ($null -eq $Key) {
             $Key = $Id
         }
         
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-menu-item"
-            id = $Id
-            # className = $ClassName
-            disabled = $Disabled.IsPresent
-            title = $Title
-            key = $key
-            icon = $Icon
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-menu-item"
+            id           = $Id
+            style        = $Style
+            disabled     = $Disabled.IsPresent
+            title        = $Title
+            key          = $key
+            icon         = $Icon
             inlineIndent = $InlineIndent
-            to = $To
-            text = $Text
-            content = $Content
+            to           = $To
+            text         = $Text
+            content      = $Content
         }
 
     }

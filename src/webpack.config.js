@@ -107,18 +107,18 @@ module.exports = {
 		new AntdDayjsWebpackPlugin(),
 		new AntdThemePlugin({
 			// Variables declared here can be modified at runtime
-			variables: ['primary-color'],
+			variables: ['primary-color', 'progress-default-color'],
 			themes: [
-			  {
-				name: 'dark',
-				filename: require.resolve('antd/lib/style/themes/dark.less'),
-			  },
-			  {
-				name: 'compact',
-				filename: require.resolve('antd/lib/style/themes/compact.less'),
-			  },
+				{
+					name: 'dark',
+					filename: require.resolve('antd/lib/style/themes/dark.less'),
+				},
+				{
+					name: 'compact',
+					filename: require.resolve('antd/lib/style/themes/compact.less'),
+				},
 			],
-		  })
+		})
 	],
 	externals: {
 		UniversalDashboard: "UniversalDashboard",

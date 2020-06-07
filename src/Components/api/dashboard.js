@@ -6,38 +6,38 @@ import { ReactQueryDevtools } from "react-query-devtools/dist/react-query-devtoo
 const PageManager = React.lazy(
 	() => import(/* webpackChunkName: 'PageManager'*/ "../framework/pages/PageManager")
 )
-import { ThemeProvider } from 'antd-theme';
+import { ThemeProvider } from 'antd-theme'
 
 const initialTheme = {
 	name: 'default',
-	variables: { 'primary-color': '#00ff00' },
-};
+	variables: { 'primary-color': 'pink', 'progress-default-color': 'pink' },
+}
 
 
 
 export default ({ appbar, sidebar, footer }) => {
-	const [theme, setTheme] = React.useState(initialTheme);
+	const [theme, setTheme] = React.useState(initialTheme)
 
 	return (
 		<ThemeProvider
-			theme={theme}
-			onChange={(value) => setTheme(value)}
+			theme={ theme }
+			onChange={ (value) => setTheme(value) }
 		>
 			<Alert.ErrorBoundary>
-				<Layout style={{ minHeight: "100vh" }}>
-					
-						<store.Provider initialValue={{ isOpen: false }}>
-							{UniversalDashboard.renderComponent(sidebar)}
-						</store.Provider>
-						<Layout>
-							{UniversalDashboard.renderComponent(appbar)}
-							<Layout.Content style={{ padding: 24 }}>
-								<PageManager />
-							</Layout.Content>
-							{UniversalDashboard.renderComponent(footer)}
-							<ReactQueryDevtools initialIsOpen={false} />
-						</Layout>
-					
+				<Layout style={ { minHeight: "100vh" } }>
+
+					<store.Provider initialValue={ { isOpen: false } }>
+						{ UniversalDashboard.renderComponent(sidebar) }
+					</store.Provider>
+					<Layout>
+						{ UniversalDashboard.renderComponent(appbar) }
+						<Layout.Content style={ { padding: 24 } }>
+							<PageManager />
+						</Layout.Content>
+						{ UniversalDashboard.renderComponent(footer) }
+						<ReactQueryDevtools initialIsOpen={ false } />
+					</Layout>
+
 				</Layout>
 			</Alert.ErrorBoundary>
 		</ThemeProvider>

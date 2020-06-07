@@ -18,15 +18,11 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 /src/public
-/src/output
 /src/node_modules
 /.vscode
 /src/Tests
 /src/antd.bom.xml
 /src/package-lock.json
-/src/Components/app.jsx
-/src/Components/Services
-/src/Components/Monitors
 /src/Components/General/autocomplete.jsx.old
 /src/Components/comment/api.jsx
 /src/Scripts/Remove-UDAntdComment.ps1

@@ -41,8 +41,8 @@ function New-UDAntdTimeLine {
 
     End {
 
-        if ($IsEndpoint.IsPresent -and $null -ne $Content) {
-            New-UDEndpoint -Endpoint $Content -Id $Id  | Out-Null
+        if ($null -ne $Content) {
+            New-UDEndpoint -Endpoint $Content -Id $Id | Out-Null
         }
         
 
@@ -55,7 +55,6 @@ function New-UDAntdTimeLine {
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
             mode            = $Mode
-            content         = $Content.Invoke()
             reverse         = $Reverse
             style           = $Style
         }

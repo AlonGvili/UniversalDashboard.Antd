@@ -1,13 +1,14 @@
 function New-UDAntdTogglePrimaryColor {
     param(
         [Parameter()]
-        [string]$Id = (New-Guid).ToString()
+        [string]$PrimaryColor
     )
     End {
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-toggle-primary-color"
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-toggle-primary-color"
+            primaryColor = $PrimaryColor
         }
     }
 }

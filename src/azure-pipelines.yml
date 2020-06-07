@@ -13,6 +13,22 @@ pool:
 
 steps:
 - task: PowerShell@2
+  displayName: Set PSGallery As Trusted Source
+  inputs:
+    targetType: inline
+    script: Get-PSRepository -Name PSGallery | Set-PSRepository -InstallationPolicy Trusted
+    errorActionPreference: stop
+    pwsh: true
+    
+- task: PowerShell@2
+  displayName: Install InvokeBuild
+  inputs:
+    targetType: inline
+    script: Install-Nodule -Name InvokeBuild -Scope CurrentUser -Force -Repository PSGallery
+    errorActionPreference: stop
+    pwsh: true
+
+- task: PowerShell@2
   displayName: Building The Module
   inputs:
     filePath: '.\src\invoke.build.ps1'

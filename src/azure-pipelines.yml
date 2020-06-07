@@ -15,7 +15,7 @@ steps:
 - task: PowerShell@2
   displayName: Building The Module
   inputs:
-    filePath: '.\src\build.ps1'
+    filePath: '.\src\invoke.build.ps1'
     pwsh: true
 
 - task: ArchiveFiles@2

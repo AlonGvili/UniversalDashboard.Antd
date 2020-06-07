@@ -31,7 +31,9 @@ steps:
 - task: PowerShell@2
   displayName: Building The Module
   inputs:
-    filePath: '.\src\invoke.build.ps1'
+    targetType: inline
+    script: Invoke-Build
+    errorActionPreference: stop
     pwsh: true
 
 - task: ArchiveFiles@2

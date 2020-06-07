@@ -24,7 +24,7 @@ steps:
   displayName: Install InvokeBuild
   inputs:
     targetType: inline
-    script: Install-Nodule -Name InvokeBuild -Scope CurrentUser -Force -Repository PSGallery
+    script: Install-Module -Name InvokeBuild -Scope CurrentUser -Force -Repository PSGallery
     errorActionPreference: stop
     pwsh: true
 

@@ -8,11 +8,11 @@ task Clean {
 task Stage {
     $OutputPath = "$PSScriptRoot\output\UniversalDashboard.Antd"
     New-Item $OutputPath -Type Directory -Force
-    npm install -g webpack
-    npm install -g webpack-cli
+
 }
 
 task BuildJS {
+    npm install
     npm run build
 }
 

@@ -11,6 +11,7 @@ task Stage {
 }
 
 task BuildJS {
+    npm install --save-dev webpack
     npm run build
 }
 

@@ -32,7 +32,7 @@ steps:
   displayName: Building The Module
   inputs:
     targetType: inline
-    script: Invoke-Build -File $(System.DefaultWorkingDirectory)\invoke.build.ps1
+    script: Invoke-Build -File '$(System.DefaultWorkingDirectory)/invoke.build.ps1'
     errorActionPreference: stop
     pwsh: true
 

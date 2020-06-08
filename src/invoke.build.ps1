@@ -1,3 +1,5 @@
+Import-Module -Name InvokeBuild -Force
+
 task Clean {
     Remove-Item -Path "$PSScriptRoot\output" -Force -ErrorAction SilentlyContinue -Recurse
     Remove-Item -Path "$PSScriptRoot\public" -Force -ErrorAction SilentlyContinue -Recurse

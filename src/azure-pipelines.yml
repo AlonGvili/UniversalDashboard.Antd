@@ -24,7 +24,7 @@ steps:
   displayName: Install InvokeBuild
   errorActionPreference: continue
 
-- powershell: Invoke-Build -File .\src\build.ps1
+- powershell: Invoke-Build -File .\src\invoke.build.ps1
   displayName: Build
   errorActionPreference: continue
 

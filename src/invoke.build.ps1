@@ -128,4 +128,6 @@ task MergePsm1 {
     
 }
 
-task . Clean, Stage, BuildJS, MergePsm1
+task Full Clean, Stage, BuildJS, MergePsm1
+
+Invoke-Build -Task Full

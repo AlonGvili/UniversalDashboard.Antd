@@ -20,19 +20,13 @@ steps:
     errorActionPreference: stop
     pwsh: true
     
-- task: PowerShell@2
+- powershell: Install-Module InvokeBuild -Scope CurrentUser -Force
   displayName: Install InvokeBuild
-  inputs:
-    targetType: inline
-    script: Install-Module -Name InvokeBuild -Scope CurrentUser -Force -Repository PSGallery
-    errorActionPreference: stop
-    pwsh: true
+  errorActionPreference: continue
 
-- task: PowerShell@2
-  displayName: Building The Module
-  inputs:
-    filePath: '.\src\invoke.build.ps1'
-    pwsh: true
+- powershell: Invoke-Build -File .\src\build.ps1
+  displayName: Build
+  errorActionPreference: continue
 
 - task: ArchiveFiles@2
   inputs:
@@ -40,7 +34,7 @@ steps:
     includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/UniversalDashboard.Antd.zip' 
 
-- task: PublishPipelineArtifact@0
+- task: PublishPipelineArtifact@1
   inputs:
     artifactName: 'UniversalDashboard.Antd'
     targetPath: $(Build.ArtifactStagingDirectory)

@@ -1,4 +1,4 @@
-Import-Module -Name InvokeBuild -Force
+
 
 task Clean {
     Remove-Item -Path "$PSScriptRoot\output" -Force -ErrorAction SilentlyContinue -Recurse
@@ -130,6 +130,4 @@ task MergePsm1 {
     
 }
 
-task Full Clean, Stage, BuildJS, MergePsm1
-
-Invoke-Build -Task Full
+task . Clean, Stage, BuildJS, MergePsm1

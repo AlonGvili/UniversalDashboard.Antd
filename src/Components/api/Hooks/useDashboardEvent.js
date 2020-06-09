@@ -9,14 +9,14 @@ const CLEAR_ELEMENT = "clearElement"
 const SYNC_ELEMENT = "syncElement"
 
 
-function useEndpointSubscription(endpointId, callback){
-	const callbackRef = React.useRef() 
+export function useEndpointSubscription(endpointId, callback) {
+	const callbackRef = React.useRef()
 	callbackRef.current = callback
 
 	React.useEffect(() => {
 		const pubSubToken = UniversalDashboard.subscribe(endpointId, callbackRef.current)
 		return () => UniversalDashboard.unsubscribe(pubSubToken)
-	},[endpointId])
+	}, [endpointId])
 
 }
 export default function useDashboardEvent(elementId, initialState) {
@@ -56,7 +56,7 @@ export default function useDashboardEvent(elementId, initialState) {
 			// Remove-UDElement
 			case REMOVE_ELEMENT:
 				setState(state => {
-					console.log("remove element event",event)
+					console.log("remove element event", event)
 					let newStateContent = state.content.filter(item => item.id !== event.componentId)
 					// newStateContent.splice(-1, 1)
 					return {

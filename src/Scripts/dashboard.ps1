@@ -1,5 +1,5 @@
-function New-UDDashboard{
-    [CmdletBinding(DefaultParameterSetName="Pages")]
+function New-UDDashboard {
+    [CmdletBinding(DefaultParameterSetName = "Pages")]
     param(
         [Parameter()]
         [string]$Title = "PowerShell Universal Dashboard",
@@ -12,7 +12,10 @@ function New-UDDashboard{
         [Parameter(ParameterSetName = "Configuration")]
         [Hashtable[]]$Configuration = @(),
         [Parameter()]
-        [hashtable[]]$Theme = @{primaryColor = "#13c2c2"},
+        [hashtable]$Theme = @{
+            name  = "default"
+            color = "#13c2c2"
+        },
         [Parameter()]
         [object]$AppBar,
         [Parameter()]
@@ -20,8 +23,7 @@ function New-UDDashboard{
 
     )   
 
-    if ($PSCmdlet.ParameterSetName -eq 'Content')
-    {
+    if ($PSCmdlet.ParameterSetName -eq 'Content') {
         $Pages += New-UDPage -Name 'Home' -Content $Content
     }
 
@@ -49,11 +51,11 @@ function New-UDDashboard{
     } | Out-Null
 
     @{
-        title = $Title 
-        pages = $Pages
+        title         = $Title 
+        pages         = $Pages
         configuration = $Configuration
-        theme = $Theme
-        appbar = $AppBar
-        sidebar = $SideBar
+        theme         = $Theme
+        appbar        = $AppBar
+        sidebar       = $SideBar
     }
 }

@@ -55,7 +55,8 @@ function New-UDAntdTimeLine {
             autoRefresh     = $AutoRefresh.IsPresent
             refreshInterval = $RefreshInterval
             mode            = $Mode
-            reverse         = $Reverse
+            # content         = $Content.Invoke()
+            reverse         = $Reverse.IsPresent
             style           = $Style
         }
 

@@ -1,78 +1,56 @@
-import React from 'react';
-import { fetchGet, fetchPost, fetchDelete, fetchPut, fetchPostRaw, fetchPostFormData, fetchPostHeaders } from './fetch-service.jsx';
-import { internalRenderComponent } from './render-service.jsx';
-import LazyElement from './../basics/lazy-element.jsx';
-import PubSub from 'pubsub-js';
+import React from 'react'
+import { fetchGet, fetchPost, fetchDelete, fetchPut, fetchPostRaw, fetchPostFormData, fetchPostHeaders } from './fetch-service.jsx'
+import { internalRenderComponent } from './render-service.jsx'
+import LazyElement from './../basics/lazy-element.jsx'
+import PubSub from 'pubsub-js'
+import { queryCache } from 'react-query'
 
-var components = []
+queryCache.setQueryData("components", [])
 
 function isEmpty(obj) {
-    for(var key in obj) { 
-        if(obj.hasOwnProperty(key))
-            return false;
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key))
+            return false
     }
-    return true;
+    return true
 }
 
-function isString (obj) {
-    return (Object.prototype.toString.call(obj) === '[object String]');
+function isString(obj) {
+    return (Object.prototype.toString.call(obj) === '[object String]')
 }
 
-const renderComponent = (component, history, dynamicallyLoaded) => {
-    if (component == null) return null;
-    if (isEmpty(component)) return null;
-
-    if (component.$$typeof === Symbol.for('react.element'))
-    {
-        return component;
-    }
-
-    if (Array.isArray(component)) {
-        return component.map(x => renderComponent(x, history));
-    }
-
+const renderComponent = (component, dynamicallyLoaded) => {
+    if (!component) return null
+    if (isEmpty(component)) return null
+    if (component.$$typeof === Symbol.for('react.element')) return component
+    if (Array.isArray(component)) return component.map(x => renderComponent(x))
     if (isString(component)) {
-        try 
-        {
-            component = JSON.parse(component);
-        }
-        catch 
-        {
-            return component;
-        }
+        try { component = JSON.parse(component) }
+        catch { return component }
     }
-
-    if (component.type == null) return null;
-
-    var existingComponent = components.find(x => x.type === component.type);
-    if (existingComponent != null) {
+    if (component.type == null) return null
+    var existingComponent = queryCache.getQueryData('components')?.find(x => x.type === component.type)
+    if (existingComponent) {
         return React.createElement(existingComponent.component, {
             ...component,
-            key: component.id,
-            history
-        });
+            key: component.id
+        })
     } else if (component.isPlugin && !dynamicallyLoaded) {
-        return <LazyElement component={component} key={component.id}/>
+        return <LazyElement component={ component } key={ component.id } />
     }
-
-    return internalRenderComponent(component, history);
+    return internalRenderComponent(component)
 }
 
 export const UniversalDashboardService = {
-    components,
-    plugins: [],
-    registerPlugin: function (plugin) {
-        this.plugins.push(plugin);
-    },
-    register: function (type, component) {
-        var existingComponent = components.find(x => x.type === type);
-        if (!existingComponent) components.push({
-            type,
-            component
-        });
+    components: queryCache.subscribe((cache) => {
+        return cache.getQueryData("components")
+    }),
+    register: (type, component) => {
+        let components = queryCache.getQueryData("components")
+        let existingComponent = components.find(x => x.type === type)
+        if (!existingComponent) queryCache.setQueryData("components", (oldData) => [...oldData, { type, component }])
     },
     renderDashboard: () => null,
-    design: false,
     get: fetchGet,
     post: fetchPost,
     postFormData: fetchPostFormData,
@@ -86,57 +64,6 @@ export const UniversalDashboardService = {
     connectionId: '',
     sessionId: '',
     sessionTimedOut: false,
-    onSessionTimedOut: () => {}, 
-    renderComponent,
-    provideDashboardComponents: function (state) {
-
-        var components = [];
-
-        this.plugins.forEach(x => {
-            try {
-                var pluginComponents = x.provideDashboardComponents(state);
-
-                if (pluginComponents == null) {
-                    return;
-                }
-
-                if (Array.isArray(pluginComponents)) {
-                    components = components.concat(pluginComponents);
-                } else {
-                    components.push(pluginComponents);
-                }
-            }
-            catch
-            {
-
-            }
-        })
-
-        return components;
-    },
-    provideRoutes: function () {
-        var routes = [];
-        this.plugins.forEach(x => {
-            try {
-                routes = routes.concat(x.provideRoutes());
-            }
-            catch
-            {
-
-            }
-        })
-
-        return routes;
-    },
-    invokeMiddleware: function (method, url, history, response) {
-        this.plugins.forEach(x => {
-            try {
-                x.invokeMiddleware(method, url, history, response);
-            }
-            catch
-            {
-
-            }
-        })
-    }
+    onSessionTimedOut: () => { },
+    renderComponent
 }

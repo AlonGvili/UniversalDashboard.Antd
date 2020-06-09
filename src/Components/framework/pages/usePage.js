@@ -1,25 +1,18 @@
 import { useQuery } from 'react-query'
-import { endpoint } from '../../api/consts'
 import { getMeta } from '../meta'
-import { useParams } from 'react-router-dom'
-import {stringify} from 'query-string'
-
 const dashboardid = getMeta("ud-dashboard")
 
-export async function getPage(id) {
-    let url = endpoint(id)
-    const res = await fetch(url, {
+export async function getPage(pageUrl) {
+    const res = await fetch(pageUrl, {
         headers: {
             dashboardid,
             UDConnectionId: UniversalDashboard.connectionId,
         },
     })
     const res_1 = await res.json()
-    console.log("getPage", res_1)
     return res_1
 }
 
-export default function usePage(pageId) {
-    const path = `${pageId}${stringify(useParams())}`
-    return useQuery(["page", { path }], () => getPage(pageId))
+export default function usePage(pageUrl) {
+    return useQuery(["page", { pageUrl }], () => getPage(pageUrl), { suspense: true })
 }

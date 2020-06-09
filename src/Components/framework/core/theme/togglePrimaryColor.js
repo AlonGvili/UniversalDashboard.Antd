@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from 'antd-theme'
 import { presetPrimaryColors, presetDarkPalettes, presetPalettes } from '@ant-design/colors'
-import TwitterPicker from 'react-color/lib/Twitter'
+import Block from 'react-color/lib/Block'
 
 export default function TogglePrimaryColor() {
   const [{ name, variables }, setTheme] = useTheme()
@@ -18,14 +18,14 @@ export default function TogglePrimaryColor() {
   }
 
   return (
-    <TwitterPicker
+    <Block
       colors={ getPrimaryColors() }
       onChange={ (color) => {
         // Will update all css attributes affected by primary-color
         setTheme({ name, variables: { 'primary-color': color.hex, 'progress-default-color': color.hex } })
       } }
       triangle="hide"
-      width="100%"
+    // width="100%"
     />
   )
 }

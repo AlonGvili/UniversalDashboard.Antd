@@ -4,9 +4,9 @@ import { getMeta } from '../framework/meta'
 
 const dashboardid = getMeta("ud-dashboard")
 
-export default function useTimeline(id, autoRefresh, refreshInterval) {
-    const url = endpoint(id)
-    return useQuery(["timeline", { id }], async () => {
+export default function useTimeline(id, autoRefresh, refreshInterval, setContent) {
+    const url = `/api/internal/component/element/${id}`
+    useQuery(["timeline", { id }], async () => {
         const res = await fetch(url, {
             headers: {
                 dashboardid,
@@ -14,10 +14,10 @@ export default function useTimeline(id, autoRefresh, refreshInterval) {
             },
         })
         const res_1 = await res.json()
-        return res_1
+        setContent(prevData => [...prevData, ...res_1])
     },
         {
             refetchInterval: autoRefresh && refreshInterval,
-            refetchIntervalInBackground: autoRefresh
+            refetchIntervalInBackground: autoRefresh,
         })
 }

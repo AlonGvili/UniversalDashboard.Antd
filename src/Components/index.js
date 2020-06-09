@@ -203,95 +203,98 @@ const ToggleColorMode = lazy(
 const TogglePrimaryColor = lazy(
 	() => import(/* webpackChunkName: 'TogglePrimaryColor' */ "./framework/core/theme/togglePrimaryColor")
 )
+// const AddToTimeline = lazy(
+// 	() => import(/* webpackChunkName: 'AddToTimeline' */ "./timeline/addToTimeline")
+// )
 
-export default function registerComponents() {[
-			{ type: "ud-antd-row", component: AntdRow },
-			{ type: "ud-antd-col", component: AntdColumn },
-			{ type: "ud-antd-button", component: AntdButton },
-			{ type: "ud-antd-button-group", component: AntdButtonGroup },
-			{ type: "ud-antd-switch", component: AntdSwitch },
-			{ type: "ud-antd-timeline", component: AntdTimeLine },
-			{ type: "ud-antd-drawer", component: AntdDrawer },
-			{ type: "ud-antd-card", component: AntdCard },
-			{ type: "ud-antd-descriptionlist", component: AntdDescriptionList },
-			{ type: "ud-antd-descriptionlist-item", component: AntdDescListItem },
-			{ type: "ud-antd-badge", component: AntdBadge },
-			{ type: "ud-antd-dropdown", component: AntdDropDown },
-			{ type: "ud-antd-menu", component: AntdMenu },
-			{ type: "ud-antd-menu-item", component: AntdMenuItem },
-			{ type: "ud-antd-sub-menu", component: AntdSubMenu },
-			{ type: "ud-antd-menu-item-group", component: AntdMenuItemGroup },
-			{ type: "ud-antd-menu-divider", component: AntdMenuDivider },
-			{ type: "ud-antd-popover", component: AntdPopover },
-			{ type: "ud-antd-layout", component: AntdLayout },
-			{ type: "ud-antd-header", component: AntdHeader },
-			{ type: "ud-antd-content", component: AntdContent },
-			{ type: "ud-antd-autocomplete", component: AntdAutoComplete },
-			{ type: "ud-antd-list", component: AntdList },
-			{ type: "ud-antd-list-item", component: AntdListItem },
-			{ type: "ud-antd-statistic", component: AntdStatistic },
-			{ type: "ud-antd-carousel", component: AntdCarousel },
-			{ type: "ud-antd-input", component: AntdInput },
-			{ type: "ud-antd-input-textarea", component: AntdInputTextArea },
-			{ type: "ud-antd-input-password", component: AntdInputPassword },
-			{ type: "ud-antd-icon", component: AntdIcon },
-			{ type: "ud-antd-radio", component: AntdRadio },
-			{ type: "ud-antd-radio-button", component: AntdRadioButton },
-			{ type: "ud-antd-radio-group", component: AntdRadioGroup },
-			{ type: "ud-antd-copy-button", component: AntdCopyToClipboard },
-			{ type: "ud-antd-avatar", component: AntdAvatar },
-			{ type: "ud-antd-slider", component: AntdSlider },
-			{ type: "ud-antd-notification", component: AntdNotification },
-			{ type: "ud-antd-message", component: AntdMessage },
-			{ type: "ud-antd-sider", component: AntdSider },
-			{ type: "ud-antd-sidebar", component: AntdSideBar },
-			{ type: "ud-antd-comment", component: AntdComment },
-			{ type: "ud-antd-steps", component: AntdSteps },
-			{ type: "ud-antd-step", component: AntdStep },
-			{ type: "ud-antd-footer", component: AntdFooter },
-			{ type: "ud-antd-table", component: AntdTable },
-			{ type: "ud-antd-form", component: AntdForm },
-			{ type: "ud-antd-form-item", component: AntdFormItem },
-			{ type: "ud-antd-result", component: AntdResultPage },
-			{ type: "ud-antd-page-header", component: AntdPageHeader },
-			{ type: "ud-antd-tag", component: AntdTag },
-			{ type: "ud-antd-tag-checkable", component: AntdCheckableTag },
-			{ type: "ud-antd-navigation-item", component: AntdNavigationItem },
-			{ type: "ud-antd-header-account-settings", component: HeaderAccountSettings },
-			{ type: "ud-antd-appbar", component: AntdAppBar },
-			{ type: "ud-antd-darkmode-toggle", component: AntdDarkModeToggle },
-			{ type: "ud-antd-chart-card", component: AntdChartCard },
-			{ type: "ud-antd-chart-field", component: AntdChartField },
-			{ type: "ud-antd-chart-trend", component: AntdChartTrend },
-			{ type: "ud-antd-countdown", component: AntdCountdown },
-			{ type: "ud-antd-progress", component: AntdProgress },
-			{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
-			{ type: "ud-antd-avatar-list", component: AntdAvatarList },
-			{ type: "ud-antd-charts-calendar", component: AntdCalendar },
-			{ type: "ud-antd-space", component: AntdSpace },
-			{ type: "ud-antd-divider", component: AntdDivider },
-			{ type: "ud-antd-toggle-color-mode", component: ToggleColorMode },
-			{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
-		].forEach(
-			({ type, component }) => UniversalDashboard.register(type, component)
-		)
+export default function registerComponents() {
+	[
+		{ type: "ud-antd-row", component: AntdRow },
+		{ type: "ud-antd-col", component: AntdColumn },
+		{ type: "ud-antd-button", component: AntdButton },
+		{ type: "ud-antd-button-group", component: AntdButtonGroup },
+		{ type: "ud-antd-switch", component: AntdSwitch },
+		{ type: "ud-antd-timeline", component: AntdTimeLine },
+		{ type: "ud-antd-drawer", component: AntdDrawer },
+		{ type: "ud-antd-card", component: AntdCard },
+		{ type: "ud-antd-descriptionlist", component: AntdDescriptionList },
+		{ type: "ud-antd-descriptionlist-item", component: AntdDescListItem },
+		{ type: "ud-antd-badge", component: AntdBadge },
+		{ type: "ud-antd-dropdown", component: AntdDropDown },
+		{ type: "ud-antd-menu", component: AntdMenu },
+		{ type: "ud-antd-menu-item", component: AntdMenuItem },
+		{ type: "ud-antd-sub-menu", component: AntdSubMenu },
+		{ type: "ud-antd-menu-item-group", component: AntdMenuItemGroup },
+		{ type: "ud-antd-menu-divider", component: AntdMenuDivider },
+		{ type: "ud-antd-popover", component: AntdPopover },
+		{ type: "ud-antd-layout", component: AntdLayout },
+		{ type: "ud-antd-header", component: AntdHeader },
+		{ type: "ud-antd-content", component: AntdContent },
+		{ type: "ud-antd-autocomplete", component: AntdAutoComplete },
+		{ type: "ud-antd-list", component: AntdList },
+		{ type: "ud-antd-list-item", component: AntdListItem },
+		{ type: "ud-antd-statistic", component: AntdStatistic },
+		{ type: "ud-antd-carousel", component: AntdCarousel },
+		{ type: "ud-antd-input", component: AntdInput },
+		{ type: "ud-antd-input-textarea", component: AntdInputTextArea },
+		{ type: "ud-antd-input-password", component: AntdInputPassword },
+		{ type: "ud-antd-icon", component: AntdIcon },
+		{ type: "ud-antd-radio", component: AntdRadio },
+		{ type: "ud-antd-radio-button", component: AntdRadioButton },
+		{ type: "ud-antd-radio-group", component: AntdRadioGroup },
+		{ type: "ud-antd-copy-button", component: AntdCopyToClipboard },
+		{ type: "ud-antd-avatar", component: AntdAvatar },
+		{ type: "ud-antd-slider", component: AntdSlider },
+		{ type: "ud-antd-notification", component: AntdNotification },
+		{ type: "ud-antd-message", component: AntdMessage },
+		{ type: "ud-antd-sider", component: AntdSider },
+		{ type: "ud-antd-sidebar", component: AntdSideBar },
+		{ type: "ud-antd-comment", component: AntdComment },
+		{ type: "ud-antd-steps", component: AntdSteps },
+		{ type: "ud-antd-step", component: AntdStep },
+		{ type: "ud-antd-footer", component: AntdFooter },
+		{ type: "ud-antd-table", component: AntdTable },
+		{ type: "ud-antd-form", component: AntdForm },
+		{ type: "ud-antd-form-item", component: AntdFormItem },
+		{ type: "ud-antd-result", component: AntdResultPage },
+		{ type: "ud-antd-page-header", component: AntdPageHeader },
+		{ type: "ud-antd-tag", component: AntdTag },
+		{ type: "ud-antd-tag-checkable", component: AntdCheckableTag },
+		{ type: "ud-antd-navigation-item", component: AntdNavigationItem },
+		{ type: "ud-antd-header-account-settings", component: HeaderAccountSettings },
+		{ type: "ud-antd-appbar", component: AntdAppBar },
+		{ type: "ud-antd-darkmode-toggle", component: AntdDarkModeToggle },
+		{ type: "ud-antd-chart-card", component: AntdChartCard },
+		{ type: "ud-antd-chart-field", component: AntdChartField },
+		{ type: "ud-antd-chart-trend", component: AntdChartTrend },
+		{ type: "ud-antd-countdown", component: AntdCountdown },
+		{ type: "ud-antd-progress", component: AntdProgress },
+		{ type: "ud-antd-popconfirm", component: AntdPopConfirm },
+		{ type: "ud-antd-avatar-list", component: AntdAvatarList },
+		{ type: "ud-antd-charts-calendar", component: AntdCalendar },
+		{ type: "ud-antd-space", component: AntdSpace },
+		{ type: "ud-antd-divider", component: AntdDivider },
+		{ type: "ud-antd-toggle-color-mode", component: ToggleColorMode },
+		{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
+		// { type: "ud-antd-utils-addToTimeline", component: AddToTimeline },
+	].forEach(
+		({ type, component }) => UniversalDashboard.register(type, component)
+	)
 }
 
 registerComponents()
 import AntDesign from "./api/dashboard"
 
 
-UniversalDashboard.renderDashboard = ({ dashboard: { appbar, sidebar, footer, theme } }) => {
+UniversalDashboard.renderDashboard = ({ dashboard }) => {
 	return (
-		<ReactQueryConfigProvider 
-			config={{
-				refetchOnWindowFocus: false, 
-				refetchIntervalInBackground:true,
+		<ReactQueryConfigProvider
+			config={ {
+				refetchOnWindowFocus: false,
 				useErrorBoundary: true,
-				suspense: true
-			}}>
-			<Suspense fallback={null}>
-				<AntDesign appbar={appbar} sidebar={sidebar} footer={footer} theme={theme}/>
+			} }>
+			<Suspense fallback="Loading Dashboard..">
+				<AntDesign { ...dashboard } />
 			</Suspense>
 		</ReactQueryConfigProvider>
 	)

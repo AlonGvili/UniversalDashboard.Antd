@@ -1,9 +1,9 @@
 function Add-UDElement {
     param(
         [Parameter(Mandatory)]
-		[string]$ParentId,
+        [string]$ParentId,
         [Parameter(Mandatory)]
-		[ScriptBlock]$Content,
+        [ScriptBlock]$Content,
         [Parameter()]
         [Switch]$Broadcast
     )
@@ -12,15 +12,14 @@ function Add-UDElement {
 
     $Data = @{
         componentId = $ParentId
-        elements = $NewContent
+        elements    = $NewContent
     }
 
-    if ($Broadcast)
-    {
+    if ($Broadcast) {
         $DashboardHub.SendWebSocketMessage("addElement", $Data)
     }
-    else 
-    {
+    else {
         $DashboardHub.SendWebSocketMessage($ConnectionId, "addElement", $Data)
     }    
 }
+

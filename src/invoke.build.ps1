@@ -126,6 +126,7 @@ task MergePsm1 {
             "New-UDAntdTogglePrimaryColor"
             "New-UDAntdCountdown"
             "Add-UDAntdTimelineItem"
+            "Remove-UDAntdTimelineItem"
         )
     }
     

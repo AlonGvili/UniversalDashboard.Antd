@@ -1,4 +1,76 @@
-﻿
+﻿<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Id
+Parameter description
+
+.PARAMETER Style
+Parameter description
+
+.PARAMETER InputStyle
+Parameter description
+
+.PARAMETER CustomInput
+Parameter description
+
+.PARAMETER DropDownStyle
+Parameter description
+
+.PARAMETER AllowClear
+Parameter description
+
+.PARAMETER AutoFocus
+Parameter description
+
+.PARAMETER Backfill
+Parameter description
+
+.PARAMETER DataSource
+Parameter description
+
+.PARAMETER Disabled
+Parameter description
+
+.PARAMETER DropdownMatchSelectWidth
+Parameter description
+
+.PARAMETER FilterKeys
+Parameter description
+
+.PARAMETER Suffix
+Parameter description
+
+.PARAMETER Bordered
+Parameter description
+
+.PARAMETER Size
+Parameter description
+
+.PARAMETER OnSelect
+Parameter description
+
+.PARAMETER OnChange
+Parameter description
+
+.PARAMETER Placeholder
+Parameter description
+
+.PARAMETER AutoRefresh
+Parameter description
+
+.PARAMETER RefreshInterval
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function New-UDAntdAutoComplete {
     [CmdletBinding()]
     [OutputType('Ant.Design.AutoComplete')]

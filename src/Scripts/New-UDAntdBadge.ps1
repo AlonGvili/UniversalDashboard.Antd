@@ -1,4 +1,49 @@
+<#
+.SYNOPSIS
+Short description
 
+.DESCRIPTION
+Long description
+
+.PARAMETER Status
+Parameter description
+
+.PARAMETER Text
+Parameter description
+
+.PARAMETER OverflowCount
+Parameter description
+
+.PARAMETER Count
+Parameter description
+
+.PARAMETER Style
+Parameter description
+
+.PARAMETER ShowZero
+Parameter description
+
+.PARAMETER Dot
+Parameter description
+
+.PARAMETER PresetColor
+Parameter description
+
+.PARAMETER Id
+Parameter description
+
+.PARAMETER OffSet
+Parameter description
+
+.PARAMETER Content
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function New-UDAntdBadge {
     [CmdletBinding()]
     [OutputType('Ant.Design.Badge')]

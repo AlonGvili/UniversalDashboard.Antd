@@ -1,3 +1,25 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Id
+Parameter description
+
+.PARAMETER Content
+Parameter description
+
+.PARAMETER Visible
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function New-UDAntdAppBar {
     [CmdletBinding()]
     [OutputType('Ant.Design.AppBar')]

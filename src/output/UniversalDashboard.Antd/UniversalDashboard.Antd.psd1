@@ -18,7 +18,7 @@ ModuleVersion = '1.0.0'
 # CompatiblePSEditions = @()
 
 # ID used to uniquely identify this module
-GUID = 'e8e83367-37be-4c98-aad4-45535cf3fbbd'
+GUID = '124efe21-a876-498e-8490-c02db1fffb32'
 
 # Author of this module
 Author = 'Alon Gvili'
@@ -101,7 +101,7 @@ FunctionsToExport = 'New-UDElement', 'Get-UDElement', 'Add-UDElement', 'Set-UDEl
                'New-UDAntdSideBar', 'Add-UDAntdPage', 'New-UDAntdCalendar', 
                'New-UDAntdSpace', 'New-UDAntdDivider', 'New-UDAntdToggleColorMode', 
                'New-UDAntdTogglePrimaryColor', 'New-UDAntdCountdown', 
-               'Add-UDAntdTimelineItem'
+               'Add-UDAntdTimelineItem', 'Remove-UDAntdTimelineItem'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = '*'

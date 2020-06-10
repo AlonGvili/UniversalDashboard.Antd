@@ -1,11 +1,5 @@
-function ConvertToBase64 {
-    Param([String]$path)
-    [convert]::ToBase64String((Get-Content $path -AsByteStream))
-}
-$LogoBase64 = ConvertToBase64 -Path "$Root\Assets\UDLogo.png"
-
 $SideBar = New-UDAntdSideBar -Visible -Content {
-    New-UDAntdAvatar -Src "data:image/$($LogoBase64);base64," -Alt "logo" -Shape circle -Size large 
+    New-UDAntdAvatar -Src https://raw.githubusercontent.com/AlonGvili/UniversalDashboard.Antd/master/src/Dashboard/Assets/UDLogo.png -Alt "logo" -Shape circle -Size large 
     New-UDAntdMenu -Mode inline -Content {
         New-UDAntdMenuItem -Icon (
             New-UDAntdIcon -Icon ReadOutlined
@@ -18,7 +12,7 @@ $SideBar = New-UDAntdSideBar -Visible -Content {
         ) -Text "Profile"  -To "#"
         New-UDAntdMenuItem -Icon (
             New-UDAntdIcon -Icon LockOutlined
-        ) -Text "Security"  -To "#" 
+        ) -Text "Github Timeline"  -To "/GithubTimeline" 
         New-UDAntdMenuItem -Icon (
             New-UDAntdIcon -Icon FileSearchOutlined
         ) -Text "AutoComplete"  -To "/AutoComplete" 

@@ -6,7 +6,7 @@ const dashboardid = getMeta("ud-dashboard")
 
 export default function useAutoComplete(id, autoRefresh, refreshInterval) {
     const url = endpoint(id)
-    return useQuery( ["autocomplete", { id: id }], async () => {
+    return useQuery(["autocomplete", { id }], async () => {
         const res = await fetch(url, {
             headers: {
                 dashboardid,
@@ -16,8 +16,8 @@ export default function useAutoComplete(id, autoRefresh, refreshInterval) {
         const res_1 = await res.json()
         return res_1
     },
-    {
-        refetchInterval: autoRefresh && refreshInterval,
-        refetchIntervalInBackground: autoRefresh
-    })
+        {
+            refetchInterval: autoRefresh && refreshInterval,
+            refetchIntervalInBackground: autoRefresh
+        })
 }

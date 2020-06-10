@@ -3,7 +3,9 @@ New-UDPage -Title 'AutoComplete' -Name "AutoComplete"  -Endpoint {
     [System.Collections.ArrayList]$filters = @()
     $null = $filters.AddRange($Repos[0].psobject.Properties.name)
     $null = $filters.Add('owner.id')
-    New-UDAntdAutoComplete -FilterKeys $filters.ToArray() -dataSource {
+    New-UDAntdAutoComplete -FilterKeys $filters -dataSource {
         $Repos | ConvertTo-Json 
+    } -OnChange {
+        
     }
-}  
+} -DefaultHomePage 

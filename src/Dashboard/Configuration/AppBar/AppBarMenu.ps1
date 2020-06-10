@@ -12,6 +12,7 @@ $AppBarMenu = New-UDAntdMenu -Mode horizontal -Content {
     ) -Text "Icons" -To "/Icons"
     New-UDAntdSubMenu -Title "Examples" -Content {
         New-UDAntdMenuItem -Text "Timeline" -To "/Demos/Timeline"
+        New-UDAntdMenuItem -Text "Github Timeline" -To "/GithubTimeline"
         New-UDAntdMenuItem -Text "Adam Driscoll" -To "/Users/AdamDriscoll/profile"
         New-UDAntdMenuItem -Text "Alon Gvili" -To "/Users/AlonGvili/profile"
         New-UDAntdMenuItem -Text "CountDown" -To "/Demos/CountDown"

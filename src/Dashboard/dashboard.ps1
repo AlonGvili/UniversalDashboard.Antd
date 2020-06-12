@@ -8,6 +8,6 @@ $Pages = Get-ChildItem -Path $Root\Pages\Examples -Filter *.ps1 -Recurse | ForEa
 
 $Theme = @{
     name  = "dark"
-    color = "#fadb14" #Yellow
+    color = "#2f54eb" #Blue
 }
-New-UDDashboard -Title "Dashboard" -Pages $Pages -AppBar $AppBar -SideBar $SideBar -Theme $Theme
+New-UDDashboard -Title "Dashboard" -Pages $Pages -AppBar $AppBar -Theme $Theme

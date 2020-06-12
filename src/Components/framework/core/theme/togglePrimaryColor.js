@@ -1,7 +1,8 @@
 import React from 'react'
 import { useTheme } from 'antd-theme'
-import { presetPrimaryColors, presetDarkPalettes, presetPalettes } from '@ant-design/colors'
-import Block from 'react-color/lib/Block'
+import { presetDarkPalettes, presetPalettes } from '@ant-design/colors'
+import Circle from 'react-color/lib/Circle'
+import { Popover } from 'antd'
 
 export default function TogglePrimaryColor() {
   const [{ name, variables }, setTheme] = useTheme()
@@ -13,19 +14,27 @@ export default function TogglePrimaryColor() {
     } else {
       colors = Object.keys(presetPalettes).map(color => presetPalettes[color].primary)
     }
-    console.log("colors", colors)
     return colors
   }
 
   return (
-    <Block
-      colors={ getPrimaryColors() }
-      onChange={ (color) => {
-        // Will update all css attributes affected by primary-color
-        setTheme({ name, variables: { 'primary-color': color.hex, 'progress-default-color': color.hex } })
-      } }
-      triangle="hide"
-    // width="100%"
-    />
+    <Popover content={
+      <Circle
+        colors={ getPrimaryColors() }
+        onChange={ (color) => {
+          setTheme({ name, variables: { 'primary-color': color.hex, 'progress-default-color': color.hex } })
+        } }
+      /> }
+      trigger="click"
+      arrowContent={ null }
+    >
+      <div style={ {
+        background: `${variables['primary-color']} none repeat scroll 0% 0%`,
+        width: 22,
+        height: 22,
+        borderRadius: 4,
+        cursor: "pointer",
+      } } />
+    </Popover >
   )
 }

@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React from "react"
-import { Form, Button, Space } from "antd"
-import { message } from "antd"
+import { Form, Space, Button } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
 function useForm() {
@@ -15,10 +14,13 @@ function useForm() {
 		})
 	}
 
-	const onFormReset = form => {
+	const onFormReset = (form, id, hasResetCallback) => {
 		form.resetFields()
-		new message.info({
-			content: "Form was reset!",
+		hasResetCallback && UniversalDashboard.publish("element-event", {
+			type: "clientEvent",
+			eventId: id + "onReset",
+			eventName: "onReset",
+			eventData: "",
 		})
 	}
 
@@ -36,29 +38,35 @@ function useForm() {
 
 function useFormComponent(api) {
 	const AntdForm = React.useMemo(
-		() => ({ id, ...props }) => {
+		() => ({ id, hasResetCallback, ...props }) => {
 			const [form] = Form.useForm()
 			const { onFormSubmit, onFormReset } = AntdForm.api
 			const [{ content, attributes }] = useDashboardEvent(id, props)
-			const { layout, formName } = attributes
+			const { layout, formName, submitButton } = attributes
 
-			return <div style={{ padding: 48 }}>
-				<Form id={id} form={form} name={formName || `form-${id}`} layout={layout} onFinish={(values) => onFormSubmit(id, values)}>
-					{UniversalDashboard.renderComponent(content)}
-					<Space direction="horizontal" size="large">
+			return (
+				<Form
+					id={ id }
+					form={ form }
+					name={ formName || `form-${id}` }
+					layout={ layout }
+					onFinish={ (values) => onFormSubmit(id, values) }
+				>
+					{ UniversalDashboard.renderComponent(content) }
+					<Space direction="horizontal" size="small">
 						<Form.Item>
-							<Button htmlType="submit" type="primary" style={{ marginRight: 16 }}>
+							{ !submitButton && <Button htmlType="submit" type="primary">
 								Send
-							</Button>
+							</Button> || UniversalDashboard.renderComponent(submitButton) }
 						</Form.Item>
 						<Form.Item>
-							<Button htmlType="button" type="dashed" onClick={() => onFormReset(form)}>
+							<Button htmlType="button" type="dashed" onClick={ () => onFormReset(form, id, hasResetCallback) }>
 								Reset
 							</Button>
 						</Form.Item>
 					</Space>
 				</Form>
-			</div>
+			)
 		},
 		[]
 	)
@@ -69,6 +77,6 @@ function useFormComponent(api) {
 
 export default props => {
 	const { AntdForm } = useForm()
-	return <AntdForm {...props} />
+	return <AntdForm { ...props } />
 }
 

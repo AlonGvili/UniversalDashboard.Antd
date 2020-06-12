@@ -96,7 +96,18 @@ function connectWebSocket(sessionId, history) {
 			}
 		})
 	})
-	
+
+	connection.on("clearTimeline", json => {
+		var data = JSON.parse(json)
+
+		PubSub.publish(data.timelineId, {
+			type: "clearTimeline",
+			data: {
+				timelineId: data.timelineId
+			}
+		})
+	})
+
 	connection.on("removeTimelineItem", json => {
 		var data = JSON.parse(json)
 

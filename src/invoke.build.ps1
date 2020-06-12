@@ -127,6 +127,9 @@ task MergePsm1 {
             "New-UDAntdCountdown"
             "Add-UDAntdTimelineItem"
             "Remove-UDAntdTimelineItem"
+            "New-UDAntdGithubCalendar"
+            "Add-UDAntdColumn"
+            "Clear-UDAntdTimeline"
         )
     }
     

@@ -62,7 +62,18 @@ New-UDPage -Title 'Profile' -Url "/Users/:user/profile" -Endpoint {
         [ValidateSet("AdamDriscoll", "AlonGvili")]
         $user
     )
+    $UserInfo = Get-GHUser -User $User
     $UserFollowers = Get-GHFollowers -User $User  
+    
+    New-UDAntdRow -Content {
+        New-UDAntdColumn -Span 6 -Content {
+            New-UserCard -InputObject $UserInfo
+        }
+        New-UDAntdColumn -Span 18 -Content {
+            New-UDAntdGithubCalendar -UserName $User -FullYear
+        }
+    }
+
     New-UDAntdRow -Content {
         New-UDAntdColumn -Span 24 -Content {
             New-UDAntdAutoComplete -FilterKeys @("login", "id", "name", "email", "location", "company") -dataSource {
@@ -70,12 +81,16 @@ New-UDPage -Title 'Profile' -Url "/Users/:user/profile" -Endpoint {
             } -OnChange {
                 $e = ConvertFrom-Json -InputObject $EventData
                 $t = New-UDAntdRow -Content { New-UserCard -InputObject $e } -Gutter @(16, 16)
-                Set-UDElement -Id "testme" -Properties @{ attributes = @{
+                Set-UDElement -Id "gh_followers_card" -Properties @{ attributes = @{
                         metaDescription = $t  
                     }
                 }
-            } -Style @{width = "100%" }
+            } -Style @{width = "100%" } -Placeholder "Search for followers..."
         }
     } -Gutter @(24, 24)
-    New-UDAntdCard -Id "testme" -MetaTitle "demo" -MetaDescription ""
+    New-UDAntdRow -Content {
+        New-UDAntdColumn -Span 24 -Content {
+            New-UDAntdCard -Id "gh_followers_card" -MetaTitle "FOLLOWERS" -MetaDescription ""
+        }
+    } -Gutter @(24, 24)
 }

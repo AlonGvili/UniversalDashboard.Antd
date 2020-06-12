@@ -203,9 +203,9 @@ const ToggleColorMode = lazy(
 const TogglePrimaryColor = lazy(
 	() => import(/* webpackChunkName: 'TogglePrimaryColor' */ "./framework/core/theme/togglePrimaryColor")
 )
-// const AddToTimeline = lazy(
-// 	() => import(/* webpackChunkName: 'AddToTimeline' */ "./timeline/addToTimeline")
-// )
+const AntdGithubCalendar = lazy(
+	() => import(/* webpackChunkName: 'AntdGithubCalendar' */ "./calander/gh-calendar")
+)
 
 export default function registerComponents() {
 	[
@@ -276,7 +276,7 @@ export default function registerComponents() {
 		{ type: "ud-antd-divider", component: AntdDivider },
 		{ type: "ud-antd-toggle-color-mode", component: ToggleColorMode },
 		{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
-		// { type: "ud-antd-utils-addToTimeline", component: AddToTimeline },
+		{ type: "ud-antd-github-calendar", component: AntdGithubCalendar },
 	].forEach(
 		({ type, component }) => UniversalDashboard.register(type, component)
 	)

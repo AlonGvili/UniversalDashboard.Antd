@@ -1,15 +1,48 @@
 <#
 .SYNOPSIS
-    Statistic component for universal dashboard
+Short description
+
 .DESCRIPTION
-    This statistic component usefull when you want to display statistic data with description
+Long description
+
+.PARAMETER Id
+Parameter description
+
+.PARAMETER DecimalSeparator
+Parameter description
+
+.PARAMETER GroupSeparator
+Parameter description
+
+.PARAMETER Title
+Parameter description
+
+.PARAMETER Precision
+Parameter description
+
+.PARAMETER Suffix
+Parameter description
+
+.PARAMETER Prefix
+Parameter description
+
+.PARAMETER ValueStyle
+Parameter description
+
+.PARAMETER Value
+Parameter description
+
+.PARAMETER AutoRefresh
+Parameter description
+
+.PARAMETER RefreshInterval
+Parameter description
+
 .EXAMPLE
-    PS C:\> 
-    Explanation of what the example does
-.OUTPUTS
-    Ant.Design.Countdown
+An example
+
 .NOTES
-    
+General notes
 #>
 function New-UDAntdStatistic {
     [CmdletBinding()]

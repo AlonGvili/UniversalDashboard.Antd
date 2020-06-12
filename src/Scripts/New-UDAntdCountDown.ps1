@@ -1,17 +1,39 @@
 <#
 .SYNOPSIS
-    CountDown component for universal dashboard
+Short description
+
 .DESCRIPTION
-    Very customizable countdown component from Ant-Design, you can use moment.js to format the display value
+Long description
+
+.PARAMETER Id
+Parameter description
+
+.PARAMETER Title
+Parameter description
+
+.PARAMETER OnFinish
+Parameter description
+
+.PARAMETER Prefix
+Parameter description
+
+.PARAMETER Suffix
+Parameter description
+
+.PARAMETER Format
+Parameter description
+
+.PARAMETER ValueStyle
+Parameter description
+
+.PARAMETER Value
+Parameter description
+
 .EXAMPLE
-    PS C:\>  New-UDAntdCountdown -Id "demo_countdown" -Title "Demo Countdown" -ValueStyle @{fontSize = 64} -Format "DD HH:mm:ss" -Value (
-                [DateTimeOffset]::Now.AddDays(14).ToUnixTimeMilliseconds()
-            ) 
-    In this example we create a countdown that count for 14 days 
-.OUTPUTS
-    Ant.Design.Countdown
+An example
+
 .NOTES
-    
+General notes
 #>
 function New-UDAntdCountdown {
     [CmdletBinding()]

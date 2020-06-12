@@ -8,6 +8,6 @@ export default function useTimeline(id) {
     }
 
     return useQuery(
-        id && ["timeline", { id }], () => getItems(), { refetchOnMount: true }
+        id && ["timeline", { id }], () => getItems(), { refetchOnMount: true, refetchOnWindowFocus: true }
     )
 }

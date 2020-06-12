@@ -49,5 +49,5 @@ New-UDPage -Title 'Forms' -Name 'Form' -Content {
                 duration    = 3
             }
         }
-    }
+    } 
 }

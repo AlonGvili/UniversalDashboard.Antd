@@ -9,9 +9,9 @@ export default function AntdAutoComplete({ id, ...props }) {
   const [dataSource, setDataSource] = React.useState([])
   const [{ attributes }] = useDashboardEvent(id, props)
   const { autoRefresh, refreshInterval, filterKeys, customInput, suffixIcon, ...restOfProps } = attributes
-  const { data, error, status, isFetching } = useAutoComplete(id, autoRefresh, refreshInterval)
+  const { data, error, status, isFetching, refetch } = useAutoComplete(id, autoRefresh, refreshInterval)
   const debouncedData = useDebounce(dataSource, 500)
-  const event$ = useEventEmitter()
+
   // callback to run on item select.
   const onSelect = (value) => {
     let selectedOption = filterKeys.map(fk => data.find(i => i[fk] === value))[0]
@@ -21,7 +21,6 @@ export default function AntdAutoComplete({ id, ...props }) {
       eventName: "onSelect",
       eventData: JSON.stringify(selectedOption)
     })
-    event$.emit(`I just selected an item ${selectedOption}`)
   }
 
   // filter the options base on the input text and return new array of the results.
@@ -52,14 +51,6 @@ export default function AntdAutoComplete({ id, ...props }) {
   // testing for errors in the react-query part from useAutoComplete function.
   if (status === "error") return <Alert message={ error.message } type="error" />
 
-  event$.useSubscription(val => {
-    console.log(val)
-  })
-
-  console.log("data", data)
-  console.log("dataSource", dataSource)
-  console.log("debouncedData", debouncedData)
-
   return (
     <AutoComplete
       { ...restOfProps }
@@ -69,7 +60,7 @@ export default function AntdAutoComplete({ id, ...props }) {
       onSelect={ onSelect }
       dataSource={ debouncedData }
     >
-      <Input size="large" />
+      <Input />
     </AutoComplete>
   )
 }

@@ -22,4 +22,10 @@ $AppBarMenu = New-UDAntdMenu -Mode horizontal -Content {
         New-UDAntdIcon -Icon ReadOutlined
     ) -Text "Badges" -To "/Badges"
     $UserProfileBtn
+    New-UDAntdMenuItem -Content (
+        New-UDAntdTogglePrimaryColor
+    )
+    New-UDAntdMenuItem -Content (
+        New-UDAntdToggleColorMode
+    )
 }  

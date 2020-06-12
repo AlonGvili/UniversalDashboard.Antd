@@ -65,7 +65,7 @@ function New-UDAntdCard {
         [Parameter(ParameterSetName = 'Tabs')]
         [Parameter(ParameterSetName = 'Default')]
         [Parameter(ParameterSetName = 'Grid')]
-        [hashtable]$BodyStyle = @{padding = 24},
+        [hashtable]$BodyStyle = @{padding = 24 },
         [Parameter(ParameterSetName = 'Tabs')]
         [Parameter(ParameterSetName = 'Default')]
         [Parameter(ParameterSetName = 'Grid')]
@@ -120,7 +120,9 @@ function New-UDAntdCard {
     End {
 
         if ($null -ne $Content) {
-            $BodyStyle = @{padding = 0}
+            if (-not ($BodyStyle.ContainsKey("padding"))) {
+                $BodyStyle.Add("padding", 24)
+            }
             if ($IsEndpoint) {
                 if ($Content -is [scriptblock]) {
                     $Endpoint = New-UDEndpoint -Endpoint $Content -Id $Id 
@@ -138,21 +140,21 @@ function New-UDAntdCard {
             $CardContent = @()
         }
 
-        if($null -ne $MetaTitle){
-            if ($MetaTitle -is [scriptblock]){
+        if ($null -ne $MetaTitle) {
+            if ($MetaTitle -is [scriptblock]) {
                 $MetaTitleContent = $MetaTitle.Invoke()
             }
-            else{
+            else {
                 $MetaTitleContent = $MetaTitle
             }
         }
 
-        if($null -ne $MetaDescription){
+        if ($null -ne $MetaDescription) {
             # $BodyStyle = @{padding = 0}
-            if ($MetaDescription -is [scriptblock]){
+            if ($MetaDescription -is [scriptblock]) {
                 $MetaDescriptionContent = $MetaDescription.Invoke()
             }
-            else{
+            else {
                 $MetaDescriptionContent = $MetaDescription
             }
         }

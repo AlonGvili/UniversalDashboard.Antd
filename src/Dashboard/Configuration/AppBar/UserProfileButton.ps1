@@ -13,12 +13,6 @@ $UserProfileBtn = New-UDAntdMenuItem -Content (
             New-UDAntdMenuItem -Icon (
                 New-UDAntdIcon -Icon LockOutlined
             ) -Text "Security"  -To "#" 
-            New-UDAntdMenuItem -Content (
-                New-UDAntdTogglePrimaryColor
-            )
-            New-UDAntdMenuItem -Content (
-                New-UDAntdToggleColorMode
-            )
         }
     )
 )

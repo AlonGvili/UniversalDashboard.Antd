@@ -5,33 +5,47 @@ import { useEndpointSubscription } from "../api/Hooks/useDashboardEvent"
 import useTimeline from "./useTimeline"
 import useAddToTimeline from "./addToTimeline"
 import useRemoveFromTimeline from "./removeFromTimeline"
+import useClearTimeline from "./clearTimeline"
 
 
 export default function AntdTimeline({ id, ...props }) {
 	const { autoRefresh, refreshInterval, ...restOfProps } = props
-	const [add] = useAddToTimeline()
+	const [add, { status: addStatus, reset, data: addData }] = useAddToTimeline()
 	const [remove] = useRemoveFromTimeline()
-	const { data, status, error } = useTimeline(id, autoRefresh, refreshInterval)
+	const [clear] = useClearTimeline()
 
-	useEndpointSubscription(id, (message, event) => {
+	const { data, status, error, isFetching, isStale, refetch } = useTimeline(id, autoRefresh, refreshInterval)
+
+	useEndpointSubscription(id, (_, event) => {
 		if (event.type === "addTimelineItem") {
-			add({ timelineId: event.data.timelineId, item: event.data.item })
+			add({ timelineId: event?.data?.timelineId, item: event?.data?.item })
 		}
 		if (event.type === "removeTimelineItem") {
-			remove({ timelineId: event.data.timelineId, itemId: event.data.itemId })
+			remove({ timelineId: event?.data?.timelineId, itemId: event?.data?.itemId })
+		}
+		if (event.type === "clearTimeline") {
+			clear({ timelineId: event?.data?.timelineId })
 		}
 	})
 
 	if (status === "error") return <Alert message={ error.message } type="error" />
 
+	console.log("addStatus", addStatus)
+	console.log("status", status)
+	console.log("addData", addData)
+	console.log("data", data)
 	return (
 		<Timeline
+			pending={ addStatus === "loading" && "Getting data..." }
 			{ ...restOfProps }
 		>
 			{ data !== undefined && data.map(
-				item => <Timeline.Item key={ item.id } { ...item }
-					dot={ item.dot && UniversalDashboard.renderComponent(item.dot) }
-					label={ item.label && UniversalDashboard.renderComponent(item.label) }
+				item => <Timeline.Item
+					{ ...item }
+					key={ item?.id }
+					dot={ UniversalDashboard.renderComponent(item?.dot) }
+					label={ UniversalDashboard.renderComponent(item?.label) }
+					onClick={ () => reset() }
 				>
 					{ UniversalDashboard.renderComponent(item.content) }
 				</Timeline.Item>) }

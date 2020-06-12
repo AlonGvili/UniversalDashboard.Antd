@@ -22,31 +22,32 @@ function New-UDAntdForm {
         [Parameter()]
         [object]$SubmitButton, 
         [Parameter()]
-        [object]$OnSubmit 
+        [object]$OnSubmit, 
+        [Parameter()]
+        [object]$OnReset 
     )
     End {
         if ($null -ne $OnSubmit) {
-            if ($OnSubmit -is [scriptblock]) {
-                $SubmitEndpoint = New-UDEndpoint -Endpoint $OnSubmit -Id ($Id + "onSubmit")
-            }
-            elseif ($OnSubmit -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "Content must be a script block or UDEndpoint"
-            }
+            New-UDEndpoint -Endpoint $OnSubmit -Id ($Id + "onSubmit") | Out-Null
+        }
+        
+        if ($null -ne $OnReset) {
+            New-UDEndpoint -Endpoint $OnReset -Id ($Id + "onReset") | Out-Null
         }
 
         $UDAntdForm = @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-form"
-            id = $Id
-            submitButton = $SubmitButton
+            assetId          = $AssetId 
+            isPlugin         = $true 
+            type             = "ud-antd-form"
+            id               = $Id
+            submitButton     = $SubmitButton
             # className = $ClassName
-            variant = $Variant
+            variant          = $Variant
             hideRequiredMark = $HideRequiredMark.IsPresent
-            labelAlign = $LabelAlign
-            layout= $Layout
-            content = $Content.Invoke()
-            
+            labelAlign       = $LabelAlign
+            layout           = $Layout
+            content          = $Content.Invoke()
+            hasResetCallback = $null -ne $OnReset
         }
         $UDAntdForm.PSTypeNames.Insert(0, 'Ant.Design.Form')
         $UDAntdForm
@@ -94,19 +95,19 @@ function New-UDAntdFormItem {
         # }
 
         $UDAntdFormItem = @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-form-item"
-            id = $Id
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-form-item"
+            id          = $Id
             # className = $ClassName
             # style = $Style
-            name = $Name
-            label = $Label
-            required = $Required.IsPresent
+            name        = $Name
+            label       = $Label
+            required    = $Required.IsPresent
             hasFeedback = $HasFeedback.IsPresent
             # initialValue = $InitialValue
-            rules = if($Rules.Length -gt 0){$Rules}else{$null}
-            content = $Content
+            rules       = if ($Rules.Length -gt 0) { $Rules }else { $null }
+            content     = $Content
             
         }
         $UDAntdFormItem.PSTypeNames.Insert(0, 'Ant.Design.FormItem')

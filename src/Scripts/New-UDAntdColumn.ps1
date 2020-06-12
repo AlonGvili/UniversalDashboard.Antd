@@ -46,7 +46,7 @@ function New-UDAntdColumn {
         [Parameter()]
         [string]$Xxl,
         [Parameter()]
-        [string]$Flex = "auto"
+        [object]$Flex = "auto"
     )
 
     End {
@@ -55,11 +55,6 @@ function New-UDAntdColumn {
             isPlugin = $true 
             type     = "ud-antd-col"
             id       = $Id
-            offset   = $Offset
-            order    = $Order
-            pull     = $Pull
-            push     = $Push
-            span     = $Span
             xs       = $Xs
             sm       = $Sm
             md       = $Md
@@ -68,6 +63,15 @@ function New-UDAntdColumn {
             xxl      = $Xxl
             flex     = $Flex
             content  = $Content.Invoke()
+        }
+
+        if ($PSBoundParameters.ContainsKey("Span")) {
+            $AntdColumn.Add("span", $Span)
+            $AntdColumn.Add("offset", $Offset)
+            $AntdColumn.Add("order", $Order)
+            $AntdColumn.Add("pull", $Pull)
+            $AntdColumn.Add("push", $Push)
+            $AntdColumn.Remove("Flex")
         }
         $AntdColumn.PSTypeNames.Insert(0, "Ant.Design.Column")
         $AntdColumn

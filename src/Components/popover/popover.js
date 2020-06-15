@@ -2,22 +2,15 @@ import React from "react"
 import { Popover } from "antd"
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-const AntdPopover = props => {
-  const [{ content, attributes }] = useDashboardEvent(props.id, props)
-  const title = (
-    <span>
-      { attributes.title && UniversalDashboard.renderComponent(attributes.title) }
-    </span>
-  )
+const { renderComponent } = UniversalDashboard
+export default function AntdPopover({ id, ...props }) {
+  const [{ content, attributes }] = useDashboardEvent(id, props)
+  const { trigger, title, ...restOfProps } = attributes
 
-  return <Popover
-    { ...attributes }
-    title={ title }
-    content={ UniversalDashboard.renderComponent(content) }
-    autoAdjustOverflow={ true }
-  >
-    { content && UniversalDashboard.renderComponent(children) }
-  </Popover>
+  return (
+    <Popover { ...restOfProps } title={ title } content={ renderComponent(content) } autoAdjustOverflow={ true } trigger="hover">
+      { renderComponent(trigger) }
+    </Popover>
+  )
 }
 
-export default AntdPopover

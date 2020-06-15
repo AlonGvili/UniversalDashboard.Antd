@@ -1,96 +1,91 @@
-function New-UserCard {
-    param(
-        [Parameter(ValueFromPipeline)]
-        [object[]]$InputObject
-    )
-    process {
-        foreach ($User in $InputObject) {
-            New-UDAntdColumn -Content {
-                New-UDAntdCard -MetaTitle $User.login -MetaDescription (
-                    @(
-                        "Followers $($User.followers)" 
-                        New-UDAntdDivider -Variant vertical
-                        "Following $($User.following)"
+New-UDPage -Title 'Settings' -Url "/users/:user/settings" -Endpoint {
+    New-UDAntdRow -Content {
+        # Form column
+        New-UDAntdColumn -Content {
+            New-UDAntdCard -Content {
+                New-UDAntdForm -Variant small -Content {
+                    New-UDAntdFormItem -Name 'name' -Content (
+                        New-UDAntdInput -PlaceHolder 'Github repository name' -Prefix ( New-UDAntdIcon -Icon GithubOutlined )
+                    ) -Rules @(
+                        @{
+                            required = $true
+                            message  = "you must enter repository name."
+                        }
                     )
-                ) -MetaAvatar (
-                    New-UDAntdAvatar -Src $User.avatar_url -Shape circle -Size large
-                )
-            } -Span 4 
-        }
-    }
-}
-
-function Get-GHUser {
-    param (
-        [Parameter()]
-        [string]$User
-    )
-    Process {
-        switch ($User) {
-            "AlonGvili" { 
-                Get-Content -Path "$Root\data\alon_gh.json" -Raw | ConvertFrom-Json 
-            }
-            "AdamDriscoll" { 
-                Get-Content -Path "$Root\data\adam_gh.json" -Raw | ConvertFrom-Json 
-            }   
-        }
-    }
-}
-function Get-GHFollowers {
-    param (
-        [Parameter()]
-        [string]$User
-    )
-    Process {
-        switch ($User) {
-            "AlonGvili" { 
-                Get-Content -Path "$Root\data\ghFollowers.json" -Raw | 
-                    ConvertFrom-Json | 
-                        Select-Object -Property login, id, name, email, location, company, avatar_url, followers, following 
-            }
-            "AdamDriscoll" { 
-                Get-Content -Path "$Root\data\adamFollowers.json" -Raw | 
-                    ConvertFrom-Json |
-                        Select-Object -Property login, id, name, email, location, company, avatar_url, followers, following  
-            }   
-        }
-    }
-}
-
-New-UDPage -Title 'Profile' -Url "/Users/:user/profile" -Endpoint {
-    param(
-        [ValidateSet("AdamDriscoll", "AlonGvili")]
-        $user
-    )
-    $UserInfo = Get-GHUser -User $User
-    $UserFollowers = Get-GHFollowers -User $User  
-    
-    New-UDAntdRow -Content {
-        New-UDAntdColumn -Span 6 -Content {
-            New-UserCard -InputObject $UserInfo
-        }
-        New-UDAntdColumn -Span 18 -Content {
-            New-UDAntdGithubCalendar -UserName $User -FullYear
-        }
-    }
-
-    New-UDAntdRow -Content {
-        New-UDAntdColumn -Span 24 -Content {
-            New-UDAntdAutoComplete -FilterKeys @("login", "id", "name", "email", "location", "company") -dataSource {
-                $UserFollowers | ConvertTo-Json 
-            } -OnChange {
-                $e = ConvertFrom-Json -InputObject $EventData
-                $t = New-UDAntdRow -Content { New-UserCard -InputObject $e } -Gutter @(16, 16)
-                Set-UDElement -Id "gh_followers_card" -Properties @{ attributes = @{
-                        metaDescription = $t  
+                    New-UDAntdFormItem -Name 'author' -Content (
+                        New-UDAntdInput -PlaceHolder 'Author name' -Prefix ( New-UDAntdIcon -Icon UserOutlined )
+                    ) -Rules @(
+                        @{
+                            required = $true
+                            message  = "you must enter author name."
+                        }
+                    )
+                    New-UDAntdFormItem -Name 'commits' -Content (
+                        New-UDAntdInputNumber -DefaultValue 2 
+                    )
+                } -Layout inline -OnSubmit {
+                    Update-UDAntdTimeLine -TimelineId "gh_commits" -Properties @{pending = "Processing timeline items.."}
+                    # Clear-UDAntdTimeline -TimelineId "gh_commits"
+                    [System.Collections.ArrayList]$ItemsToAdd = @()
+                    $RepoInfo = ConvertFrom-Json $EventData
+                    $RepoCommitsInfo = Invoke-GHRestMethod -Method Get -UriFragment "/repos/$($RepoInfo.author)/$($RepoInfo.name)/commits" 
+                   
+                    foreach ($item in $RepoCommitsInfo[0..($RepoInfo.commits - 1)]) {
+                        $CommitInfo = Invoke-GHRestMethod -Method Get -UriFragment $item.url
+                        $CommitProps = @{
+                            Id      = $item.sha
+                            Name    = $item.commit.committer.name
+                            AName   = $item.commit.author.name
+                            Date    = $item.commit.committer.date
+                            Message = $item.commit.message
+                            Stats   = @{
+                                Total     = $CommitInfo.stats.total
+                                Additions = $CommitInfo.stats.additions
+                                Deletions = $CommitInfo.stats.deletions
+                                Comments  = $item.commit.comment_count
+                            }
+                        }
+                    
+                        
+                        
+                            $item = New-UDAntdTimeLineItem -Id $CommitProps.Id -Label "$($CommitProps.Date)" -Content {
+                            New-UDAntdCard -MetaTitle "$($CommitProps.AName)" -MetaDescription (
+                                @(
+                                    New-UDAntdRow -Content {
+                                        New-UDAntdColumn -Content {
+                                            "$($CommitProps.Message)"
+                                        }
+                                    } 
+                                    New-UDAntdRow -Content {
+                                        New-UDAntdColumn -Content {
+                                            New-UDAntdStatistic -Title Total -Value { $CommitProps.Stats.Total } 
+                                        }
+                                        New-UDAntdColumn -Content {
+                                            New-UDAntdStatistic -Title Additions -Value { $CommitProps.Stats.Additions } 
+                                        }
+                                        New-UDAntdColumn -Content {
+                                            New-UDAntdStatistic -Title Deletions -Value { $CommitProps.Stats.Deletions }
+                                        }
+                                    } -Align middle -Justify space-around 
+                                )
+                            ) 
+                        } 
+                        $null = $ItemsToAdd.Add($item)
                     }
+                    
+                    Add-UDAntdTimelineItem -TimelineId "gh_commits" -Items $ItemsToAdd
+                    Update-UDAntdTimeLine -TimelineId "gh_commits" -Properties @{pending = $null}
+                } -OnReset {
+                    Clear-UDAntdTimeline -TimelineId "gh_commits"
                 }
-            } -Style @{width = "100%" } -Placeholder "Search for followers..."
-        }
-    } -Gutter @(24, 24)
+            } -BodyStyle @{padding = 24 }
+        } -Span 20 -Push 2 -Pull 2
+    } -Align middle -Gutter @(24, 24)
     New-UDAntdRow -Content {
-        New-UDAntdColumn -Span 24 -Content {
-            New-UDAntdCard -Id "gh_followers_card" -MetaTitle "FOLLOWERS" -MetaDescription ""
-        }
-    } -Gutter @(24, 24)
+        New-UDAntdColumn -Content { 
+            New-UDAntdTimeLine -id "gh_commits" -Mode alternate -Pending "initial timeline"
+        } -Span 12 -Push 6 -Pull 6
+    } -Align middle
 }
+
+

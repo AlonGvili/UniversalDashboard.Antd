@@ -1,4 +1,6 @@
 function New-UDAntdInputPassword {
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Input.Password")]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -11,40 +13,35 @@ function New-UDAntdInputPassword {
         [Parameter()]
         [string]$PlaceHolder,
         [Parameter()]
-        [string]$Pattern,
+        [object]$Suffix,
         [Parameter()]
-        [switch]$VisibilityToggle,
+        [object]$Prefix,
         [Parameter()]
-        [switch]$Required ,
+        [object]$AddonBefore,
         [Parameter()]
-        [hashtable]$Style
-
+        [object]$AddonAfter,
+        [Parameter()]
+        [string]$Pattern
     )
 
     End {
-
-        if ($null -ne $OnPressEnter) {
-            if ($OnPressEnter -is [scriptblock]) {
-                $OnPressEnterEndpoint = New-UDEndpoint -Endpoint $OnPressEnter -Id ($Id + "onPressEnter")
-            }
-            elseif ($OnPressEnter -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "OnPressEnter must be a script block or UDEndpoint"
-            }
-        }
-
-        @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-input-password"
-            id = $Id
-            className = $ClassName
-            disabled = $Disabled.IsPresent
-            visibilityToggle = $VisibilityToggle.IsPresent
-            pattern = $Pattern
+        $AntdInputPassword = @{
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-input-password"
+            id          = $Id
+            disabled    = $Disabled.IsPresent
+            prefix      = $Prefix
+            suffix      = $Suffix
+            addonBefore = $AddonBefore
+            addonAfter  = $AddonAfter
             placeholder = $PlaceHolder
-            required = $Required.IsPresent
-            style = $Style
         }
 
+        if ($PSBoundParameters.ContainsKey("Pattern")) {
+               $AntdInputPassword.Add("pattern",$Pattern)
+        }
+        $AntdInputPassword.PSTypeNames.Insert(0, "Ant.Design.Input.Password") | Out-Null
+        $AntdInputPassword
     }
 }

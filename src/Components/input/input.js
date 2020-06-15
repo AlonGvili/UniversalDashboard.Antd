@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Input } from "antd";
-// import 'antd/es/input/style/index.css'
+import React from "react";
+import { Input } from "antd"
 
 const UDAntdInput = ({ prefix, suffix, addonAfter, addonBefore, ...props }) => {
 
@@ -19,7 +18,6 @@ const UDAntdInput = ({ prefix, suffix, addonAfter, addonBefore, ...props }) => {
       {...props}
       {...addons}
       {...prefix_suffix}
-      className={`custom-input`}
     />
   );
 };

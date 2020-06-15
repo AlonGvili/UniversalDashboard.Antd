@@ -1,11 +1,10 @@
 import React from "react"
 import { getApiPath } from "./config.jsx"
 import PubSub from "pubsub-js"
-import { HubConnectionBuilder, LogLevel, Subject, HubConnection } from "@microsoft/signalr"
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { useLocation, useHistory } from "react-router-dom"
 import { getMeta } from "../Components/framework/meta.js"
 import { queryCache } from "react-query"
-import { getPages } from "../Components/framework/pages/usePages.js"
 
 const dashboardId = getMeta("ud-dashboard")
 
@@ -92,7 +91,7 @@ function connectWebSocket(sessionId, history) {
 			type: "addTimelineItem",
 			data: {
 				timelineId: data.timelineId,
-				item: data.item,
+				items: data.items,
 			}
 		})
 	})
@@ -117,6 +116,27 @@ function connectWebSocket(sessionId, history) {
 				timelineId: data.timelineId,
 				itemId: data.itemId,
 			}
+		})
+	})
+
+	connection.on("updateTimeline", json => {
+		var data = JSON.parse(json)
+
+		PubSub.publish(data.timelineId, {
+			type: "updateTimeline",
+			data: {
+				timelineId: data.timelineId,
+				props: data.props,
+			}
+		})
+	})
+
+	connection.on("getTimeline", json => {
+		var data = JSON.parse(json)
+
+		PubSub.publish(data.componentId, {
+			type: "getTimeline",
+			requestId: data.requestId,
 		})
 	})
 

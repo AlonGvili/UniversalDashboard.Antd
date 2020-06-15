@@ -206,6 +206,9 @@ const TogglePrimaryColor = lazy(
 const AntdGithubCalendar = lazy(
 	() => import(/* webpackChunkName: 'AntdGithubCalendar' */ "./calander/gh-calendar")
 )
+const AntdInputNumber = lazy(
+	() => import(/* webpackChunkName: 'AntdInputNumber' */ "./input/number")
+)
 
 export default function registerComponents() {
 	[
@@ -277,6 +280,7 @@ export default function registerComponents() {
 		{ type: "ud-antd-toggle-color-mode", component: ToggleColorMode },
 		{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
 		{ type: "ud-antd-github-calendar", component: AntdGithubCalendar },
+		{ type: "ud-antd-input-number", component: AntdInputNumber },
 	].forEach(
 		({ type, component }) => UniversalDashboard.register(type, component)
 	)

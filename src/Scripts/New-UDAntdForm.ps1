@@ -22,6 +22,14 @@ function New-UDAntdForm {
         [Parameter()]
         [object]$SubmitButton, 
         [Parameter()]
+        [object]$ResetButton, 
+        [Parameter()]
+        [hashtable]$LabelCol, 
+        [Parameter()]
+        [hashtable]$WrapperCol, 
+        [Parameter()]
+        [hashtable]$InitialValues, 
+        [Parameter()]
         [object]$OnSubmit, 
         [Parameter()]
         [object]$OnReset 
@@ -34,13 +42,17 @@ function New-UDAntdForm {
         if ($null -ne $OnReset) {
             New-UDEndpoint -Endpoint $OnReset -Id ($Id + "onReset") | Out-Null
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
         $UDAntdForm = @{
             assetId          = $AssetId 
             isPlugin         = $true 
             type             = "ud-antd-form"
             id               = $Id
             submitButton     = $SubmitButton
+            resetButton     = $ResetButton
+            wrapperCol       = $WrapperCol
+            labelCol         = $LabelCol
+            initialValues    = $InitialValues
             # className = $ClassName
             variant          = $Variant
             hideRequiredMark = $HideRequiredMark.IsPresent
@@ -78,7 +90,13 @@ function New-UDAntdFormItem {
         [Parameter()]
         [object]$InitialValue,
         [Parameter()]
+        [hashtable]$LabelCol, 
+        [Parameter()]
+        [hashtable]$WrapperCol, 
+        [Parameter()]
         [string]$Label,
+        [Parameter()]
+        [switch]$NoStyle,
         [Parameter()]
         [object]$Content,
         [Parameter()]
@@ -95,19 +113,22 @@ function New-UDAntdFormItem {
         # }
 
         $UDAntdFormItem = @{
-            assetId     = $AssetId 
-            isPlugin    = $true 
-            type        = "ud-antd-form-item"
-            id          = $Id
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-form-item"
+            id           = $Id
             # className = $ClassName
-            # style = $Style
-            name        = $Name
-            label       = $Label
-            required    = $Required.IsPresent
-            hasFeedback = $HasFeedback.IsPresent
-            # initialValue = $InitialValue
-            rules       = if ($Rules.Length -gt 0) { $Rules }else { $null }
-            content     = $Content
+            style        = $Style
+            name         = $Name
+            label        = $Label
+            wrapperCol   = $WrapperCol
+            labelCol     = $LabelCol
+            noStyle      = $NoStyle.IsPresent
+            required     = $Required.IsPresent
+            hasFeedback  = $HasFeedback.IsPresent
+            initialValue = $InitialValue
+            rules        = if ($Rules.Length -gt 0) { $Rules }else { $null }
+            content      = $Content
             
         }
         $UDAntdFormItem.PSTypeNames.Insert(0, 'Ant.Design.FormItem')

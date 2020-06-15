@@ -1,20 +1,32 @@
 New-UDPage -Title 'Forms' -Name 'Form' -Content {
     New-UDAntdNotification -Id "info2" -Title "Universal Dashboard" -Description "Notification Description Content" -Preset "success" -Duration 8
-    New-UDAntdForm -Id 'demoForm' -Variant small -Content {
+    $InitialValues = @{
+        username = "AlonGvili"
+        password = "Aa123456"
+        email    = "alon@gmail.com"
+    }
+    $WrapperCol = @{ span = 20; pull = 2; push = 2 }
+            
+    New-UDAntdForm -Id 'demoForm' -Variant small -WrapperCol $WrapperCol -InitialValues $InitialValues -Content {
         New-UDAntdFormItem -Name 'username' -Content (
             New-UDAntdInput -PlaceHolder 'Enter your user name' -Prefix ( New-UDAntdIcon -Icon UserOutlined )
         ) -Rules @(@{
                 required = $true
                 message  = "you must enter a user name."
             })
-        New-UDAntdFormItem -Name 'group' -Content (
-            New-UDAntdInput -PlaceHolder 'Enter your group name' -Prefix ( New-UDAntdIcon -Icon UserOutlined )
+        New-UDAntdFormItem -Name 'password' -Content (
+            New-UDAntdInputPassword -PlaceHolder 'Enter your user password' -Prefix ( New-UDAntdIcon -Icon KeyOutlined  )
         ) -Rules @(@{
                 required = $true
-                message  = "you must enter a valid group name."
-                enum     = @('dev', 'ops', 'qa')
-                type     = 'enum'
+                message  = "you must enter a valide password."
             })
+        New-UDAntdFormItem -Name "group" -Content (
+                New-UDAntdInput -PlaceHolder 'Enter your group name' -Prefix ( New-UDAntdIcon -Icon TeamOutlined  ) -AddonAfter (
+                    New-UDAntdPopover -Trigger (
+                        New-UDAntdIcon -Icon InfoCircleOutlined
+                    ) -Content "valide groups names are: dev, ops, qa" -Title "test" 
+                )        
+        )
         New-UDAntdFormItem -Name 'email' -Content (
             New-UDAntdInput -PlaceHolder 'Enter your email address' -Prefix ( New-UDAntdIcon -Icon MailOutlined  )
         ) -Rules @(@{
@@ -39,15 +51,18 @@ New-UDPage -Title 'Forms' -Name 'Form' -Content {
                 New-UDAntdRadioButton -Value "VS" -Content { "Visual Studio" }
             } 
         )
-    } -Layout vertical -OnSubmit {
-        # $t = ConvertFrom-Json $EventData 
+    } -Layout vertical -SubmitButton (
+        New-UDAntdButton -Label Demo -HtmlType submit -ButtonType primary
+    ) -ResetButton (
+        New-UDAntdButton -Label Clear -ButtonType dashed
+    ) -OnSubmit {
         Set-UDElement -Id "info2" -Properties @{
             attributes = @{
-                description = ConvertFrom-Json $EventData | ConvertTo-Json
+                description = ConvertFrom-Json $EventData -AsHashtable | ConvertTo-Json
                 visible     = $true 
-                preset      = "error"
-                duration    = 3
+                preset      = "info"
+                duration    = 4
             }
         }
-    } 
+    }
 }

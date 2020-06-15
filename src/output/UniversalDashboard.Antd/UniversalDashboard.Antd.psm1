@@ -2,30 +2,6 @@ $TAType = [psobject].Assembly.GetType('System.Management.Automation.TypeAccelera
 $TAtype::Add('DashboardColor', 'UniversalDashboard.Models.DashboardColor')
 $TAtype::Add('Endpoint', 'UniversalDashboard.Models.Endpoint')
 
-function Add-UDAntdTimelineItem {
-    param(
-        [Parameter(Mandatory)]
-        [string]$TimelineId,
-        [Parameter(Mandatory)]
-        [object]$Item,
-        [Parameter()]
-        [Switch]$Broadcast
-    )
-
-    # $NewContent = & $Content
-
-    $Data = @{
-        timelineId = $TimelineId
-        item       = $Item
-    }
-
-    if ($Broadcast) {
-        $DashboardHub.SendWebSocketMessage("addTimelineItem", $Data)
-    }
-    else {
-        $DashboardHub.SendWebSocketMessage($ConnectionId, "addTimelineItem", $Data)
-    }    
-}
 function Add-UDAntdColumn {
     param(
         [Parameter(Mandatory)]
@@ -48,6 +24,60 @@ function Add-UDAntdColumn {
     }
     else {
         $DashboardHub.SendWebSocketMessage($ConnectionId, "addColumn", $Data)
+    }    
+}
+class AntdPage {
+    [string]$Name
+    [Alias("Endpoint")]
+    [scriptblock]$Content
+    [string]$Url
+    [bool]$DefaultHomePage
+    [string]$Title
+    [bool]$Blank
+    [string]$Id = [Guid]::NewGuid().ToString()
+    [ScriptBlock]$OnLoading
+    [object]$Icon
+}
+
+function Add-UDAntdPage {
+    param(
+        [Parameter()]
+        [AntdPage]$Page,
+        [Parameter()]
+        [Switch]$Broadcast
+    )
+
+    New-UDEndpoint -Endpoint $Page.Content -Id $Id | Out-Null 
+
+    if ($Broadcast) {
+        $DashboardHub.SendWebSocketMessage("addPage", $Page)
+    }
+    else {
+        $DashboardHub.SendWebSocketMessage($ConnectionId, "addPage", $Page)
+    }    
+}
+function Add-UDAntdTimelineItem {
+    param(
+        [Parameter(Mandatory)]
+        [string]$TimelineId,
+        [Parameter(Mandatory)]
+        [object[]]$Items,
+        [Parameter()]
+        [Switch]$Broadcast
+    )
+
+    # $NewContent = & $Content
+
+    $Data = @{
+        timelineId = $TimelineId
+        items      = $Items
+    }
+
+    if ($Broadcast) {
+        $DashboardHub.SendWebSocketMessage("addTimelineItem", $Data)
+    }
+    else {
+        $DashboardHub.SendWebSocketMessage($ConnectionId, "addTimelineItem", $Data)
     }    
 }
 function Clear-UDAntdTimeline {
@@ -133,19 +163,26 @@ function New-UDDashboard {
     }
 }
 
-function Add-UDAntdPage{
+function Get-UDAntdTimeline
+{
+    [CmdletBinding()]
     param(
-        [Parameter()]
-        [string]$Id = (New-Guid).guid
+        [Parameter(Mandatory)]
+		[string]$TimelineId
     )
-    end{
-        @{
-            assetId   = $AssetId
-            id = $Id
-            isPlugin  = $true
-            type      = "ud-antd-add-page"
-        }
+
+       $requestId = ''
+
+    $requestId = [Guid]::NewGuid().ToString()
+
+    $Data = @{
+        requestId = $requestId 
+        componentId = $TimelineId
     }
+
+    $DashboardHub.SendWebSocketMessage($ConnectionId, "requestState", $Data)
+    $stateRequestService.Get($requestId)    
+    
 }
 <#
 .SYNOPSIS
@@ -2138,6 +2175,14 @@ function New-UDAntdForm {
         [Parameter()]
         [object]$SubmitButton, 
         [Parameter()]
+        [object]$ResetButton, 
+        [Parameter()]
+        [hashtable]$LabelCol, 
+        [Parameter()]
+        [hashtable]$WrapperCol, 
+        [Parameter()]
+        [hashtable]$InitialValues, 
+        [Parameter()]
         [object]$OnSubmit, 
         [Parameter()]
         [object]$OnReset 
@@ -2150,13 +2195,17 @@ function New-UDAntdForm {
         if ($null -ne $OnReset) {
             New-UDEndpoint -Endpoint $OnReset -Id ($Id + "onReset") | Out-Null
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
         $UDAntdForm = @{
             assetId          = $AssetId 
             isPlugin         = $true 
             type             = "ud-antd-form"
             id               = $Id
             submitButton     = $SubmitButton
+            resetButton     = $ResetButton
+            wrapperCol       = $WrapperCol
+            labelCol         = $LabelCol
+            initialValues    = $InitialValues
             # className = $ClassName
             variant          = $Variant
             hideRequiredMark = $HideRequiredMark.IsPresent
@@ -2194,7 +2243,13 @@ function New-UDAntdFormItem {
         [Parameter()]
         [object]$InitialValue,
         [Parameter()]
+        [hashtable]$LabelCol, 
+        [Parameter()]
+        [hashtable]$WrapperCol, 
+        [Parameter()]
         [string]$Label,
+        [Parameter()]
+        [switch]$NoStyle,
         [Parameter()]
         [object]$Content,
         [Parameter()]
@@ -2211,19 +2266,22 @@ function New-UDAntdFormItem {
         # }
 
         $UDAntdFormItem = @{
-            assetId     = $AssetId 
-            isPlugin    = $true 
-            type        = "ud-antd-form-item"
-            id          = $Id
+            assetId      = $AssetId 
+            isPlugin     = $true 
+            type         = "ud-antd-form-item"
+            id           = $Id
             # className = $ClassName
-            # style = $Style
-            name        = $Name
-            label       = $Label
-            required    = $Required.IsPresent
-            hasFeedback = $HasFeedback.IsPresent
-            # initialValue = $InitialValue
-            rules       = if ($Rules.Length -gt 0) { $Rules }else { $null }
-            content     = $Content
+            style        = $Style
+            name         = $Name
+            label        = $Label
+            wrapperCol   = $WrapperCol
+            labelCol     = $LabelCol
+            noStyle      = $NoStyle.IsPresent
+            required     = $Required.IsPresent
+            hasFeedback  = $HasFeedback.IsPresent
+            initialValue = $InitialValue
+            rules        = if ($Rules.Length -gt 0) { $Rules }else { $null }
+            content      = $Content
             
         }
         $UDAntdFormItem.PSTypeNames.Insert(0, 'Ant.Design.FormItem')
@@ -3140,18 +3198,18 @@ function New-UDAntdIcon {
     }
 }
 function New-UDAntdInput {
+    [CmdletBinding()]
+    [OutputType('Ant.Design.Input')]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
-        [Parameter()]
-        [string]$ClassName,
         [Parameter()]
         [switch]$disabled,
         [Parameter()]
         [switch]$AllowClear,
         [Parameter()]
-        [ValidateSet("default","small","large")]
-        [string]$size,
+        [ValidateSet("default", "small", "large")]
+        [string]$size = "default",
         [Parameter()]
         [object]$Suffix,
         [Parameter()]
@@ -3164,26 +3222,75 @@ function New-UDAntdInput {
         [string]$PlaceHolder,
         [Parameter()]
         [hashtable]$Style
-
     )
 
     End {
-
-        @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-input"
-            disabled = $Disabled.IsPresent
-            allowClear = $AllowClear.IsPresent
-            size = $Size
-            prefix = $Prefix
-            suffix = $Suffix
+        $AntdInput = @{
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-input"
+            disabled    = $Disabled.IsPresent
+            allowClear  = $AllowClear.IsPresent
+            size        = $Size
+            prefix      = $Prefix
+            suffix      = $Suffix
             addonBefore = $AddonBefore
-            addonAfter = $AddonAfter
+            addonAfter  = $AddonAfter
             placeholder = $PlaceHolder
-            style = $Style
+            style       = $Style
         }
+        $AntdInput.PSTypeNames.Insert(0, 'Ant.Design.Input')
+        $AntdInput
+    }
+}
 
+function New-UDAntdInputNumber {
+    [CmdletBinding()]
+    [OutputType('Ant.Design.Input.Number')]
+    param(
+        [Parameter()]
+        [string]$Id = (New-Guid).ToString(),
+        [Parameter()]
+        [ValidateSet("default", "small", "large")]
+        [string]$size = "default",
+        [Parameter()]
+        [string]$Suffix,
+        [Parameter()]
+        [string]$Prefix,
+        [Parameter()]
+        [int]$DefaultValue,
+        [Parameter()]
+        [switch]$Disabled,
+        [Parameter()]
+        [int]$Max = 100,
+        [Parameter()]
+        [int]$Min = 0,
+        [Parameter()]
+        [int]$Precision,
+        [Parameter()]	
+        [string]$DecimalSeparator,
+        [Parameter()]	
+        [int]$Step = 1
+    )
+
+    End {
+        $AntdInputNumber = @{
+            assetId          = $AssetId 
+            isPlugin         = $true 
+            type             = "ud-antd-input-number"
+            disabled         = $Disabled.IsPresent
+            size             = $Size
+            prefix           = $Prefix
+            suffix           = $Suffix
+            decimalseparator = $Decimalseparator
+            defaultvalue     = $Defaultvalue
+            max              = $Max
+            min              = $Min
+            precision        = $Precision
+            step             = $Step
+        }
+        $AntdInputNumber.PSTypeNames.Insert(0, 'Ant.Design.Input.Number')
+        $AntdInputNumber
     }
 }
 
@@ -3221,6 +3328,8 @@ function New-UDAntdInputTextArea {
 }
 
 function New-UDAntdInputPassword {
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Input.Password")]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
@@ -3233,41 +3342,36 @@ function New-UDAntdInputPassword {
         [Parameter()]
         [string]$PlaceHolder,
         [Parameter()]
-        [string]$Pattern,
+        [object]$Suffix,
         [Parameter()]
-        [switch]$VisibilityToggle,
+        [object]$Prefix,
         [Parameter()]
-        [switch]$Required ,
+        [object]$AddonBefore,
         [Parameter()]
-        [hashtable]$Style
-
+        [object]$AddonAfter,
+        [Parameter()]
+        [string]$Pattern
     )
 
     End {
-
-        if ($null -ne $OnPressEnter) {
-            if ($OnPressEnter -is [scriptblock]) {
-                $OnPressEnterEndpoint = New-UDEndpoint -Endpoint $OnPressEnter -Id ($Id + "onPressEnter")
-            }
-            elseif ($OnPressEnter -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "OnPressEnter must be a script block or UDEndpoint"
-            }
-        }
-
-        @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-input-password"
-            id = $Id
-            className = $ClassName
-            disabled = $Disabled.IsPresent
-            visibilityToggle = $VisibilityToggle.IsPresent
-            pattern = $Pattern
+        $AntdInputPassword = @{
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-input-password"
+            id          = $Id
+            disabled    = $Disabled.IsPresent
+            prefix      = $Prefix
+            suffix      = $Suffix
+            addonBefore = $AddonBefore
+            addonAfter  = $AddonAfter
             placeholder = $PlaceHolder
-            required = $Required.IsPresent
-            style = $Style
         }
 
+        if ($PSBoundParameters.ContainsKey("Pattern")) {
+               $AntdInputPassword.Add("pattern",$Pattern)
+        }
+        $AntdInputPassword.PSTypeNames.Insert(0, "Ant.Design.Input.Password") | Out-Null
+        $AntdInputPassword
     }
 }
 
@@ -4045,46 +4149,35 @@ function New-UDAntdPopConfirm {
 }
 
 function New-UDAntdPopover {
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Popover")]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
-        [scriptblock]$Title,
+        [string]$Title,
         [Parameter()]
         [ValidateSet("top", "left", "right", "bottom", "topLeft", "topRight", "bottomLeft", "bottomRight", "leftTop", "leftBottom", "rightTop", "rightBottom")]
-        [string]$Placement,
+        [string]$Placement = "top",
         [Parameter()]
-        [scriptblock]$Content,
+        [object]$Content,
         [Parameter()]
-        [scriptblock]$Children,
-        [Parameter()]
-        [hashtable]$Style
+        [object]$Trigger
     )
 
     End {
-
-        if($null -ne $Title){
-            $PopoverTitle = $Title.Invoke()
-        }else {
-            $PopoverTitle = $null
-        }
-
         $AntdPopover = @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-popover"
-            id = $Id
-            className = $ClassName
-            title = $PopoverTitle
+            assetId   = $AssetId 
+            isPlugin  = $true 
+            type      = "ud-antd-popover"
+            id        = $Id
+            title     = $Title
             placement = $Placement
-            key = $Id
-            content = $Content.Invoke()
-            children = $Children.Invoke()
-            style = $Style
+            key       = $Id
+            content   = $Content
+            trigger   = $Trigger
         }
-        $AntdPopover.PSTypeNames.Insert(0, "universaldashboard.antd.popover") | Out-Null
+        $AntdPopover.PSTypeNames.Insert(0, "Ant.Design.Popover") | Out-Null
         $AntdPopover
     }
 }
@@ -5769,6 +5862,30 @@ function Show-UDAntdThemeButton {
     }
 }
 
+function Update-UDAntdTimeline {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [string]$TimelineId,
+        [Parameter(Mandatory)]
+        [hashtable]$Properties,
+        [Parameter()]
+        [Switch]$Broadcast
+    )
+
+    End {
+        $Data = @{
+            timelineId = $TimelineId
+            props     = $Properties
+        }
+        if ($Broadcast) {
+            $DashboardHub.SendWebSocketMessage("updateTimeline", $Data)
+        }
+        else {
+            $DashboardHub.SendWebSocketMessage($ConnectionId, "updateTimeline", $Data)
+        }    
+    }
+}
 
 # function Update-UDAntdTypeData {
 #     Param(

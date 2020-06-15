@@ -1,44 +1,33 @@
 function New-UDAntdPopover {
+    [CmdletBinding()]
+    [OutputType("Ant.Design.Popover")]
     param(
         [Parameter()]
         [string]$Id = (New-Guid).ToString(),
         [Parameter()]
-        [string]$ClassName,
-        [Parameter()]
-        [scriptblock]$Title,
+        [string]$Title,
         [Parameter()]
         [ValidateSet("top", "left", "right", "bottom", "topLeft", "topRight", "bottomLeft", "bottomRight", "leftTop", "leftBottom", "rightTop", "rightBottom")]
-        [string]$Placement,
+        [string]$Placement = "top",
         [Parameter()]
-        [scriptblock]$Content,
+        [object]$Content,
         [Parameter()]
-        [scriptblock]$Children,
-        [Parameter()]
-        [hashtable]$Style
+        [object]$Trigger
     )
 
     End {
-
-        if($null -ne $Title){
-            $PopoverTitle = $Title.Invoke()
-        }else {
-            $PopoverTitle = $null
-        }
-
         $AntdPopover = @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-popover"
-            id = $Id
-            className = $ClassName
-            title = $PopoverTitle
+            assetId   = $AssetId 
+            isPlugin  = $true 
+            type      = "ud-antd-popover"
+            id        = $Id
+            title     = $Title
             placement = $Placement
-            key = $Id
-            content = $Content.Invoke()
-            children = $Children.Invoke()
-            style = $Style
+            key       = $Id
+            content   = $Content
+            trigger   = $Trigger
         }
-        $AntdPopover.PSTypeNames.Insert(0, "universaldashboard.antd.popover") | Out-Null
+        $AntdPopover.PSTypeNames.Insert(0, "Ant.Design.Popover") | Out-Null
         $AntdPopover
     }
 }

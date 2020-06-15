@@ -19,12 +19,22 @@ export function useEndpointSubscription(endpointId, callback) {
 	}, [endpointId])
 
 }
+
+const onEvent = (eventName = "", eventData = {}) => {
+	UniversalDashboard.publish("element-event", {
+		type: "clientEvent",
+		eventId: `${elementId}${eventName}`,
+		eventName: eventName,
+		eventData: eventData,
+	})
+}
 export default function useDashboardEvent(elementId, initialState) {
 	const { content, ...attributes } = initialState
 
 	const [state, setState] = useState({
 		content: content,
 		attributes: attributes,
+		onEvent
 	})
 
 	const events = (msg, event) => {
@@ -86,6 +96,7 @@ export default function useDashboardEvent(elementId, initialState) {
 	}
 
 	useEndpointSubscription(elementId, events)
+
 	const reload = () => {
 		UniversalDashboard.get(endpoint(elementId), data =>
 			setState(state => {
@@ -96,6 +107,7 @@ export default function useDashboardEvent(elementId, initialState) {
 			})
 		)
 	}
+
 
 	return [state, reload, setState]
 }

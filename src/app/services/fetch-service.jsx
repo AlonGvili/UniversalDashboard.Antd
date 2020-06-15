@@ -56,7 +56,7 @@ export const fetchPost = function (url, data, success) {
     fetch(getApiPath() + url, {
         method: 'post',
         headers: {
-            'Accept': 'application/json, text/plain, */*',
+            'Accept': 'application/json, */*',
             'Content-Type': 'application/json',
             'UDConnectionId': UniversalDashboard.connectionId,
             'dashboardId': dashboardId

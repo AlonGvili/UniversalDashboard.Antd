@@ -42,10 +42,12 @@ function useFormComponent(api) {
 			const [form] = Form.useForm()
 			const { onFormSubmit, onFormReset } = AntdForm.api
 			const [{ content, attributes }] = useDashboardEvent(id, props)
-			const { layout, formName, submitButton } = attributes
+			const { layout, formName, submitButton, resetButton, ...restOfProps } = attributes
 
+			const customResetBtn = UniversalDashboard.renderComponent(resetButton)
 			return (
 				<Form
+					{ ...restOfProps }
 					id={ id }
 					form={ form }
 					name={ formName || `form-${id}` }
@@ -53,18 +55,14 @@ function useFormComponent(api) {
 					onFinish={ (values) => onFormSubmit(id, values) }
 				>
 					{ UniversalDashboard.renderComponent(content) }
-					<Space direction="horizontal" size="small">
 						<Form.Item>
 							{ !submitButton && <Button htmlType="submit" type="primary">
 								Send
 							</Button> || UniversalDashboard.renderComponent(submitButton) }
+							{ !resetButton && <Button htmlType="button" type="dashed" onClick={ () => onFormReset(form, id, hasResetCallback) }>
+							Reset
+							</Button> || <Button {...customResetBtn} onClick={ () => onFormReset(form, id, hasResetCallback) }/> }
 						</Form.Item>
-						<Form.Item>
-							<Button htmlType="button" type="dashed" onClick={ () => onFormReset(form, id, hasResetCallback) }>
-								Reset
-							</Button>
-						</Form.Item>
-					</Space>
 				</Form>
 			)
 		},

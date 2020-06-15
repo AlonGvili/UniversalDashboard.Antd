@@ -7,7 +7,6 @@ export default function AntdIcon({ id, name, size, hasCallback, primaryColor, is
     const [{ variables }] = useTheme();
     const onClick = React.useCallback(
         (event, id) => {
-            console.log("Icon event click", event, id)
             UniversalDashboard.publish("element-event", {
                 type: "clientEvent",
                 eventId: id + "onClick",
@@ -31,8 +30,8 @@ export default function AntdIcon({ id, name, size, hasCallback, primaryColor, is
         "10x": 256,
     })
 
-    console.log("variables['primary-color']", variables['primary-color'])
-    let Icon = AntdIcons[name]
+    let Icon = React.useMemo(() => AntdIcons[name], [name])
+    
     return (
         <Alert.ErrorBoundary>
             <React.Suspense fallback={<Skeleton.Avatar shape="circle" size="small" active />} >

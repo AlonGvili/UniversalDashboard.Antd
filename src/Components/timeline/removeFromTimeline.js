@@ -8,7 +8,6 @@ export default function useRemoveFromTimeline() {
             if (prevData !== undefined) {
                 if (prevData.some(data => data.id === itemId)) {
                     const filterData = prevData.filter(item => item.id !== itemId)
-                    console.log("filterData", filterData)
                     return filterData
                 } else {
                     message.error({

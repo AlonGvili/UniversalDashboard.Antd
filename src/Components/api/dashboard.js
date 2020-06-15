@@ -9,15 +9,24 @@ const PageManager = React.lazy(
 )
 
 export default ({ appbar, sidebar, footer, theme: udTheme }) => {
-	const [theme, setTheme] = React.useState({
-		name: udTheme.name,
-		variables: { 'primary-color': udTheme.color, 'progress-default-color': udTheme.color },
+	const [theme, setTheme] = React.useState(() => {
+		const savedTheme = localStorage.getItem("theme")
+		if(!savedTheme) return { name: udTheme.name, variables: { 
+			'primary-color': udTheme.color, 
+			'progress-default-color': udTheme.color 
+		}}
+		else return JSON.parse(savedTheme)
 	})
+
+	const onThemeChange = value => {
+		localStorage.setItem("theme", JSON.stringify(value))
+		setTheme(value)
+	}
 
 	return (
 		<ThemeProvider
 			theme={ theme }
-			onChange={ (value) => setTheme(value) }
+			onChange={ (value) => onThemeChange(value) }
 		>
 			<Layout style={ { minHeight: "100vh" } }>
 				<store.Provider initialValue={ { isOpen: false } }>

@@ -20,7 +20,7 @@ export function useEndpointSubscription(endpointId, callback) {
 
 }
 
-const onEvent = (eventName = "", eventData = {}) => {
+const onEvent = (elementId, eventName = "", eventData = {}) => {
 	UniversalDashboard.publish("element-event", {
 		type: "clientEvent",
 		eventId: `${elementId}${eventName}`,

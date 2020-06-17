@@ -24,7 +24,7 @@ export default function UDAntdSteps(props) {
 
     useEffect(() => {
         setStepContent(content[currentStep].content)
-    }, [currentStep])
+    }, [content, currentStep])
 
     const next = () => {
         setCurrentStep(currentStep + 1)

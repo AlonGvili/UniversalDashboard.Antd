@@ -11,21 +11,24 @@ function New-UDAntdInputTextArea {
         [Parameter()]
         [string]$PlaceHolder,
         [Parameter()]
+        [string]$Value,
+        [Parameter()]
         [hashtable]$Style
 
     )
 
     End {
         @{
-            assetId = $AssetId 
-            isPlugin = $true 
-            type = "ud-antd-input-textarea"
-            id = $Id
-            disabled = $Disabled.IsPresent
-            rows = $Rows
-            autosize = $Autosize.IsPresent
+            assetId     = $AssetId 
+            isPlugin    = $true 
+            type        = "ud-antd-input-textarea"
+            id          = $Id
+            disabled    = $Disabled.IsPresent
+            rows        = $Rows
+            autosize    = $Autosize.IsPresent
             placeholder = $PlaceHolder
-            style = $Style
+            value       = $Value
+            style       = $Style
         }
 
     }

@@ -209,6 +209,18 @@ const AntdGithubCalendar = lazy(
 const AntdInputNumber = lazy(
 	() => import(/* webpackChunkName: 'AntdInputNumber' */ "./input/number")
 )
+const AntdSelect = lazy(
+	() => import(/* webpackChunkName: 'AntdSelect' */ "./select/select")
+)
+const AntdSelectOption = lazy(
+	() => import(/* webpackChunkName: 'AntdSelectOption' */ "./select/option")
+)
+const AntdRate = lazy(
+	() => import(/* webpackChunkName: 'AntdRate' */ "./rate/rate")
+)
+const AntdInputGroup = lazy(
+	() => import(/* webpackChunkName: 'AntdInputGroup' */ "./input/group")
+)
 
 export default function registerComponents() {
 	[
@@ -281,6 +293,10 @@ export default function registerComponents() {
 		{ type: "ud-antd-toggle-primary-color", component: TogglePrimaryColor },
 		{ type: "ud-antd-github-calendar", component: AntdGithubCalendar },
 		{ type: "ud-antd-input-number", component: AntdInputNumber },
+		{ type: "ud-antd-select", component: AntdSelect },
+		{ type: "ud-antd-select-option", component: AntdSelectOption },
+		{ type: "ud-antd-rate", component: AntdRate },
+		{ type: "ud-antd-input-group", component: AntdInputGroup },
 	].forEach(
 		({ type, component }) => UniversalDashboard.register(type, component)
 	)

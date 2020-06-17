@@ -1,8 +1,7 @@
 import React from "react"
 import { Input } from "antd"
-import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 
-export default function AntdTextArea ({ id, ...props }) {
-	const [{ attributes }] = useDashboardEvent(id, props)
-	return <Input.TextArea rows={4} autoSize={true} spellCheck={true} />
+export default function AntdTextArea(props) {
+	const [value, setValue] = React.useState("demo text")
+	return <Input.TextArea id={ props.id }  value={ value } onChange={ ({target}) => setValue(target.value) }  autoSize={false} />
 }

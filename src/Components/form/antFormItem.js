@@ -4,8 +4,8 @@ import { Form } from "antd"
 
 export default ({ id, label, name, rules, content, ...rest }) => {
 	return (
-			<Form.Item key={id} label={label} name={name} rules={rules && [rules]} {...rest}>
+		<Form.Item { ...rest } key={id} label={label} name={name} rules={rules && [rules]} >
 				{UniversalDashboard.renderComponent(content)}
-			</Form.Item>
+		</Form.Item>
 	)
 }

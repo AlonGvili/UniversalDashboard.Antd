@@ -8,4 +8,9 @@ New-UDPage -Title 'AutoComplete' -Name "AutoComplete"  -Endpoint {
     } -OnChange {
         
     }
+
+    $namesAsJson = $Repos.Name | ConvertTo-Json
+    New-UDAntdSelect -Id "demo_select" -DataSource {
+        $namesAsJson
+    } -Bordered -Placeholder "Find github repo."
 } -DefaultHomePage 

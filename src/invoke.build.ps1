@@ -30,18 +30,18 @@ task MergePsm1 {
         Copyright         = "2020 AlonGvili"
         RootModule        = "UniversalDashboard.Antd.psm1"
         Description       = "Ant-Desig module for universal-dashboard"
-        ModuleVersion     = "1.0.0"
+        ModuleVersion     = "1.0.3"
         Tags              = @("universaldashboard")
         ReleaseNotes      = "First release"
         FunctionsToExport = @(
             # UD Basic functions
-            "New-UDElement"
-            "Get-UDElement"
             "Add-UDElement"
-            "Set-UDElement"
             "Clear-UDElement"
+            "Get-UDElement"
+            "New-UDElement"
             "Remove-UDElement"
             "Select-UDElement"
+            "Set-UDElement"
             "Sync-UDElement"
 
             # AntDesign functions
@@ -88,6 +88,7 @@ task MergePsm1 {
             "New-UDAntdInputNumber"
             "New-UDAntdInputPassword"
             "New-UDAntdInputTextArea"
+            "New-UDAntdInputGroup"
             "New-UDAntdLayout"
             "New-UDAntdList"
             "New-UDAntdListItem"
@@ -106,9 +107,12 @@ task MergePsm1 {
             "New-UDAntdRadio"
             "New-UDAntdRadioButton"
             "New-UDAntdRadioGroup"
+            "New-UDAntdRate"
             "New-UDAntdResult"
             "New-UDAntdRoute"
             "New-UDAntdRow"
+            "New-UDAntdSelect"
+            "New-UDAntdSelectOption"
             "New-UDAntdSideBar"
             "New-UDAntdSider"
             "New-UDAntdSlider"

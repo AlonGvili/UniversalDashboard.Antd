@@ -69,10 +69,14 @@ New-UDPage -Title 'Profile' -Url "/Users/:user/profile" -Endpoint {
         New-UDAntdColumn -Span 6 -Content {
             New-UserCard -InputObject $UserInfo
         }
-        New-UDAntdColumn -Span 18 -Content {
-            New-UDAntdGithubCalendar -UserName $User -FullYear
-        }
-    }
+        New-UDAntdRow -Content {
+            @(2020, 2019, 2018, 2017, 2016).ForEach( {
+                    New-UDAntdColumn -Span 6  -Content {
+                        New-UDAntdGithubCalendar -UserName $User -FullYear -Years $_
+                    }
+                })
+        } -Gutter @(16, 16)   
+    } -Gutter @(16, 16)
 
     New-UDAntdRow -Content {
         New-UDAntdColumn -Span 24 -Content {

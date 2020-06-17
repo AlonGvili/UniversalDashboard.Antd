@@ -3,7 +3,7 @@ import { Input, Empty, AutoComplete, Alert } from "antd"
 import matchSorter from 'match-sorter'
 import useDashboardEvent from "../api/Hooks/useDashboardEvent"
 import useAutoComplete from "./useAutoComplete"
-import { useDebounce, useEventEmitter } from '@umijs/hooks'
+import { useDebounce } from '@umijs/hooks'
 
 export default function AntdAutoComplete({ id, ...props }) {
   const [dataSource, setDataSource] = React.useState([])
@@ -53,6 +53,7 @@ export default function AntdAutoComplete({ id, ...props }) {
 
   return (
     <AutoComplete
+      id={ id }
       { ...restOfProps }
       suffixIcon={ suffixIcon && UniversalDashboard.renderComponent(suffixIcon) }
       loading={ isFetching }

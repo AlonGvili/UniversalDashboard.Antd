@@ -45,7 +45,15 @@ export default function AntdForm({ id, ...props }) {
 					item => {
 						const { content, rules, ...rest } = item
 						return <Form.Item { ...rest } key={ rest.id } name={ rest.name } rules={ rules && [rules] }>
-							{ UniversalDashboard.renderComponent(content[0]) }
+							{
+								Array.isArray(content[0]) ? content[0].map(i => {
+									return Array.isArray(i.content) ? i.content.map(ii => {
+										return Array.isArray(ii.content) ? ii.content.map(iii => {
+											UniversalDashboard.renderComponent(iii)
+										}) : UniversalDashboard.renderComponent(ii.content)
+									}) : UniversalDashboard.renderComponent(i.content)
+								}) : UniversalDashboard.renderComponent(content[0])
+							}
 						</Form.Item>
 					}
 				)

@@ -75,7 +75,7 @@ function New-UDAntdStatistic {
     End {
 
         if ($null -ne $Value) {
-            $StatsEndpoint = New-UDEndpoint -Endpoint $Value -Id $id
+            New-UDEndpoint -Endpoint $Value -Id $id | Out-Null
         }
 
         $AntdStatistic = @{

@@ -48,7 +48,7 @@ function New-UDAntdTimeLine {
         [int]$RefreshInterval = 5000,
         [Parameter()]
         [ValidateSet("left", "alternate", "right")]
-        [string]$Mode,
+        [string]$Mode = "left",
         [Parameter()]
         [hashtable]$Style
     )

@@ -47,26 +47,37 @@ New-UDPage -Title 'Forms' -Name 'Form' -Content {
                 type     = 'email'
             })
 
-        New-UDAntdFormItem -Name @('user', 'text_area_basic') -Content {
-            New-UDAntdFormItem -NoStyle -Content {
+        New-UDAntdFormItem  -Content {
+            New-UDAntdFormItem -Name @('user', 'text_area_basic') -NoStyle -Content {
                 New-UDAntdInputTextArea -Value "alon gvili ud"
             }
         }
 
-        New-UDAntdFormItem -Name @('user', 'input_group') -Content {
-            New-UDAntdInputGroup -Content {
+        New-UDAntdFormItem -name "demo" -ValuePropName "children" -Content {
+            New-UDAntdFormItem  -NoStyle   -Content {
                 New-UDAntdSelect -DataSource {
-                    $ReposNames.Foreach( { New-UDAntdSelectOption -Value $_ })
-                } -Bordered -Placeholder "Select github repo name."
-                New-UDAntdInputNumber
-            } 
-        } -WrapperCol $WrapperCol
+                    New-UDAntdSelectOption -Value "Israel"
+                    New-UDAntdSelectOption -Value "USA"
+                    New-UDAntdSelectOption -Value "China"
+                    New-UDAntdSelectOption -Value "Spain"
+                } -Bordered -Placeholder "Select your country."     
+            }            
+        }
 
         New-UDAntdFormItem -Name 'input_number' -Content {
             New-UDAntdInputNumber  
         }
 
-        New-UDAntdFormItem -HasFeedback -Name "select_single" -Content {
+        New-UDAntdFormItem -Name "select_single" -Content {
+            New-UDAntdSelect -DataSource {
+                New-UDAntdSelectOption -Value "Israel"
+                New-UDAntdSelectOption -Value "USA"
+                New-UDAntdSelectOption -Value "China"
+                New-UDAntdSelectOption -Value "Spain"
+            } -Bordered -DropdownMatchSelectWidth -Placeholder "Select your country."
+        }
+
+        New-UDAntdFormItem -HasFeedback -Name "select_single_dynamic" -Content {
             New-UDAntdSelect -DataSource {
                 $ReposNames.Foreach( { New-UDAntdSelectOption -Value $_ })
             } -Bordered -DropdownMatchSelectWidth -Placeholder "Select github repo name."
@@ -93,7 +104,7 @@ New-UDPage -Title 'Forms' -Name 'Form' -Content {
         } 
 
         New-UDAntdFormItem -Name 'rate_emojy' -Content {
-            New-UDAntdRate -Character "🎀"
+            New-UDAntdRate -Character "😋"
         }
 
         New-UDAntdFormItem -Name 'rate_icon' -Content {

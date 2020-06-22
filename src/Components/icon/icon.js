@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import React from 'react'
 import * as AntdIcons from '@ant-design/icons/es/icons'
 import { Skeleton, Alert } from 'antd'

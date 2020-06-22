@@ -8,7 +8,7 @@ const PageManager = React.lazy(
 	() => import(/* webpackChunkName: 'PageManager'*/ "../framework/pages/PageManager")
 )
 
-export default ({ appbar, sidebar, footer, theme: udTheme }) => {
+export default ({ appbar, sidebar, footer, udTheme }) => {
 	const [theme, setTheme] = React.useState(() => {
 		const savedTheme = localStorage.getItem("theme")
 		if(!savedTheme) return { name: udTheme.name, variables: { 

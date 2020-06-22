@@ -29,13 +29,8 @@ function New-UDAntdSideBar {
 
     End {
 
-        if ($null -ne $Content) {
-            if ($Content -is [scriptblock]) {
-                $ContentEndpoint = New-UDEndpoint -Endpoint $Content -Id $Id
-            }
-            elseif ($Content -isnot [UniversalDashboard.Models.Endpoint]) {
-                throw "Content must be a script block or UDEndpoint"
-            }   
+        if ( $Null -ne $Content ) {
+            New-UDEndpoint -Endpoint $Content -Id $Id | Out-Null
         }
 
         $UDAntdSider = @{
@@ -52,7 +47,7 @@ function New-UDAntdSideBar {
             className      = $ClassName
             style          = $Style
             hasCallback    = $null -ne $Content
-            content        = $Content.Invoke()
+            # content        = $Content.Invoke()
             visible        = $Visible.IsPresent
         }
         $UDAntdSider.PSTypeNames.Insert(0, 'Ant.Design.SideBar')

@@ -54,7 +54,7 @@ function New-UDDashboard {
         title         = $Title 
         pages         = $Pages
         configuration = $Configuration
-        theme         = $Theme
+        udTheme         = $Theme
         appbar        = $AppBar
         sidebar       = $SideBar
     }
